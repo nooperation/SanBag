@@ -1,0 +1,35 @@
+﻿<Window x:Class="SanBag.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SanBag"
+        xmlns:localViews="clr-namespace:SanBag.Views"
+        mc:Ignorable="d"
+        Title="SanBag" Height="350" Width="925">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.ColumnSpan="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition />
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+            <Button Grid.Column="0" Command="{Binding CommandOpenBag}" Margin="5px">Open</Button>
+            <Label Grid.Column="1" Margin="5px">Filter:</Label>
+            <TextBox Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding RecordNameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5px" />
+            <Label Grid.Column="3" Margin="5px">View:</Label>
+            <ComboBox Grid.Column="4" ItemsSource="{Binding Views}" SelectedItem="{Binding CurrentView}" Margin="5px" VerticalContentAlignment="Center" />
+        </Grid>
+        <UserControl Grid.Row="1" Content="{Binding CurrentView.View}" Background="Transparent" />
+    </Grid>
+</Window>
