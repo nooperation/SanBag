@@ -21,6 +21,8 @@ namespace SanBag.ViewModels
 {
     public class ManifestViewModel : GenericBagViewModel, INotifyPropertyChanged
     {
+        public readonly string FilterNone = "None";
+
         public CommandManifestExportSelected CommandManifestExportSelected { get; set; }
 
         private FileRecord _selectedRecord;
@@ -44,6 +46,48 @@ namespace SanBag.ViewModels
             {
                 _manifestList = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(FilteredManifestList));
+                OnPropertyChanged(nameof(Filters));
+            }
+        }
+
+        public List<ManifestEntry> FilteredManifestList
+        {
+            get
+            {
+                if (CurrentFilter == "None")
+                {
+                    return _manifestList;
+                }
+                return _manifestList.Where(n => n.Name.Contains(CurrentFilter)).ToList();
+            }
+        }
+
+        private string _currentFilter;
+        public string CurrentFilter
+        {
+            get => _currentFilter;
+            set
+            {
+                _currentFilter = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FilteredManifestList));
+            }
+        }
+
+        public List<string> Filters
+        {
+            get
+            {
+                var foundTypes = new HashSet<string>();
+                foreach (var manifest in ManifestList)
+                {
+                    foundTypes.Add(manifest.Name);
+                }
+                var filters = foundTypes.OrderBy(n => n).ToList();
+                filters.Insert(0, FilterNone);
+
+                return filters;
             }
         }
 
@@ -52,6 +96,8 @@ namespace SanBag.ViewModels
         {
             ExportFilter += "|Manifest Dump|*.txt";
 
+            Filters.Add(FilterNone);
+            CurrentFilter = FilterNone;
             CommandManifestExportSelected = new CommandManifestExportSelected(this);
         }
 
