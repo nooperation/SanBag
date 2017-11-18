@@ -28,6 +28,8 @@ namespace SanBag.Viewer.ViewModels
 
         public MainViewModel()
         {
+            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+
             try
             {
                 var arguments = Environment.GetCommandLineArgs();
