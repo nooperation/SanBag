@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace SanBag.ViewModels
@@ -76,6 +77,7 @@ namespace SanBag.ViewModels
 
         public MainViewModel()
         {
+            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             CommandOpenBag = new CommandOpenBag(this);
 
             var genericBagViewModel = new GenericBagViewModel(this);
@@ -148,6 +150,19 @@ namespace SanBag.ViewModels
             });
 
             CurrentView = Views[0];
+
+            try
+            {
+                var arguments = Environment.GetCommandLineArgs();
+                if (arguments.Length > 1)
+                {
+                    OpenBag(arguments[1]);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open file: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         public void OnOpenFile()
