@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SanBag", "SanBag\SanBag.csproj", "{006717C7-AA8D-4F47-94A6-6F71C526E7DD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SanBag.Viewer", "SanBag.Viewer\SanBag.Viewer.csproj", "{6AF4B408-CAA6-48BA-9907-8D90BF6621E9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -15,6 +17,10 @@ Global
 		{006717C7-AA8D-4F47-94A6-6F71C526E7DD}.Debug|x64.Build.0 = Debug|x64
 		{006717C7-AA8D-4F47-94A6-6F71C526E7DD}.Release|x64.ActiveCfg = Release|x64
 		{006717C7-AA8D-4F47-94A6-6F71C526E7DD}.Release|x64.Build.0 = Release|x64
+		{6AF4B408-CAA6-48BA-9907-8D90BF6621E9}.Debug|x64.ActiveCfg = Debug|x64
+		{6AF4B408-CAA6-48BA-9907-8D90BF6621E9}.Debug|x64.Build.0 = Debug|x64
+		{6AF4B408-CAA6-48BA-9907-8D90BF6621E9}.Release|x64.ActiveCfg = Release|x64
+		{6AF4B408-CAA6-48BA-9907-8D90BF6621E9}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
