@@ -29,11 +29,18 @@ namespace SanBag.Viewer
 
         private void Window_Drop(object sender, DragEventArgs e)
         {
-            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
-            if (files?.Length > 0)
+            try
             {
-                var fileToOpen = files[0];
-                ((MainViewModel)DataContext).OpenFile(fileToOpen);
+                var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files?.Length > 0)
+                {
+                    var fileToOpen = files[0];
+                    ((MainViewModel)DataContext).OpenFile(fileToOpen);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open file: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

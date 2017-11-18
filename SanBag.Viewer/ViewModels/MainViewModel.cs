@@ -28,10 +28,18 @@ namespace SanBag.Viewer.ViewModels
 
         public MainViewModel()
         {
-            var arguments = Environment.GetCommandLineArgs();
-            if (arguments.Length > 1)
+            try
             {
-                OpenFile(arguments[1]);
+                var arguments = Environment.GetCommandLineArgs();
+                if (arguments.Length > 1)
+                {
+                    OpenFile(arguments[1]);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to open file: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                Application.Current.Shutdown();
             }
         }
 
