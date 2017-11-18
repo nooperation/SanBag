@@ -1,21 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using SanBag.Viewer.Annotations;
 using SanBag.Viewer.Views;
 
 namespace SanBag.Viewer.ViewModels
 {
-    class MainViewModel
+    class MainViewModel : INotifyPropertyChanged
     {
-        public UserControl CurrentView { get; set; }
-        public BaseViewModel CurrentViewModel { get; set; }
+        private UserControl _currentView;
+        public UserControl CurrentView
+        {
+            get => _currentView;
+            set
+            {
+                _currentView = value;
+                OnPropertyChanged();
+            }
+        }
 
         public MainViewModel()
         {
+            var arguments = Environment.GetCommandLineArgs();
+            if (arguments.Length > 1)
+            {
+                OpenFile(arguments[1]);
+            }
         }
 
         public void OpenFile(string resourcePath)
@@ -23,29 +40,34 @@ namespace SanBag.Viewer.ViewModels
             var fileName = Path.GetFileName(resourcePath);
             var fileInfo = LibSanBag.FileRecordInfo.Create(fileName);
 
-            switch (fileInfo.Resource)
+            if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
             {
-                case LibSanBag.FileRecordInfo.ResourceType.TextureResource:
-                    CurrentView = new TextureResourceView()
+                CurrentView = new TextureResourceView()
+                {
+                    DataContext = new TextureResourceViewModel()
                     {
-                        DataContext = new TextureResourceViewModel()
-                        {
-                            CurrentPath = resourcePath
-                        }
-                    };
-                    break;
-                default:
-                    var view = new RawResourceView();
-                    var viewModel = new RawResourceViewModel()
-                    {
-                        HexControl = view.HexEdit,
-                        CurrentPath = resourcePath,
-                    };
-                    view.DataContext = viewModel;
-                    CurrentView = view;
-                    break;
+                        CurrentPath = resourcePath
+                    }
+                };
             }
+            else
+            {
+                var view = new RawResourceView();
+                view.DataContext = new RawResourceViewModel()
+                {
+                    HexControl = view.HexEdit,
+                    CurrentPath = resourcePath,
+                };
+                CurrentView = view;
+            }
+        }
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

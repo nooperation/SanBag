@@ -35,7 +35,7 @@ namespace SanBag.Viewer.ViewModels
             {
                 _decompressedStream.Dispose();
                 _decompressedStream = value;
-                HexControl.Stream = _decompressedStream;
+                HexControl.Stream = value;
                 OnPropertyChanged();
             }
         }

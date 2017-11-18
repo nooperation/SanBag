@@ -26,5 +26,15 @@ namespace SanBag.Viewer
             InitializeComponent();
             this.DataContext = new MainViewModel();
         }
+
+        private void Window_Drop(object sender, DragEventArgs e)
+        {
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files?.Length > 0)
+            {
+                var fileToOpen = files[0];
+                ((MainViewModel)DataContext).OpenFile(fileToOpen);
+            }
+        }
     }
 }

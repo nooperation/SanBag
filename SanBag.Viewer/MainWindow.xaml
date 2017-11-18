@@ -5,8 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SanBag.Viewer"
         mc:Ignorable="d"
-        Title="ResourceViewer" Height="350" Width="700">
+        Title="ResourceViewer" Height="350" Width="700" Drop="Window_Drop" AllowDrop="True">
     <Grid>
-        <UserControl Content="{Binding Path=CurrentView}"  />
+        <UserControl Content="{Binding Path=CurrentView, Mode=TwoWay}"  />
     </Grid>
 </Window>
