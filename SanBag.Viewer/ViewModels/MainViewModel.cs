@@ -26,14 +26,23 @@ namespace SanBag.Viewer.ViewModels
             switch (fileInfo.Resource)
             {
                 case LibSanBag.FileRecordInfo.ResourceType.TextureResource:
-                    CurrentViewModel = new TextureResourceViewModel()
-                    {
-                        CurrentPath = resourcePath
-                    };
                     CurrentView = new TextureResourceView()
                     {
-                        DataContext = CurrentViewModel
+                        DataContext = new TextureResourceViewModel()
+                        {
+                            CurrentPath = resourcePath
+                        }
                     };
+                    break;
+                default:
+                    var view = new RawResourceView();
+                    var viewModel = new RawResourceViewModel()
+                    {
+                        HexControl = view.HexEdit,
+                        CurrentPath = resourcePath,
+                    };
+                    view.DataContext = viewModel;
+                    CurrentView = view;
                     break;
             }
 

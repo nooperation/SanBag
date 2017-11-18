@@ -63,6 +63,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFHexaEditor.1.2.1\lib\net45\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -75,6 +78,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFHexaEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFHexaEditor.1.2.1\lib\net45\WPFHexaEditor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -83,7 +89,11 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\RawResourceViewModel.cs" />
     <Compile Include="ViewModels\TextureResourceViewModel.cs" />
+    <Compile Include="Views\RawResourceView.xaml.cs">
+      <DependentUpon>RawResourceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
@@ -99,6 +109,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\RawResourceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TextureResourceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
