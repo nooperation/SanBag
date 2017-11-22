@@ -67,8 +67,11 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Compile Include="Commands\CommandExit.cs" />
+    <Compile Include="Commands\CommandSaveAs.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ISavable.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RawResourceViewModel.cs" />
     <Compile Include="ViewModels\TextureResourceViewModel.cs" />
