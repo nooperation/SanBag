@@ -7,13 +7,17 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using LibSanBag.ResourceUtils;
+using Microsoft.Win32;
+using SanBag.Viewer.Commands;
 using SanBag.Viewer.Views;
 
 namespace SanBag.Viewer.ViewModels
 {
-    class RawResourceViewModel : BaseViewModel
+    class RawResourceViewModel : BaseViewModel, ISavable
     {
         public WpfHexaEditor.HexEditor HexControl { get; set; }
+        public CommandSaveAs CommandSaveAs { get; set; }
+        public CommandExit CommandExit { get; set; } = new CommandExit();
 
         private byte[] _decompressedBytes;
         public byte[] DecompressedBytes
@@ -40,6 +44,11 @@ namespace SanBag.Viewer.ViewModels
             }
         }
 
+        public RawResourceViewModel()
+        {
+            CommandSaveAs = new CommandSaveAs(this);
+        }
+
         public override void Reload()
         {
             try
@@ -49,6 +58,17 @@ namespace SanBag.Viewer.ViewModels
             catch (Exception ex)
             {
                 DecompressedBytes = File.ReadAllBytes(CurrentPath);
+            }
+        }
+
+        public void SaveAs()
+        {
+            var dialog = new SaveFileDialog();
+            dialog.FileName = Path.GetFileName(CurrentPath) + ".bin";
+            if (dialog.ShowDialog() == true)
+            {
+                File.WriteAllBytes(dialog.FileName, _decompressedBytes);
+                MessageBox.Show($"Successfully wrote {_decompressedBytes.Length} byte(s) to {dialog.FileName}");
             }
         }
     }
