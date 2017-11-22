@@ -74,9 +74,13 @@
     <Compile Include="ViewModels\ISavable.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RawResourceViewModel.cs" />
+    <Compile Include="ViewModels\ScriptSourceTextViewModel.cs" />
     <Compile Include="ViewModels\TextureResourceViewModel.cs" />
     <Compile Include="Views\RawResourceView.xaml.cs">
       <DependentUpon>RawResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ScriptSourceTextView.xaml.cs">
+      <DependentUpon>ScriptSourceTextView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
@@ -96,6 +100,10 @@
     <Page Include="Views\RawResourceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ScriptSourceTextView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TextureResourceView.xaml">
       <SubType>Designer</SubType>
