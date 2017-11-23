@@ -75,9 +75,19 @@ namespace SanBag.ViewModels
             return record.Name.IndexOf(RecordNameFilter, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
+        public BagViewModel(string fileToOpen)
+        {
+            Init();
+            OpenBag(fileToOpen);
+        }
+
         public BagViewModel()
         {
-            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            Init();
+        }
+
+        private void Init()
+        {
             CommandOpenBag = new CommandOpenBag(this);
 
             var genericBagViewModel = new GenericBagViewModel(this);
@@ -150,19 +160,6 @@ namespace SanBag.ViewModels
             });
 
             CurrentView = Views[0];
-
-            try
-            {
-                var arguments = Environment.GetCommandLineArgs();
-                if (arguments.Length > 1)
-                {
-                    OpenBag(arguments[1]);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to open file: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
 
         public void OnOpenFile()

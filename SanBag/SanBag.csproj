@@ -68,19 +68,27 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\CommandExit.cs" />
     <Compile Include="Commands\CommandManifestCancelExport.cs" />
     <Compile Include="Commands\CommandCancelExport.cs" />
     <Compile Include="Commands\CommandExportSelected.cs" />
     <Compile Include="Commands\CommandManifestExportSelected.cs" />
     <Compile Include="Commands\CommandOpenBag.cs" />
     <Compile Include="Commands\CommandCopyAsUrl.cs" />
+    <Compile Include="Commands\CommandSaveAs.cs" />
     <Compile Include="Models\ExportParams.cs" />
     <Compile Include="Models\ViewType.cs" />
+    <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ResourceUtils\Utils.cs" />
     <Compile Include="ViewModels\ExportManifestViewModel.cs" />
     <Compile Include="ViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="ViewModels\Standalone\BaseViewModel.cs" />
+    <Compile Include="ViewModels\Standalone\ISavable.cs" />
+    <Compile Include="ViewModels\Standalone\RawResourceViewModel.cs" />
+    <Compile Include="ViewModels\Standalone\ScriptSourceTextViewModel.cs" />
+    <Compile Include="ViewModels\Standalone\TextureResourceViewModel.cs" />
     <Compile Include="Views\BagView.xaml.cs">
       <DependentUpon>BagView.xaml</DependentUpon>
     </Compile>
@@ -108,6 +116,15 @@
     </Compile>
     <Compile Include="Views\ScriptSourceTextResourceView.xaml.cs">
       <DependentUpon>ScriptSourceTextResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Standalone\RawResourceView.xaml.cs">
+      <DependentUpon>RawResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Standalone\ScriptSourceTextView.xaml.cs">
+      <DependentUpon>ScriptSourceTextView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Standalone\TextureResourceView.xaml.cs">
+      <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
@@ -151,6 +168,18 @@
     <Page Include="Views\ScriptSourceTextResourceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Standalone\RawResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Standalone\ScriptSourceTextView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Standalone\TextureResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\TextureResourceView.xaml">
       <SubType>Designer</SubType>
