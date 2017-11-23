@@ -31,7 +31,7 @@ namespace SanBag.ViewModels
             }
         }
 
-        public ScriptCompiledBytecodeResourceViewModel(MainViewModel parentViewModel)
+        public ScriptCompiledBytecodeResourceViewModel(BagViewModel parentViewModel)
             : base(parentViewModel)
         {
             ExportFilter += "|.Net Assembly|*.dll";

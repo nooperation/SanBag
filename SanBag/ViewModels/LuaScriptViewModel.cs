@@ -42,7 +42,7 @@ namespace SanBag.ViewModels
             }
         }
 
-        public LuaScriptResourceViewModel(MainViewModel parentViewModel)
+        public LuaScriptResourceViewModel(BagViewModel parentViewModel)
                 : base(parentViewModel)
         {
             ExportFilter += "|Lua File|*.lua";

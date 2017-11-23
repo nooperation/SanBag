@@ -91,7 +91,7 @@ namespace SanBag.ViewModels
             }
         }
 
-        public ManifestViewModel(MainViewModel parentViewModel)
+        public ManifestViewModel(BagViewModel parentViewModel)
                 : base(parentViewModel)
         {
             ExportFilter += "|Manifest Dump|*.txt";

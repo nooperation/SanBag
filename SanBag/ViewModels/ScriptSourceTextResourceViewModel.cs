@@ -42,7 +42,7 @@ namespace SanBag.ViewModels
             }
         }
 
-        public ScriptSourceTextResourceViewModel(MainViewModel parentViewModel)
+        public ScriptSourceTextResourceViewModel(BagViewModel parentViewModel)
                 : base(parentViewModel)
         {
             ExportFilter += "|Script Source|*.cs";

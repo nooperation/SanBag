@@ -44,6 +44,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFHexaEditor.1.2.1\lib\net45\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -56,6 +59,9 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WPFHexaEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFHexaEditor.1.2.1\lib\net45\WPFHexaEditor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -73,7 +79,11 @@
     <Compile Include="ResourceUtils\Utils.cs" />
     <Compile Include="ViewModels\ExportManifestViewModel.cs" />
     <Compile Include="ViewModels\GenericBagViewModel.cs" />
-    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModel.cs" />
+    <Compile Include="ViewModels\MainWindowViewModel.cs" />
+    <Compile Include="Views\BagView.xaml.cs">
+      <DependentUpon>BagView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
     <Compile Include="ViewModels\LuaScriptViewModel.cs" />
     <Compile Include="ViewModels\ManifestViewModel.cs" />
@@ -102,6 +112,10 @@
     <Compile Include="Views\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\BagView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ExportManifestView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
