@@ -15,12 +15,12 @@ namespace SanBag.ViewModels
 {
     public class GenericBagViewModel
     {
-        public MainViewModel ParentViewModel { get; set; }
+        public BagViewModel ParentViewModel { get; set; }
         public CommandExportSelected CommandExportSelected { get; set; }
         public CommandCopyAsUrl CommandCopyAsUrl { get; set; }
         public string ExportFilter { get; set; }
 
-        public GenericBagViewModel(MainViewModel parentViewModel)
+        public GenericBagViewModel(BagViewModel parentViewModel)
         {
             this.ParentViewModel = parentViewModel;
             this.CommandExportSelected = new CommandExportSelected(this);

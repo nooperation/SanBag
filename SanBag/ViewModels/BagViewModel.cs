@@ -18,7 +18,7 @@ using System.Windows.Controls;
 
 namespace SanBag.ViewModels
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class BagViewModel : INotifyPropertyChanged
     {
         public CommandOpenBag CommandOpenBag { get; set; }
 
@@ -75,7 +75,7 @@ namespace SanBag.ViewModels
             return record.Name.IndexOf(RecordNameFilter, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
-        public MainViewModel()
+        public BagViewModel()
         {
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
             CommandOpenBag = new CommandOpenBag(this);

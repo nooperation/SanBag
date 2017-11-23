@@ -10,7 +10,7 @@ namespace SanBag.Commands
 {
     public class CommandOpenBag : ICommand
     {
-        public MainViewModel ViewModel { get; set; }
+        public BagViewModel ViewModel { get; set; }
 
         event EventHandler ICommand.CanExecuteChanged
         {
@@ -18,7 +18,7 @@ namespace SanBag.Commands
             remove => CommandManager.RequerySuggested -= value;
         }
 
-        public CommandOpenBag(MainViewModel viewModel)
+        public CommandOpenBag(BagViewModel viewModel)
         {
             this.ViewModel = viewModel;
         }

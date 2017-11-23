@@ -46,7 +46,7 @@ namespace SanBag.ViewModels
             }
         }
 
-        public TextureResourceViewModel(MainViewModel parentViewModel)
+        public TextureResourceViewModel(BagViewModel parentViewModel)
             : base(parentViewModel)
         {
             ExportFilter += "|DDS Source Image|*.dds|PNG Image|*.png|JPG Image|*.jpg|BMP Image|*.bmp|GIF Image|*.gif";
