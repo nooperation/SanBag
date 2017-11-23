@@ -7,9 +7,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using LibSanBag;
-using SanBag.Viewer.Annotations;
+using SanBag.Annotations;
 
-namespace SanBag.Viewer.ViewModels
+namespace SanBag.ViewModels.Standalone
 {
     class BaseViewModel : INotifyPropertyChanged
     {

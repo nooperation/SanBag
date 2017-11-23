@@ -8,10 +8,10 @@ using System.Windows;
 using System.Windows.Controls;
 using LibSanBag.ResourceUtils;
 using Microsoft.Win32;
-using SanBag.Viewer.Commands;
-using SanBag.Viewer.Views;
+using SanBag.Commands;
+using SanBag.Views;
 
-namespace SanBag.Viewer.ViewModels
+namespace SanBag.ViewModels.Standalone
 {
     class RawResourceViewModel : BaseViewModel, ISavable
     {

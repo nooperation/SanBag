@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using LibSanBag.FileResources;
-using SanBag.Viewer.Annotations;
+using SanBag.Annotations;
 
-namespace SanBag.Viewer.ViewModels
+namespace SanBag.ViewModels.Standalone
 {
     class TextureResourceViewModel : BaseViewModel
     {

@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using SanBag.Viewer.ViewModels;
+using SanBag.ViewModels.Standalone;
 
-namespace SanBag.Viewer.Commands
+namespace SanBag.Commands
 {
     class CommandSaveAs : ICommand
     {

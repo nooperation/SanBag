@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SanBag.Viewer.ViewModels
+namespace SanBag.ViewModels.Standalone
 {
     class ScriptSourceTextViewModel : BaseViewModel
     {
