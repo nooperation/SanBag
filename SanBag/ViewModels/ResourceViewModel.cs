@@ -1,19 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using SanBag.Viewer.Annotations;
-using SanBag.Viewer.Views;
+using SanBag.Annotations;
+using SanBag.Views.Standalone;
+using SanBag.ViewModels.Standalone;
 
-namespace SanBag.Viewer.ViewModels
+namespace SanBag.ViewModels
 {
-    class MainViewModel : INotifyPropertyChanged
+    class ResourceViewModel : INotifyPropertyChanged
     {
         private UserControl _currentView;
         public UserControl CurrentView
@@ -26,23 +23,9 @@ namespace SanBag.Viewer.ViewModels
             }
         }
 
-        public MainViewModel()
+        public ResourceViewModel(string fileToOpen)
         {
-            Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
-            try
-            {
-                var arguments = Environment.GetCommandLineArgs();
-                if (arguments.Length > 1)
-                {
-                    OpenFile(arguments[1]);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Failed to open file: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                Application.Current.Shutdown();
-            }
+            OpenFile(fileToOpen);
         }
 
         public void OpenFile(string resourcePath)
@@ -52,9 +35,9 @@ namespace SanBag.Viewer.ViewModels
 
             if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
             {
-                CurrentView = new TextureResourceView()
+                CurrentView = new SanBag.Views.Standalone.TextureResourceView()
                 {
-                    DataContext = new TextureResourceViewModel()
+                    DataContext = new SanBag.ViewModels.Standalone.TextureResourceViewModel()
                     {
                         CurrentPath = resourcePath
                     }

@@ -12,19 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SanBag.Viewer.ViewModels;
+using SanBag.ViewModels;
 
-namespace SanBag.Viewer
+namespace SanBag.Views
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for ResourceView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class ResourceView : UserControl
     {
-        public MainWindow()
+        public ResourceView()
         {
             InitializeComponent();
-            this.DataContext = new MainViewModel();
         }
 
         private void Window_Drop(object sender, DragEventArgs e)
@@ -35,7 +34,7 @@ namespace SanBag.Viewer
                 if (files?.Length > 0)
                 {
                     var fileToOpen = files[0];
-                    ((MainViewModel)DataContext).OpenFile(fileToOpen);
+                    ((ResourceViewModel)DataContext).OpenFile(fileToOpen);
                 }
             }
             catch (Exception ex)

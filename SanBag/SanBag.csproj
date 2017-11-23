@@ -83,6 +83,7 @@
     <Compile Include="ViewModels\ExportManifestViewModel.cs" />
     <Compile Include="ViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Standalone\BaseViewModel.cs" />
     <Compile Include="ViewModels\Standalone\ISavable.cs" />
@@ -108,6 +109,9 @@
     </Compile>
     <Compile Include="Views\Converters\SizeToStringConverter.cs" />
     <Compile Include="Views\Converters\TimestampNsConverter.cs" />
+    <Compile Include="Views\ResourceView.xaml.cs">
+      <DependentUpon>ResourceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ScriptCompiledBytecodeResourceView.xaml.cs">
       <DependentUpon>ScriptCompiledBytecodeResourceView.xaml</DependentUpon>
     </Compile>
@@ -157,6 +161,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\ResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ScriptCompiledBytecodeResourceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

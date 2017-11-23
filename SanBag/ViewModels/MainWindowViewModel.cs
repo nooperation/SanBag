@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -33,8 +34,18 @@ namespace SanBag.ViewModels
                 var arguments = Environment.GetCommandLineArgs();
                 if (arguments.Length > 1)
                 {
-                    CurrentView = new BagView();
-                    CurrentView.DataContext = new BagViewModel(arguments[1]);
+                    var pathToOpen = arguments[1].Trim().ToLower();
+                    var extension = Path.GetExtension(pathToOpen);
+                    if (extension == ".bag")
+                    {
+                        CurrentView = new BagView();
+                        CurrentView.DataContext = new BagViewModel(arguments[1]);
+                    }
+                    else
+                    {
+                        CurrentView = new ResourceView();
+                        CurrentView.DataContext = new ResourceViewModel(arguments[1]);
+                    }
                 }
                 else
                 {
