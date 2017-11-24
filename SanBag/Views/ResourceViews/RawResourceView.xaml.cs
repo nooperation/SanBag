@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace SanBag.Views.Standalone
+namespace SanBag.Views.ResourceViews
 {
     /// <summary>
     /// Interaction logic for RawResourceView.xaml

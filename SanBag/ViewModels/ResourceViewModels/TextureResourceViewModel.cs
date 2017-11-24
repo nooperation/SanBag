@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using LibSanBag.FileResources;
 using SanBag.Annotations;
 
-namespace SanBag.ViewModels.Standalone
+namespace SanBag.ViewModels.ResourceViewModels
 {
     class TextureResourceViewModel : BaseViewModel
     {

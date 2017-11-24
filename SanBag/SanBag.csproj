@@ -85,11 +85,11 @@
     <Compile Include="ViewModels\BagViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\Standalone\BaseViewModel.cs" />
-    <Compile Include="ViewModels\Standalone\ISavable.cs" />
-    <Compile Include="ViewModels\Standalone\RawResourceViewModel.cs" />
-    <Compile Include="ViewModels\Standalone\ScriptSourceTextViewModel.cs" />
-    <Compile Include="ViewModels\Standalone\TextureResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\ISavable.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\ScriptSourceTextViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\TextureResourceViewModel.cs" />
     <Compile Include="Views\BagView.xaml.cs">
       <DependentUpon>BagView.xaml</DependentUpon>
     </Compile>
@@ -121,13 +121,13 @@
     <Compile Include="Views\ScriptSourceTextResourceView.xaml.cs">
       <DependentUpon>ScriptSourceTextResourceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Standalone\RawResourceView.xaml.cs">
+    <Compile Include="Views\ResourceViews\RawResourceView.xaml.cs">
       <DependentUpon>RawResourceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Standalone\ScriptSourceTextView.xaml.cs">
+    <Compile Include="Views\ResourceViews\ScriptSourceTextView.xaml.cs">
       <DependentUpon>ScriptSourceTextView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Standalone\TextureResourceView.xaml.cs">
+    <Compile Include="Views\ResourceViews\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\TextureResourceView.xaml.cs">
@@ -177,15 +177,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Standalone\RawResourceView.xaml">
+    <Page Include="Views\ResourceViews\RawResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Standalone\ScriptSourceTextView.xaml">
+    <Page Include="Views\ResourceViews\ScriptSourceTextView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Standalone\TextureResourceView.xaml">
+    <Page Include="Views\ResourceViews\TextureResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -224,6 +224,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\BagViewModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

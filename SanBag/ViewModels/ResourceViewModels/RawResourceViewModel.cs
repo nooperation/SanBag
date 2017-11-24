@@ -11,7 +11,7 @@ using Microsoft.Win32;
 using SanBag.Commands;
 using SanBag.Views;
 
-namespace SanBag.ViewModels.Standalone
+namespace SanBag.ViewModels.ResourceViewModels
 {
     class RawResourceViewModel : BaseViewModel, ISavable
     {
