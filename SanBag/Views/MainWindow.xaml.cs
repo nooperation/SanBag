@@ -18,8 +18,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using SanBag.ViewModels.BagViewModels;
 
-namespace SanBag
+namespace SanBag.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml

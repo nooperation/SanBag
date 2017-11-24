@@ -17,7 +17,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 
-namespace SanBag.ViewModels
+namespace SanBag.ViewModels.BagViewModels
 {
     public class TextureResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
     {

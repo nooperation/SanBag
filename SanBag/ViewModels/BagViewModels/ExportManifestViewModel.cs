@@ -6,22 +6,24 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using LibSanBag.Providers;
+using static LibSanBag.FileResources.ManifestResource;
 
-namespace SanBag.ViewModels
+namespace SanBag.ViewModels.BagViewModels
 {
-    public class ExportViewModel : INotifyPropertyChanged
+    public class ExportManifestViewModel : INotifyPropertyChanged
     {
         private CancellationTokenSource ExportCancellationTokenSource { get; set; } = null;
 
-        public CommandCancelExport CommandCancelExport { get; set; }
+        public CommandManifestCancelExport CommandManifestCancelExport { get; set; }
         public string OutputDirectory { get; set; }
-        public string BagPath { get; set; }
-        public List<FileRecord> RecordsToExport { get; set; }
+        public List<ManifestEntry> RecordsToExport { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -29,8 +31,8 @@ namespace SanBag.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        FileRecord _currentRecord;
-        public FileRecord CurrentRecord
+        ManifestEntry _currentRecord;
+        public ManifestEntry CurrentRecord
         {
             get => _currentRecord;
             set
@@ -84,12 +86,9 @@ namespace SanBag.ViewModels
             }
         }
 
-        public Action<ExportParameters> CustomSaveFunc { get; set; }
-        public string FileExtension { get; set; }
-
-        public ExportViewModel()
+        public ExportManifestViewModel()
         {
-            CommandCancelExport = new CommandCancelExport(this);
+            CommandManifestCancelExport = new CommandManifestCancelExport(this);
         }
 
         public void CancelExport()
@@ -100,62 +99,57 @@ namespace SanBag.ViewModels
             }
         }
 
-        private void OnProgressReport(FileRecord record, uint bytesRead)
-        {
-            MinorProgress = 100.0f * ((float)bytesRead / record.Length);
-            TotalRead = bytesRead;
-        }
-
-        public bool Export(List<FileRecord> recordsToExport, string bagPath, string outputDirectory, Func<bool> shouldCancel)
+        public bool Export(List<ManifestEntry> recordsToExport, string outputDirectory, Func<bool> shouldCancel)
         {
             RecordsToExport = recordsToExport;
             var totalExported = 0;
             var exportSuccessful = true;
 
-            using (var bagStream = File.OpenRead(bagPath))
+            foreach (var record in recordsToExport)
             {
-                foreach (var record in recordsToExport)
+                if (shouldCancel != null && shouldCancel())
                 {
-                    if (shouldCancel != null && shouldCancel())
-                    {
-                        exportSuccessful = false;
-                        break;
-                    }
+                    exportSuccessful = false;
+                    break;
+                }
 
-                    try
-                    {
-                        CurrentRecord = record;
+                try
+                {
+                    CurrentRecord = record;
+                    var payloadTypes = new List<FileRecordInfo.PayloadType>{ FileRecordInfo.PayloadType.Payload, FileRecordInfo.PayloadType.Manifest };
+                    var assetType = FileRecordInfo.GetResourceType(record.Name);
+                    var assetVersions = AssetVersions.GetResourceVersions(assetType);
 
-                        if (CustomSaveFunc != null)
+                    foreach (var payloadType in payloadTypes)
+                    {
+                        FileRecordInfo.DownloadResults downloadResult;
+                        try
                         {
-                            CustomSaveFunc(new ExportParameters()
+                            downloadResult = FileRecordInfo.DownloadResourceAsync(record.HashString.ToLower(), assetType, payloadType, FileRecordInfo.VariantType.NoVariants, new HttpClientProvider()).Result;
+                            if (downloadResult != null)
                             {
-                                FileRecord = record,
-                                FileExtension = FileExtension,
-                                OutputDirectory = OutputDirectory,
-                                BagStream = bagStream,
-                                OnProgressReport = OnProgressReport,
-                                ShouldCancel = shouldCancel
-                            });
-                        }
-                        else
-                        {
-                            var outputPath = Path.Combine(outputDirectory, record.Name);
-                            using (var out_stream = File.OpenWrite(outputPath))
-                            {
-                                record.Save(bagStream, out_stream, OnProgressReport, shouldCancel);
+                                var outputPath = Path.Combine(outputDirectory, downloadResult.Name);
+
+                                using (var out_stream = File.OpenWrite(outputPath))
+                                {
+                                    out_stream.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
+                                }
+
+                                ++totalExported;
+                                Progress = 100.0f * (totalExported / (float)(RecordsToExport.Count * payloadTypes.Count));
                             }
                         }
-
-                        ++totalExported;
-                        Progress = 100.0f * (totalExported / (float)RecordsToExport.Count);
+                        catch (Exception)
+                        {
+                            continue;
+                        }
                     }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show($"Failed to export '{record.Name}'\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                        exportSuccessful = false;
-                        continue;
-                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to export '{record.Name}'\n{ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    exportSuccessful = false;
+                    continue;
                 }
             }
 
@@ -177,7 +171,7 @@ namespace SanBag.ViewModels
             {
                 try
                 {
-                    taskWasSuccessful = Export(RecordsToExport, BagPath, OutputDirectory, ShouldCancel);
+                    taskWasSuccessful = Export(RecordsToExport, OutputDirectory, ShouldCancel);
                 }
                 catch (Exception ex)
                 {

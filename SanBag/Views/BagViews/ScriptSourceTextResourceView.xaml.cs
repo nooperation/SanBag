@@ -1,9 +1,5 @@
-﻿using LibSanBag;
-using Microsoft.Win32;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,19 +11,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
+using System.Windows.Shapes;
 
-namespace SanBag.Views
+namespace SanBag.Views.BagViews
 {
     /// <summary>
-    /// Interaction logic for TextureResourceView.xaml
+    /// Interaction logic for ScriptSourceTextResourceView.xaml
     /// </summary>
-    public partial class TextureResourceView : UserControl
+    public partial class ScriptSourceTextResourceView : UserControl
     {
-        public TextureResourceView()
+        public ScriptSourceTextResourceView()
         {
             InitializeComponent();
-
-            this.DataContext = this;
         }
     }
 }

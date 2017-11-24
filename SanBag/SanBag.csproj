@@ -80,8 +80,8 @@
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ResourceUtils\Utils.cs" />
-    <Compile Include="ViewModels\ExportManifestViewModel.cs" />
-    <Compile Include="ViewModels\GenericBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\ExportManifestViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
@@ -93,18 +93,18 @@
     <Compile Include="Views\BagView.xaml.cs">
       <DependentUpon>BagView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
-    <Compile Include="ViewModels\LuaScriptViewModel.cs" />
-    <Compile Include="ViewModels\ManifestViewModel.cs" />
-    <Compile Include="ViewModels\ScriptSourceTextResourceViewModel.cs" />
-    <Compile Include="ViewModels\TextureResourceViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\LuaScriptViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\ManifestViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\ScriptSourceTextResourceViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\TextureResourceViewModel.cs" />
     <Compile Include="Views\Converters\IConverter.cs" />
     <Compile Include="Views\Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Views\Converters\InvertBoolConverter.cs" />
-    <Compile Include="Views\ExportManifestView.xaml.cs">
+    <Compile Include="Views\BagViews\ExportManifestView.xaml.cs">
       <DependentUpon>ExportManifestView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\GenericBagView.xaml.cs">
+    <Compile Include="Views\BagViews\GenericBagView.xaml.cs">
       <DependentUpon>GenericBagView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Converters\SizeToStringConverter.cs" />
@@ -112,13 +112,13 @@
     <Compile Include="Views\ResourceView.xaml.cs">
       <DependentUpon>ResourceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ScriptCompiledBytecodeResourceView.xaml.cs">
+    <Compile Include="Views\BagViews\ScriptCompiledBytecodeResourceView.xaml.cs">
       <DependentUpon>ScriptCompiledBytecodeResourceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ManifestResourceView.xaml.cs">
+    <Compile Include="Views\BagViews\ManifestResourceView.xaml.cs">
       <DependentUpon>ManifestResourceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ScriptSourceTextResourceView.xaml.cs">
+    <Compile Include="Views\BagViews\ScriptSourceTextResourceView.xaml.cs">
       <DependentUpon>ScriptSourceTextResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\RawResourceView.xaml.cs">
@@ -130,22 +130,22 @@
     <Compile Include="Views\ResourceViews\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\TextureResourceView.xaml.cs">
+    <Compile Include="Views\BagViews\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\BagView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ExportManifestView.xaml">
+    <Page Include="Views\BagViews\ExportManifestView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ExportView.xaml">
+    <Page Include="Views\BagViews\ExportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MainWindow.xaml">
+    <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -153,11 +153,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\ExportViewModel.cs" />
-    <Compile Include="Views\ExportView.xaml.cs">
+    <Compile Include="ViewModels\BagViewModels\ExportViewModel.cs" />
+    <Compile Include="Views\BagViews\ExportView.xaml.cs">
       <DependentUpon>ExportView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -165,15 +165,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ScriptCompiledBytecodeResourceView.xaml">
+    <Page Include="Views\BagViews\ScriptCompiledBytecodeResourceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ManifestResourceView.xaml">
+    <Page Include="Views\BagViews\ManifestResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\ScriptSourceTextResourceView.xaml">
+    <Page Include="Views\BagViews\ScriptSourceTextResourceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -189,11 +189,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\TextureResourceView.xaml">
+    <Page Include="Views\BagViews\TextureResourceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GenericBagView.xaml">
+    <Page Include="Views\BagViews\GenericBagView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -225,9 +225,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModels\BagViewModels\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

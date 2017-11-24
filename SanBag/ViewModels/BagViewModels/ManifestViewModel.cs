@@ -15,9 +15,10 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using SanBag.Views.BagViews;
 using static LibSanBag.FileResources.ManifestResource;
 
-namespace SanBag.ViewModels
+namespace SanBag.ViewModels.BagViewModels
 {
     public class ManifestViewModel : GenericBagViewModel, INotifyPropertyChanged
     {

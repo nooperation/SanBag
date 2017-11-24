@@ -1,6 +1,5 @@
 ﻿using LibSanBag;
 using LibSanBag.FileResources;
-using LibSanBag.ResourceUtils;
 using Microsoft.Win32;
 using SanBag.Commands;
 using SanBag.Models;
@@ -14,10 +13,12 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Media.Imaging;
 
-namespace SanBag.ViewModels
+namespace SanBag.ViewModels.BagViewModels
 {
-    public class LuaScriptResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
+    public class ScriptCompiledBytecodeResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
     {
         private FileRecord _selectedRecord;
         public FileRecord SelectedRecord
@@ -26,55 +27,27 @@ namespace SanBag.ViewModels
             set
             {
                 _selectedRecord = value;
-                UpdatePreviewText();
                 OnPropertyChanged();
             }
         }
 
-        private string _previewCode = "";
-        public string PreviewCode
+        public ScriptCompiledBytecodeResourceViewModel(BagViewModel parentViewModel)
+            : base(parentViewModel)
         {
-            get => _previewCode;
-            set
-            {
-                _previewCode = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public LuaScriptResourceViewModel(BagViewModel parentViewModel)
-                : base(parentViewModel)
-        {
-            ExportFilter += "|Lua File|*.lua";
+            ExportFilter += "|.Net Assembly|*.dll";
         }
 
         public override bool IsValidRecord(FileRecord record)
         {
-            return record.Info?.Resource == FileRecordInfo.ResourceType.LuaScriptResource &&
+            return record.Info?.Resource == FileRecordInfo.ResourceType.ScriptCompiledBytecodeResource &&
                    record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
-        }
-
-        private void UpdatePreviewText()
-        {
-            try
-            {
-                using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
-                {
-                    var scriptSourceText = new LuaScriptResource(bagStream, SelectedRecord);
-                    PreviewCode = scriptSourceText.Source;
-                }
-            }
-            catch (Exception)
-            {
-                PreviewCode = "";
-            }
         }
 
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            var scriptCompiledBytecode = new LuaScriptResource(exportParameters.BagStream, exportParameters.FileRecord);
+            var scriptCompiledBytecode = new ScriptCompiledBytecodeResource(exportParameters.BagStream, exportParameters.FileRecord);
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
-            File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
+            File.WriteAllBytes(outputPath, scriptCompiledBytecode.AssemblyBytes);
 
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }

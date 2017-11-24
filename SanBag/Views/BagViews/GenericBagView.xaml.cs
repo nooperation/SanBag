@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SanBag.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,14 +14,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SanBag.Views
+namespace SanBag.Views.BagViews
 {
     /// <summary>
-    /// Interaction logic for ScriptSourceTextResourceView.xaml
+    /// Interaction logic for GenericBagView.xaml
     /// </summary>
-    public partial class ScriptSourceTextResourceView : UserControl
+    public partial class GenericBagView : UserControl
     {
-        public ScriptSourceTextResourceView()
+        public GenericBagView()
         {
             InitializeComponent();
         }

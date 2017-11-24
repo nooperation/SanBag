@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using static LibSanBag.FileResources.ManifestResource;
+using SanBag.ViewModels.BagViewModels;
 
 namespace SanBag.Commands
 {

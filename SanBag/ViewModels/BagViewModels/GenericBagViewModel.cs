@@ -10,8 +10,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using SanBag.Views.BagViews;
 
-namespace SanBag.ViewModels
+namespace SanBag.ViewModels.BagViewModels
 {
     public class GenericBagViewModel
     {

@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SanBag.Views
+namespace SanBag.Views.BagViews
 {
     /// <summary>
     /// Interaction logic for ScriptCompiledBytecodeResourceView.xaml

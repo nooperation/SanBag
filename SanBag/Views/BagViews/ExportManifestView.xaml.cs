@@ -17,28 +17,29 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using SanBag.ViewModels.BagViewModels;
 
-namespace SanBag.Views
+namespace SanBag.Views.BagViews
 {
     /// <summary>
     /// Interaction logic for ExportWindow.xaml
     /// </summary>
-    public partial class ExportView : Window
+    public partial class ExportManifestView : Window
     {
-        public ExportView()
+        public ExportManifestView()
         {
             InitializeComponent();
         }
 
         private async void ExportWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            var viewModel = this.DataContext as ExportViewModel;
+            var viewModel = this.DataContext as ExportManifestViewModel;
             await viewModel.StartAsync();
         }
         
         private void ExportWindow_Closing(object sender, CancelEventArgs e)
         {
-            var viewModel = this.DataContext as ExportViewModel;
+            var viewModel = this.DataContext as ExportManifestViewModel;
             viewModel.CancelExport();
         }
     }

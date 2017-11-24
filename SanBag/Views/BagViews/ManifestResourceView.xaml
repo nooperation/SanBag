@@ -1,9 +1,9 @@
-﻿<UserControl x:Class="SanBag.Views.ManifestResourceView"
+﻿<UserControl x:Class="SanBag.Views.BagViews.ManifestResourceView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:SanBag.Views"
+             xmlns:local="clr-namespace:SanBag.Views.BagViews"
              xmlns:converters="clr-namespace:SanBag.Views.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="183.14" d:DesignWidth="486.628">
