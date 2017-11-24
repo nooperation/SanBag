@@ -55,7 +55,7 @@ namespace SanBag.ViewModels.ResourceViewModels
             {
                 DecompressedBytes = OodleLz.DecompressResource(CurrentPath);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 DecompressedBytes = File.ReadAllBytes(CurrentPath);
             }
