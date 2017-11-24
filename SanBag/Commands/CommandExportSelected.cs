@@ -1,10 +1,6 @@
 ﻿using LibSanBag;
-using SanBag.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using SanBag.ViewModels.BagViewModels;
 
@@ -12,7 +8,7 @@ namespace SanBag.Commands
 {
     public class CommandExportSelected : ICommand
     {
-        private GenericBagViewModel viewModel;
+        private readonly GenericBagViewModel _viewModel;
 
         event EventHandler ICommand.CanExecuteChanged
         {
@@ -22,7 +18,7 @@ namespace SanBag.Commands
 
         public CommandExportSelected( GenericBagViewModel viewModel)
         {
-            this.viewModel = viewModel;
+            this._viewModel = viewModel;
         }
 
         bool ICommand.CanExecute(object parameter)
@@ -35,7 +31,7 @@ namespace SanBag.Commands
             var items = parameter as System.Collections.IList;
             var fileRecords = items.Cast<FileRecord>().ToList();
 
-            viewModel.ExportRecords(fileRecords);
+            _viewModel.ExportRecords(fileRecords);
         }
     }
 }

@@ -1,10 +1,5 @@
 ﻿using LibSanBag;
-using SanBag.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using SanBag.ViewModels.BagViewModels;
 
@@ -12,7 +7,7 @@ namespace SanBag.Commands
 {
     public class CommandCopyAsUrl : ICommand
     {
-        private GenericBagViewModel viewModel;
+        private readonly GenericBagViewModel _viewModel;
 
         event EventHandler ICommand.CanExecuteChanged
         {
@@ -22,7 +17,7 @@ namespace SanBag.Commands
 
         public CommandCopyAsUrl(GenericBagViewModel viewModel)
         {
-            this.viewModel = viewModel;
+            this._viewModel = viewModel;
         }
 
         bool ICommand.CanExecute(object parameter)

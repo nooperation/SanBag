@@ -1,11 +1,9 @@
-﻿using System.Windows.Controls;
-
-namespace SanBag.Views.ResourceViews
+﻿namespace SanBag.Views.ResourceViews
 {
     /// <summary>
     /// Interaction logic for ScriptSourceTextView.xaml
     /// </summary>
-    public partial class ScriptSourceTextView : UserControl
+    public partial class ScriptSourceTextView
     {
         public ScriptSourceTextView()
         {
