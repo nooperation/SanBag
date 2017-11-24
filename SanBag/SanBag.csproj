@@ -98,17 +98,16 @@
     <Compile Include="ViewModels\BagViewModels\ManifestViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\ScriptSourceTextResourceViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\TextureResourceViewModel.cs" />
-    <Compile Include="Views\Converters\IConverter.cs" />
-    <Compile Include="Views\Converters\InverseBooleanToVisibilityConverter.cs" />
-    <Compile Include="Views\Converters\InvertBoolConverter.cs" />
+    <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Views\BagViews\ExportManifestView.xaml.cs">
       <DependentUpon>ExportManifestView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BagViews\GenericBagView.xaml.cs">
       <DependentUpon>GenericBagView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Converters\SizeToStringConverter.cs" />
-    <Compile Include="Views\Converters\TimestampNsConverter.cs" />
+    <Compile Include="Converters\SizeToStringConverter.cs" />
+    <Compile Include="Converters\TimestampNsConverter.cs" />
     <Compile Include="Views\ResourceView.xaml.cs">
       <DependentUpon>ResourceView.xaml</DependentUpon>
     </Compile>
@@ -225,7 +224,9 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Converters\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

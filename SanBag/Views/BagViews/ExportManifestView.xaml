@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SanBag.Views.BagViews"
-        xmlns:converters="clr-namespace:SanBag.Views.Converters"
+        xmlns:converters="clr-namespace:SanBag.Converters"
         mc:Ignorable="d"
         Title="ExportWindow" Height="140" Width="575" Loaded="ExportWindow_Loaded" Closing="ExportWindow_Closing">
     <Window.Resources>

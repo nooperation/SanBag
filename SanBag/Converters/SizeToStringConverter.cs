@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
 
-namespace SanBag.Views.Converters
+namespace SanBag.Converters
 {
     public class SizeToStringConverter : IValueConverter
     {
