@@ -5,8 +5,8 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using SanBag.Annotations;
-using SanBag.Views.Standalone;
-using SanBag.ViewModels.Standalone;
+using SanBag.Views.ResourceViews;
+using SanBag.ViewModels.ResourceViewModels;
 
 namespace SanBag.ViewModels
 {
@@ -35,9 +35,9 @@ namespace SanBag.ViewModels
 
             if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
             {
-                CurrentView = new SanBag.Views.Standalone.TextureResourceView()
+                CurrentView = new SanBag.Views.ResourceViews.TextureResourceView()
                 {
-                    DataContext = new SanBag.ViewModels.Standalone.TextureResourceViewModel()
+                    DataContext = new SanBag.ViewModels.ResourceViewModels.TextureResourceViewModel()
                     {
                         CurrentPath = resourcePath
                     }

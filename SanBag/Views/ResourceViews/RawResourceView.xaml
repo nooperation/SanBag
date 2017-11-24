@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="SanBag.Views.ResourceViews.RawResourceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SanBag.Views.ResourceViews"
+             xmlns:my="clr-namespace:WpfHexaEditor;assembly=WPFHexaEditor"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem
+                    Height="26"
+                    Header="File"
+                    RenderTransformOrigin="0.656,0.769">
+                <MenuItem
+                        Command="{Binding CommandSaveAs}"
+                        Header="Save as..."
+                        IsEnabled="True" />
+                <Separator />
+                <MenuItem
+                        x:Name="ExitMenu"
+                        Command="{Binding CommandExit}"
+                        Header="Exit" />
+            </MenuItem>
+        </Menu>
+        <my:HexEditor
+        x:Name="HexEdit"
+        Width="Auto"
+        Height="Auto"
+        Margin="2"
+        AllowByteCount="False"
+        ByteGrouping="FourByte"
+        ByteSpacerPositioning="HexBytePanel"
+        ByteSpacerVisualStyle="Dash"
+        ByteSpacerWidthTickness="Normal"
+        DataStringVisual="Hexadecimal"
+        ReadOnlyMode="False">
+        </my:HexEditor>
+    </DockPanel>
+</UserControl>

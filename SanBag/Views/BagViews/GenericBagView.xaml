@@ -1,0 +1,33 @@
+﻿<UserControl x:Class="SanBag.Views.BagViews.GenericBagView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SanBag.Views.BagViews"
+             xmlns:converters="clr-namespace:SanBag.Converters"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:TimestampToStringConverter x:Key="timestampConverter" />
+        <converters:SizeToStringConverter x:Key="sizeConverter" />
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions >
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <DataGrid Name="dataGridContent" ItemsSource="{Binding ParentViewModel.Records, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Copy Url" Command="{Binding CommandCopyAsUrl}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}" />
+                    <MenuItem Header="Export" Command="{Binding CommandExportSelected}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItems}" />
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding TimestampNs, Converter={StaticResource timestampConverter}}" ClipboardContentBinding="{x:Null}" Header="Timestamp" />
+                <DataGridTextColumn Binding="{Binding Offset}" ClipboardContentBinding="{x:Null}" Header="Offset"/>
+                <DataGridTextColumn Binding="{Binding Length, Converter={StaticResource sizeConverter}}" ClipboardContentBinding="{x:Null}" Header="Length"/>
+                <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Name" Width="*"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>
