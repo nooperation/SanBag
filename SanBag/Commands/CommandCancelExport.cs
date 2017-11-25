@@ -1,10 +1,4 @@
-﻿using LibSanBag;
-using SanBag.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using System.Windows.Input;
 using SanBag.ViewModels.BagViewModels;
 
@@ -12,7 +6,7 @@ namespace SanBag.Commands
 {
     public class CommandCancelExport : ICommand
     {
-        private ExportViewModel viewModel;
+        private readonly ExportViewModel _viewModel;
 
         event EventHandler ICommand.CanExecuteChanged
         {
@@ -22,7 +16,7 @@ namespace SanBag.Commands
 
         public CommandCancelExport(ExportViewModel viewModel)
         {
-            this.viewModel = viewModel;
+            this._viewModel = viewModel;
         }
 
         bool ICommand.CanExecute(object parameter)
@@ -32,7 +26,7 @@ namespace SanBag.Commands
 
         void ICommand.Execute(object parameter)
         {
-            viewModel.CancelExport();
+            _viewModel.CancelExport();
         }
     }
 }

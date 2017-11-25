@@ -6,7 +6,7 @@ namespace SanBag.Commands
 {
     class CommandSaveAs : ICommand
     {
-        private readonly ISavable savable;
+        private readonly ISavable _savable;
 
         event EventHandler ICommand.CanExecuteChanged
         {
@@ -16,7 +16,7 @@ namespace SanBag.Commands
 
         public CommandSaveAs(ISavable savable)
         {
-            this.savable = savable;
+            _savable = savable;
         }
 
         bool ICommand.CanExecute(object parameter)
@@ -26,7 +26,7 @@ namespace SanBag.Commands
 
         void ICommand.Execute(object parameter)
         {
-            savable.SaveAs();
+            _savable.SaveAs();
         }
     }
 }

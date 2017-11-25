@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SanBag.Views.BagViews"
         xmlns:converters="clr-namespace:SanBag.Converters"
         mc:Ignorable="d"
         Title="ExportWindow" Height="140" Width="575" Loaded="ExportWindow_Loaded" Closing="ExportWindow_Closing">
@@ -25,9 +24,9 @@
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0">File:</Label>
         <Label Grid.Row="0" Grid.Column="1" Content="{Binding Path=CurrentRecord.Name, Mode=OneWay}" />
-        <ProgressBar Grid.Row="1" Grid.ColumnSpan="2" Height="23px" Minimum="0" Maximum="100" Value="{Binding Path=Progress, Mode=OneWay}" />
-        <ProgressBar Grid.Row="2" Grid.ColumnSpan="2" Height="16px" Minimum="0" Maximum="100" Value="{Binding Path=MinorProgress, Mode=OneWay}" />
-        <Button Name="buttonCancel" Grid.Row="3" Grid.ColumnSpan="2" Width="64px" Command="{Binding CommandManifestCancelExport}" Visibility="{Binding Path=IsRunning, Converter={StaticResource booleanToVisibilityConverter}}" Margin="5px">Cancel</Button>
-        <Button Name="buttonClose" Grid.Row="3" Grid.ColumnSpan="2" Width="64px" Visibility="{Binding Path=IsRunning, Converter={StaticResource inverseBooleanToVisibilityConverter}}" IsCancel="True" Margin="5px">Close</Button>
+        <ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" Height="23px" Minimum="0" Maximum="100" Value="{Binding Path=Progress, Mode=OneWay}" />
+        <ProgressBar Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2" Height="16px" Minimum="0" Maximum="100" Value="{Binding Path=MinorProgress, Mode=OneWay}" />
+        <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Width="64px" Command="{Binding CommandManifestCancelExport}" Visibility="{Binding Path=IsRunning, Converter={StaticResource booleanToVisibilityConverter}}" Margin="5px">Cancel</Button>
+        <Button Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Width="64px" Visibility="{Binding Path=IsRunning, Converter={StaticResource inverseBooleanToVisibilityConverter}}" IsCancel="True" Margin="5px">Close</Button>
     </Grid>
 </Window>

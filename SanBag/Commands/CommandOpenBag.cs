@@ -1,16 +1,12 @@
 ﻿using SanBag.ViewModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace SanBag.Commands
 {
     public class CommandOpenBag : ICommand
     {
-        public BagViewModel ViewModel { get; set; }
+        private readonly BagViewModel _viewModel;
 
         event EventHandler ICommand.CanExecuteChanged
         {
@@ -20,7 +16,7 @@ namespace SanBag.Commands
 
         public CommandOpenBag(BagViewModel viewModel)
         {
-            this.ViewModel = viewModel;
+            this._viewModel = viewModel;
         }
 
         bool ICommand.CanExecute(object parameter)
@@ -30,7 +26,7 @@ namespace SanBag.Commands
 
         void ICommand.Execute(object parameter)
         {
-            ViewModel.OnOpenFile();
+            _viewModel.OnOpenFile();
         }
     }
 }
