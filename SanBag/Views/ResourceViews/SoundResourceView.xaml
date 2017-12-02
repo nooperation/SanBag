@@ -18,8 +18,8 @@
                 <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="{Binding Path=PositionText}" />
-            <Slider Grid.Column="1" Value="{Binding Path=Posiiton, Mode=TwoWay}" />
-            <Label Grid.Column="2" Content="{Binding Path=MaxPositionText}" />
+            <Slider Grid.Column="1" Value="{Binding Path=Position, Mode=TwoWay}" Maximum="{Binding Path=MaxPosition}" SmallChange="1" LargeChange="5" />
+            <Label Grid.Column="2" Content="{Binding Path=MaxPositionText, Mode=OneWay}" />
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
@@ -31,7 +31,7 @@
             <StackPanel Grid.Column="1" Orientation="Horizontal">
                 <Button Content="[X]" />
             </StackPanel>
-            <Slider Grid.Column="2" Value="{Binding Path=Volume, Mode=TwoWay}" />
+            <Slider Grid.Column="2" Value="{Binding Path=Volume, Mode=TwoWay}" Maximum="1" TickFrequency="0.05" SmallChange="0.05" LargeChange="0.1" />
         </Grid>
     </Grid>
 </UserControl>

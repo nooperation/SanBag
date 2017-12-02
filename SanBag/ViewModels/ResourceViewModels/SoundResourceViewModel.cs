@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Media;
 using SanBag.Annotations;
 using System.IO;
 using System.IO.Packaging;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using LibSanBag.FileResources;
@@ -16,7 +16,9 @@ namespace SanBag.ViewModels.ResourceViewModels
 {
     class SoundResourceViewModel : BaseViewModel
     {
-        private string _soundName;
+        private Timer _updateTimer;
+
+        private string _soundName = "";
         public string SoundName
         {
             get => _soundName;
@@ -27,11 +29,11 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-        [NotNull]
+        private MediaPlayer _player = new MediaPlayer();
         public MediaPlayer Player { get; set; } = new MediaPlayer();
 
         [NotNull]
-        public string PositionText => Player.Position.ToString("hh:mm:ss");
+        public string PositionText => Player.Position.ToString(@"hh\:mm\:ss");
 
         [NotNull]
         public string MaxPositionText
@@ -42,7 +44,47 @@ namespace SanBag.ViewModels.ResourceViewModels
                 {
                     return "--:--:--";
                 }
-                return Player.NaturalDuration.TimeSpan.ToString("hh:mm:ss");
+                return Player.NaturalDuration.TimeSpan.ToString(@"hh\:mm\:ss");
+            }
+        }
+
+        public int Position
+        {
+            get => Player.Position.Seconds;
+            set
+            {
+                Player.Position = new TimeSpan(0, 0, value);
+                OnPropertyChanged();
+            }
+        }
+
+        public double Volume
+        {
+            get => Player.Volume;
+            set
+            {
+                Player.Volume = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        public int MaxPosition => (int)Player.NaturalDuration.TimeSpan.TotalSeconds;
+
+        public SoundResourceViewModel()
+        {
+            _updateTimer = new Timer(100);
+            _updateTimer.Elapsed += OnTimerTick;
+        }
+
+        private void OnTimerTick(object sender, ElapsedEventArgs e)
+        {
+            if (SoundName != "")
+            {
+                OnPropertyChanged(nameof(MaxPositionText));
+                OnPropertyChanged(nameof(PositionText));
+                OnPropertyChanged(nameof(Position));
+                OnPropertyChanged(nameof(MaxPosition));
             }
         }
 
@@ -64,12 +106,14 @@ namespace SanBag.ViewModels.ResourceViewModels
                     MessageBox.Show("Failed to save audio: " + ex.Message);
                     return;
                 }
-            
+
                 SoundName = soundResource.Name;
             }
 
             Player.Open(new Uri(audioPath));
             Player.Play();
+
+            _updateTimer.Start();
         }
     }
 }
