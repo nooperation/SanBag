@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="SanBag.Views.ResourceViews.SoundResourceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SanBag.Views.ResourceViews"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="auto"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Content="{Binding Path=PositionText}" />
+            <Slider Grid.Column="1" Value="{Binding Path=Posiiton, Mode=TwoWay}" />
+            <Label Grid.Column="2" Content="{Binding Path=MaxPositionText}" />
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Content="|>" />
+            <StackPanel Grid.Column="1" Orientation="Horizontal">
+                <Button Content="[X]" />
+            </StackPanel>
+            <Slider Grid.Column="2" Value="{Binding Path=Volume, Mode=TwoWay}" />
+        </Grid>
+    </Grid>
+</UserControl>
