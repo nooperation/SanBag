@@ -72,18 +72,17 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-        public int MaxPosition => (int)Player.NaturalDuration.TimeSpan.TotalSeconds;
+        public double MaxPosition => Player.NaturalDuration.TimeSpan.TotalSeconds;
 
-        public int Position
+        public double Position
         {
-            get => Player.Position.Seconds;
+            get => Player.Position.TotalSeconds;
             set
             {
-                Player.Position = new TimeSpan(0, 0, value);
+                Player.Position = TimeSpan.FromSeconds(value);
                 OnPropertyChanged();
             }
         }
-
 
         public double Volume
         {
