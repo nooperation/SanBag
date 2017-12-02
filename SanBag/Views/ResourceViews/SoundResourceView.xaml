@@ -4,8 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SanBag.Views.ResourceViews"
+             xmlns:converters="clr-namespace:SanBag.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.Resources>
+        <converters:InvertBoolConverter x:Key="invertBoolConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -16,22 +20,18 @@
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="100"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="{Binding Path=PositionText}" />
             <Slider Grid.Column="1" Value="{Binding Path=Position, Mode=TwoWay}" Maximum="{Binding Path=MaxPosition}" SmallChange="1" LargeChange="5" />
             <Label Grid.Column="2" Content="{Binding Path=MaxPositionText, Mode=OneWay}" />
+            <Slider Grid.Column="3" Value="{Binding Path=Volume, Mode=TwoWay}" Maximum="1" Margin="5" TickFrequency="0.05" SmallChange="0.05" LargeChange="0.1" />
         </Grid>
         <Grid Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="100" />
-            </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Content="|>" />
-            <StackPanel Grid.Column="1" Orientation="Horizontal">
-                <Button Content="[X]" />
+            <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Content="Play" Command="{Binding CommandPlaySound}" Margin="5" Width="50" IsEnabled="{Binding IsPlaying, Converter={StaticResource invertBoolConverter}}" />
+                <Button Content="Stop" Command="{Binding CommandPauseSound}" Margin="5" Width="50" IsEnabled="{Binding IsPlaying}" />
             </StackPanel>
-            <Slider Grid.Column="2" Value="{Binding Path=Volume, Mode=TwoWay}" Maximum="1" TickFrequency="0.05" SmallChange="0.05" LargeChange="0.1" />
         </Grid>
     </Grid>
 </UserControl>

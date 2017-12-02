@@ -79,6 +79,8 @@
     <Compile Include="Commands\CommandManifestExportSelected.cs" />
     <Compile Include="Commands\CommandOpenBag.cs" />
     <Compile Include="Commands\CommandCopyAsUrl.cs" />
+    <Compile Include="Commands\CommandPauseSound.cs" />
+    <Compile Include="Commands\CommandPlaySound.cs" />
     <Compile Include="Commands\CommandSaveAs.cs" />
     <Compile Include="Models\ExportParams.cs" />
     <Compile Include="Models\ViewType.cs" />

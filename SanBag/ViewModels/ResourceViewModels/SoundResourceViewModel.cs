@@ -11,14 +11,38 @@ using System.Windows;
 using System.Windows.Controls;
 using LibSanBag.FileResources;
 using LibSanBag.ResourceUtils;
+using SanBag.Commands;
 
 namespace SanBag.ViewModels.ResourceViewModels
 {
     class SoundResourceViewModel : BaseViewModel
     {
-        private Timer _updateTimer;
+        private bool _isPlaying;
+        public bool IsPlaying
+        {
+            get => _isPlaying;
+            set
+            {
+                if (value == _isPlaying) return;
+                _isPlaying = value;
+                OnPropertyChanged();
+            }
+        }
 
+        [NotNull]
+        public CommandPlaySound CommandPlaySound { get; }
+
+        [NotNull]
+        public CommandPauseSound CommandPauseSound { get; }
+
+        [NotNull]
+        private readonly Timer _updateTimer;
+
+        [NotNull]
         private string _soundName = "";
+
+
+        [NotNull]
         public string SoundName
         {
             get => _soundName;
@@ -29,7 +53,7 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-        private MediaPlayer _player = new MediaPlayer();
+        [NotNull]
         public MediaPlayer Player { get; set; } = new MediaPlayer();
 
         [NotNull]
@@ -48,6 +72,8 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
+        public int MaxPosition => (int)Player.NaturalDuration.TimeSpan.TotalSeconds;
+
         public int Position
         {
             get => Player.Position.Seconds;
@@ -57,6 +83,7 @@ namespace SanBag.ViewModels.ResourceViewModels
                 OnPropertyChanged();
             }
         }
+
 
         public double Volume
         {
@@ -68,11 +95,11 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-
-        public int MaxPosition => (int)Player.NaturalDuration.TimeSpan.TotalSeconds;
-
         public SoundResourceViewModel()
         {
+            CommandPlaySound = new CommandPlaySound(this);
+            CommandPauseSound = new CommandPauseSound(this);
+
             _updateTimer = new Timer(100);
             _updateTimer.Elapsed += OnTimerTick;
         }
@@ -111,9 +138,21 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
 
             Player.Open(new Uri(audioPath));
-            Player.Play();
+            PlaySound();
+        }
 
+        public void PlaySound()
+        {
+            IsPlaying = true;
             _updateTimer.Start();
+            Player.Play();
+        }
+
+        public void PauseSound()
+        {
+            IsPlaying = false;
+            Player.Pause();
+            _updateTimer.Stop();
         }
     }
 }
