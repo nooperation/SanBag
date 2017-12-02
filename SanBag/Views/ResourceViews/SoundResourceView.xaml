@@ -39,6 +39,7 @@
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Play" Command="{Binding CommandPlaySound}" Margin="5" Width="50" IsEnabled="{Binding IsPlaying, Converter={StaticResource invertBoolConverter}}" />
                 <Button Content="Stop" Command="{Binding CommandPauseSound}" Margin="5" Width="50" IsEnabled="{Binding IsPlaying}" />
+                <Button Content="Export" Command="{Binding CommandSaveAs}" Margin="5" Width="50" />
             </StackPanel>
         </Grid>
     </Grid>

@@ -11,11 +11,12 @@ using System.Windows;
 using System.Windows.Controls;
 using LibSanBag.FileResources;
 using LibSanBag.ResourceUtils;
+using Microsoft.Win32;
 using SanBag.Commands;
 
 namespace SanBag.ViewModels.ResourceViewModels
 {
-    class SoundResourceViewModel : BaseViewModel
+    class SoundResourceViewModel : BaseViewModel, ISavable
     {
         private bool _isPlaying;
         public bool IsPlaying
@@ -31,16 +32,16 @@ namespace SanBag.ViewModels.ResourceViewModels
 
         [NotNull]
         public CommandPlaySound CommandPlaySound { get; }
-
         [NotNull]
         public CommandPauseSound CommandPauseSound { get; }
+        [NotNull]
+        public CommandSaveAs CommandSaveAs { get; }
 
         [NotNull]
         private readonly Timer _updateTimer;
 
         [NotNull]
         private string _soundName = "";
-
 
         [NotNull]
         public string SoundName
@@ -98,6 +99,7 @@ namespace SanBag.ViewModels.ResourceViewModels
         {
             CommandPlaySound = new CommandPlaySound(this);
             CommandPauseSound = new CommandPauseSound(this);
+            CommandSaveAs = new CommandSaveAs(this);
 
             _updateTimer = new Timer(100);
             _updateTimer.Elapsed += OnTimerTick;
@@ -152,6 +154,30 @@ namespace SanBag.ViewModels.ResourceViewModels
             IsPlaying = false;
             Player.Pause();
             _updateTimer.Stop();
+        }
+
+        public void SaveAs()
+        {
+            var dialog = new SaveFileDialog();
+            dialog.FileName = SoundName + ".wav";
+            if (dialog.ShowDialog() == true)
+            {
+                using (var compressedStream = File.OpenRead(CurrentPath))
+                {
+                    var soundResource = new SoundResource(compressedStream);
+                    var soundBytes = soundResource.SoundBytes;
+                    try
+                    {
+                        LibFSB.SaveAs(soundBytes, dialog.FileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Failed to save audio: " + ex.Message);
+                        return;
+                    }
+                    MessageBox.Show($"Successfully wrote {soundBytes.Length} byte(s) to {dialog.FileName}");
+                }
+            }
         }
     }
 }
