@@ -82,6 +82,7 @@
     <Compile Include="Commands\CommandPauseSound.cs" />
     <Compile Include="Commands\CommandPlaySound.cs" />
     <Compile Include="Commands\CommandSaveAs.cs" />
+    <Compile Include="Converters\PercentageToStringConverter.cs" />
     <Compile Include="Models\ExportParams.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="Properties\Annotations.cs" />

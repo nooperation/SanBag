@@ -9,25 +9,33 @@
              d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.Resources>
         <converters:InvertBoolConverter x:Key="invertBoolConverter" />
+        <converters:PercentageToStringConverter x:Key="percentageToStringConverter" />
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Label>Current Sound:</Label>
+            <Label FontWeight="Bold" Content="{Binding SoundName}" />
+        </StackPanel>
+        <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="75"/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="{Binding Path=PositionText}" />
-            <Slider Grid.Column="1" Value="{Binding Path=Position, Mode=TwoWay}" Maximum="{Binding Path=MaxPosition}" SmallChange="1" LargeChange="5" />
-            <Label Grid.Column="2" Content="{Binding Path=MaxPositionText, Mode=OneWay}" />
-            <Slider Grid.Column="3" Value="{Binding Path=Volume, Mode=TwoWay}" Maximum="1" Margin="5" TickFrequency="0.05" SmallChange="0.05" LargeChange="0.1" />
+            <Label Grid.Column="0" Content="{Binding Path=PositionText}"  />
+            <Slider Grid.Column="1" Value="{Binding Path=Position, Mode=TwoWay}" Maximum="{Binding Path=MaxPosition}" SmallChange="1" LargeChange="5" VerticalAlignment="Center" />
+            <Label Grid.Column="2" Content="{Binding Path=MaxPositionText, Mode=OneWay}"  VerticalContentAlignment="Center" />
+            <Slider Grid.Column="3" Value="{Binding Path=Volume, Mode=TwoWay}" Maximum="1" TickFrequency="0.01" SmallChange="0.01" LargeChange="0.1" VerticalAlignment="Center" />
+            <Label Grid.Column="4" Content="{Binding Path=Volume, Mode=OneWay, Converter={StaticResource percentageToStringConverter}}"  VerticalContentAlignment="Center" />
         </Grid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="2">
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Content="Play" Command="{Binding CommandPlaySound}" Margin="5" Width="50" IsEnabled="{Binding IsPlaying, Converter={StaticResource invertBoolConverter}}" />
                 <Button Content="Stop" Command="{Binding CommandPauseSound}" Margin="5" Width="50" IsEnabled="{Binding IsPlaying}" />
