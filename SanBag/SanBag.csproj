@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" />
   <Import Project="..\packages\LibSanBag.1.0.70\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.0.70\build\LibSanBag.props')" />
-  <Import Project="..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -43,6 +43,9 @@
     <Reference Include="LibSanBag, Version=1.0.70.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\LibSanBag.1.0.70\lib\net46\LibSanBag.dll</HintPath>
     </Reference>
+    <Reference Include="NAudio, Version=1.8.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\NAudio.1.8.3\lib\net35\NAudio.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -76,7 +79,10 @@
     <Compile Include="Commands\CommandManifestExportSelected.cs" />
     <Compile Include="Commands\CommandOpenBag.cs" />
     <Compile Include="Commands\CommandCopyAsUrl.cs" />
+    <Compile Include="Commands\CommandPauseSound.cs" />
+    <Compile Include="Commands\CommandPlaySound.cs" />
     <Compile Include="Commands\CommandSaveAs.cs" />
+    <Compile Include="Converters\PercentageToStringConverter.cs" />
     <Compile Include="Models\ExportParams.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -90,6 +96,7 @@
     <Compile Include="ViewModels\ResourceViewModels\ISavable.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ScriptSourceTextViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\SoundResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\TextureResourceViewModel.cs" />
     <Compile Include="Views\BagView.xaml.cs">
       <DependentUpon>BagView.xaml</DependentUpon>
@@ -126,6 +133,9 @@
     </Compile>
     <Compile Include="Views\ResourceViews\ScriptSourceTextView.xaml.cs">
       <DependentUpon>ScriptSourceTextView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\SoundResourceView.xaml.cs">
+      <DependentUpon>SoundResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
@@ -185,6 +195,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ResourceViews\SoundResourceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\ResourceViews\TextureResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -241,7 +255,7 @@
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
-    <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props'))" />
     <Error Condition="!Exists('..\packages\LibSanBag.1.0.70\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.0.70\build\LibSanBag.props'))" />
+    <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props'))" />
   </Target>
 </Project>

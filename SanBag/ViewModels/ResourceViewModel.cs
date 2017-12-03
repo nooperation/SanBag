@@ -43,6 +43,16 @@ namespace SanBag.ViewModels
                     }
                 };
             }
+            else if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.SoundResource)
+            {
+                CurrentView = new SanBag.Views.ResourceViews.SoundResourceView()
+                {
+                    DataContext = new SanBag.ViewModels.ResourceViewModels.SoundResourceViewModel()
+                    {
+                        CurrentPath = resourcePath
+                    }
+                };
+            }
             else
             {
                 var view = new RawResourceView();
