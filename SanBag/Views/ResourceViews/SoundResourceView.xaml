@@ -27,13 +27,13 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="75"/>
-                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition Width="40"/>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="{Binding Path=PositionText}"  />
-            <Slider Grid.Column="1" Value="{Binding Path=Position, Mode=TwoWay}" Maximum="{Binding Path=MaxPosition}" SmallChange="1" LargeChange="5" VerticalAlignment="Center" />
+            <Slider Grid.Column="1" Value="{Binding Path=Position, Mode=TwoWay}" Maximum="{Binding Path=MaxPosition}" IsMoveToPointEnabled="True" VerticalAlignment="Center" />
             <Label Grid.Column="2" Content="{Binding Path=MaxPositionText, Mode=OneWay}"  VerticalContentAlignment="Center" />
-            <Slider Grid.Column="3" Value="{Binding Path=Volume, Mode=TwoWay}" Maximum="1" TickFrequency="0.01" SmallChange="0.01" LargeChange="0.1" VerticalAlignment="Center" />
-            <Label Grid.Column="4" Content="{Binding Path=Volume, Mode=OneWay, Converter={StaticResource percentageToStringConverter}}"  VerticalContentAlignment="Center" />
+            <Slider Grid.Column="3" Value="{Binding Path=Volume, Mode=TwoWay}" Maximum="1" IsMoveToPointEnabled="True" VerticalAlignment="Center" />
+            <Label Grid.Column="4" Content="{Binding Path=Volume, Mode=OneWay, Converter={StaticResource percentageToStringConverter}}"  VerticalContentAlignment="Center" HorizontalAlignment="Right" />
         </Grid>
         <Grid Grid.Row="2">
             <StackPanel Grid.Column="0" Orientation="Horizontal" HorizontalAlignment="Center">
