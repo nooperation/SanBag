@@ -73,7 +73,17 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-        public double MaxPosition => Player.NaturalDuration.TimeSpan.TotalSeconds;
+        public double MaxPosition
+        {
+            get
+            {
+                if (Player.NaturalDuration.HasTimeSpan == false)
+                {
+                    return 0;
+                }
+                return Player.NaturalDuration.TimeSpan.TotalSeconds;
+            }
+        }
 
         public double Position
         {
@@ -107,12 +117,15 @@ namespace SanBag.ViewModels.ResourceViewModels
 
         private void OnTimerTick(object sender, ElapsedEventArgs e)
         {
-            if (SoundName != "")
+            lock (_updateTimer)
             {
-                OnPropertyChanged(nameof(MaxPositionText));
-                OnPropertyChanged(nameof(PositionText));
-                OnPropertyChanged(nameof(Position));
-                OnPropertyChanged(nameof(MaxPosition));
+                if (_updateTimer.Enabled)
+                {
+                    OnPropertyChanged(nameof(MaxPositionText));
+                    OnPropertyChanged(nameof(PositionText));
+                    OnPropertyChanged(nameof(Position));
+                    OnPropertyChanged(nameof(MaxPosition));
+                }
             }
         }
 
@@ -142,18 +155,33 @@ namespace SanBag.ViewModels.ResourceViewModels
             PlaySound();
         }
 
+        public override void ReloadFromStream(Stream resourceStream)
+        {
+            var tempPath = Path.GetTempPath() + "SanBagTemp.bin";
+            if (File.Exists(tempPath))
+            {
+                File.Delete(tempPath);
+            }
+
+            using (var outputStream = File.OpenWrite(tempPath))
+            {
+                resourceStream.CopyTo(outputStream);
+            }
+            CurrentPath = tempPath;
+        }
+
         public void PlaySound()
         {
+            Player.Play();
             IsPlaying = true;
             _updateTimer.Start();
-            Player.Play();
         }
 
         public void PauseSound()
         {
+            _updateTimer.Stop();
             IsPlaying = false;
             Player.Pause();
-            _updateTimer.Stop();
         }
 
         public void SaveAs()
@@ -177,6 +205,16 @@ namespace SanBag.ViewModels.ResourceViewModels
                     }
                     MessageBox.Show($"Successfully wrote {soundBytes.Length} byte(s) to {dialog.FileName}");
                 }
+            }
+        }
+
+        public void Unload()
+        {
+            lock (_updateTimer)
+            {
+                _updateTimer.Stop();
+                Player.Stop();
+                Player.Close();
             }
         }
     }

@@ -12,9 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using SanBag.ViewModels.ResourceViewModels;
 
-namespace SanBag.Views.ResourceViews
+namespace SanBag.Views.BagViews
 {
     /// <summary>
     /// Interaction logic for SoundResourceView.xaml
