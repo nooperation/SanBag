@@ -30,6 +30,12 @@ namespace SanBag.ViewModels.ResourceViewModels
 
         }
 
+
+        public virtual void ReloadFromStream(Stream resourceStream)
+        {
+
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

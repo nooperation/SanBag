@@ -161,6 +161,17 @@ namespace SanBag.ViewModels
                 Name = "Manifest"
             });
 
+            var soundViewModel = new SoundResourceViewModel(this);
+            Views.Add(new ViewType
+            {
+                View = new SoundResourceView
+                {
+                    DataContext = soundViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && soundViewModel.IsValidRecord(record)),
+                Name = "SoundResource"
+            });
+
             CurrentView = Views[0];
         }
 
