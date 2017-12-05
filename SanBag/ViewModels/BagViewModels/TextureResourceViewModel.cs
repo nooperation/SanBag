@@ -19,21 +19,9 @@ using System.Windows.Media.Imaging;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class TextureResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
+    public class TextureResourceViewModel : GenericBagViewModel
     {
         private static BitmapImage _blankPreview = new BitmapImage();
-
-        private FileRecord _selectedRecord;
-        public FileRecord SelectedRecord
-        {
-            get => _selectedRecord;
-            set
-            {
-                _selectedRecord = value;
-                UpdatePreviewImage();
-                OnPropertyChanged();
-            }
-        }
 
         private BitmapImage _currentPreview;
         public BitmapImage PreviewImage
@@ -100,7 +88,7 @@ namespace SanBag.ViewModels.BagViewModels
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
 
-        private void UpdatePreviewImage()
+        protected override void OnSelectedRecordChanged()
         {
             try
             {
@@ -131,12 +119,6 @@ namespace SanBag.ViewModels.BagViewModels
                 MessageBox.Show($"Failed to view texture: {ex.Message}", "ERROR");
                 PreviewImage = _blankPreview;
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

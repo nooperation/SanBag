@@ -14,7 +14,7 @@ using SanBag.Models;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    class SoundResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
+    class SoundResourceViewModel : GenericBagViewModel
     {
         private UserControl _currentResourceView;
         public UserControl CurrentResourceView
@@ -27,19 +27,7 @@ namespace SanBag.ViewModels.BagViewModels
             }
         }
 
-        private FileRecord _selectedRecord;
-        public FileRecord SelectedRecord
-        {
-            get => _selectedRecord;
-            set
-            {
-                _selectedRecord = value;
-                UpdatePreviewSound();
-                OnPropertyChanged();
-            }
-        }
-
-        private void UpdatePreviewSound()
+        protected override void OnSelectedRecordChanged()
         {
             if (CurrentResourceView != null && CurrentResourceView.DataContext != null)
             {
@@ -73,12 +61,6 @@ namespace SanBag.ViewModels.BagViewModels
         public override bool IsValidRecord(FileRecord record)
         {
             return record.Info?.Resource == FileRecordInfo.ResourceType.SoundResource;
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         protected override void CustomFileExport(ExportParameters exportParameters)

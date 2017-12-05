@@ -17,20 +17,8 @@ using System.Threading.Tasks;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class ScriptSourceTextResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
+    public class ScriptSourceTextResourceViewModel : GenericBagViewModel
     {
-        private FileRecord _selectedRecord;
-        public FileRecord SelectedRecord
-        {
-            get => _selectedRecord;
-            set
-            {
-                _selectedRecord = value;
-                UpdatePreviewText();
-                OnPropertyChanged();
-            }
-        }
-
         private string _previewCode = "";
         public string PreviewCode
         {
@@ -54,7 +42,7 @@ namespace SanBag.ViewModels.BagViewModels
                    record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
         }
 
-        private void UpdatePreviewText()
+        protected override void OnSelectedRecordChanged()
         {
             try
             {
@@ -77,12 +65,6 @@ namespace SanBag.ViewModels.BagViewModels
             File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
 
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

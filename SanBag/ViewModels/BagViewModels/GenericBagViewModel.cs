@@ -5,8 +5,10 @@ using SanBag.Models;
 using SanBag.Views;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -14,12 +16,24 @@ using SanBag.Views.BagViews;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class GenericBagViewModel
+    public class GenericBagViewModel: INotifyPropertyChanged
     {
         public BagViewModel ParentViewModel { get; set; }
         public CommandExportSelected CommandExportSelected { get; set; }
         public CommandCopyAsUrl CommandCopyAsUrl { get; set; }
         public string ExportFilter { get; set; }
+
+        private FileRecord _selectedRecord;
+        public FileRecord SelectedRecord
+        {
+            get => _selectedRecord;
+            set
+            {
+                _selectedRecord = value;
+                OnSelectedRecordChanged();
+                OnPropertyChanged();
+            }
+        }
 
         public GenericBagViewModel(BagViewModel parentViewModel)
         {
@@ -109,6 +123,16 @@ namespace SanBag.ViewModels.BagViewModels
             {
                 Clipboard.SetText($"https://sansar-asset-production.s3-us-west-2.amazonaws.com/{fileRecord.Name}");
             }
+        }
+
+        protected virtual void OnSelectedRecordChanged()
+        {
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
