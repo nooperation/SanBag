@@ -49,22 +49,25 @@ namespace SanBag.ViewModels.ResourceViewModels
             CommandSaveAs = new CommandSaveAs(this);
         }
 
-        public override void Reload()
+        protected override void LoadFromStream(Stream resourceStream)
         {
             try
             {
-                DecompressedBytes = OodleLz.DecompressResource(CurrentPath);
+                DecompressedBytes = OodleLz.DecompressResource(resourceStream);
             }
             catch (Exception)
             {
-                DecompressedBytes = File.ReadAllBytes(CurrentPath);
+                using (var decompressedBytesStream = new MemoryStream(DecompressedBytes))
+                {
+                    resourceStream.CopyTo(decompressedBytesStream);
+                }
             }
         }
 
         public void SaveAs()
         {
             var dialog = new SaveFileDialog();
-            dialog.FileName = Path.GetFileName(CurrentPath) + ".bin";
+            dialog.FileName = Path.GetFileName(Name) + ".bin";
             if (dialog.ShowDialog() == true)
             {
                 File.WriteAllBytes(dialog.FileName, _decompressedBytes);

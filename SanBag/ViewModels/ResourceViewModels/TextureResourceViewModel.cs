@@ -27,15 +27,7 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-        public override void Reload()
-        {
-            using (var compressedStream = File.OpenRead(CurrentPath))
-            {
-                ReloadFromStream(compressedStream);
-            }
-        }
-
-        public override void ReloadFromStream(Stream resourceStream)
+        protected override void LoadFromStream(Stream resourceStream)
         {
             var resource = new TextureResource();
             resource.InitFromStream(resourceStream);

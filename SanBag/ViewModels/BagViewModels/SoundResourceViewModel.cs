@@ -48,7 +48,7 @@ namespace SanBag.ViewModels.BagViewModels
                     bagStream.Close();
 
                     soundResourceStream.Seek(0L, SeekOrigin.Begin);
-                    newViewModel.ReloadFromStream(soundResourceStream);
+                    newViewModel.InitFromStream(soundResourceStream);
                 }
             }
         }

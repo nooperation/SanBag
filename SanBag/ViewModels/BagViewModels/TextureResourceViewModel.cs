@@ -112,7 +112,7 @@ namespace SanBag.ViewModels.BagViewModels
 
             using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
             {
-                view.Load(bagStream, SelectedRecord);
+                view.InitFromRecord(bagStream, SelectedRecord);
             }
         }
     }

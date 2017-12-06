@@ -105,6 +105,8 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
+        private string CompressedSoundPath { get; set; }
+
         public SoundResourceViewModel()
         {
             CommandPlaySound = new CommandPlaySound(this);
@@ -129,11 +131,21 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-        public override void Reload()
+        protected override void LoadFromStream(Stream resourceStream)
         {
-            var audioPath = Path.Combine(Path.GetTempPath(), "SanBagTemp.wav");
+            CompressedSoundPath = Path.GetTempPath() + "SanBagTemp.bin";
+            if (File.Exists(CompressedSoundPath))
+            {
+                File.Delete(CompressedSoundPath);
+            }
 
-            using (var compressedStream = File.OpenRead(CurrentPath))
+            using (var outputStream = File.OpenWrite(CompressedSoundPath))
+            {
+                resourceStream.CopyTo(outputStream);
+            }
+
+            var audioPath = Path.Combine(Path.GetTempPath(), "SanBagTemp.wav");
+            using (var compressedStream = File.OpenRead(CompressedSoundPath))
             {
                 var soundResource = new SoundResource();
                 soundResource.InitFromStream(compressedStream);
@@ -157,21 +169,6 @@ namespace SanBag.ViewModels.ResourceViewModels
             PlaySound();
         }
 
-        public override void ReloadFromStream(Stream resourceStream)
-        {
-            var tempPath = Path.GetTempPath() + "SanBagTemp.bin";
-            if (File.Exists(tempPath))
-            {
-                File.Delete(tempPath);
-            }
-
-            using (var outputStream = File.OpenWrite(tempPath))
-            {
-                resourceStream.CopyTo(outputStream);
-            }
-            CurrentPath = tempPath;
-        }
-
         public void PlaySound()
         {
             Player.Play();
@@ -192,7 +189,7 @@ namespace SanBag.ViewModels.ResourceViewModels
             dialog.FileName = SoundName + ".wav";
             if (dialog.ShowDialog() == true)
             {
-                using (var compressedStream = File.OpenRead(CurrentPath))
+                using (var compressedStream = File.OpenRead(CompressedSoundPath))
                 {
                     var soundResource = new SoundResource();
                     soundResource.InitFromStream(compressedStream);

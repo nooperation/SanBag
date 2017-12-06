@@ -12,41 +12,38 @@ using SanBag.Annotations;
 
 namespace SanBag.ViewModels.ResourceViewModels
 {
-    class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        private string _currentPath;
-        public string CurrentPath
+        public string Name { get; set; }
+
+        public void InitFromPath(string filePath)
         {
-            get => _currentPath;
-            set
+            Name = Path.GetFileNameWithoutExtension(filePath);
+            using (var fileStream = File.OpenRead(filePath))
             {
-                _currentPath = value;
-                Reload();
-                OnPropertyChanged();
+                LoadFromStream(fileStream);
             }
         }
 
-        public virtual void Reload()
+        public void InitFromRecord(Stream sourceStream, FileRecord fileRecord)
         {
-
-        }
-
-        public void Load(Stream sourceStream, FileRecord fileRecord)
-        {
-            using (var ms = new MemoryStream())
+            Name = fileRecord.Name;
+            using (var stream = new MemoryStream())
             {
-                fileRecord.Save(sourceStream, ms);
-                ReloadFromStream(ms);
+                fileRecord.Save(sourceStream, stream);
+                LoadFromStream(stream);
             }
         }
 
-        public virtual void ReloadFromStream(Stream resourceStream)
+        public void InitFromStream(Stream stream)
         {
-
+            Name = "Resource";
+            LoadFromStream(stream);
         }
+
+        protected abstract void LoadFromStream(Stream resourceStream);
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
