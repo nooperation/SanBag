@@ -31,6 +31,7 @@ namespace SanBag.ViewModels.ResourceViewModels
             using (var stream = new MemoryStream())
             {
                 fileRecord.Save(sourceStream, stream);
+                stream.Seek(0, SeekOrigin.Begin);
                 LoadFromStream(stream);
             }
         }

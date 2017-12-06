@@ -11,6 +11,7 @@ using LibSanBag;
 using LibSanBag.FileResources;
 using LibSanBag.ResourceUtils;
 using SanBag.Models;
+using SanBag.Views.ResourceViews;
 
 namespace SanBag.ViewModels.BagViewModels
 {
@@ -27,35 +28,11 @@ namespace SanBag.ViewModels.BagViewModels
             }
         }
 
-        protected override void OnSelectedRecordChanged()
-        {
-            if (CurrentResourceView != null && CurrentResourceView.DataContext != null)
-            {
-                var previousModel = CurrentResourceView.DataContext as ResourceViewModels.SoundResourceViewModel;
-                previousModel.Unload();
-            }
-            var newViewModel = new SanBag.ViewModels.ResourceViewModels.SoundResourceViewModel();
-            CurrentResourceView = new SanBag.Views.ResourceViews.SoundResourceView()
-            {
-                DataContext = newViewModel
-            };
-
-            using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
-            {
-                using (var soundResourceStream = new MemoryStream())
-                {
-                    SelectedRecord.Save(bagStream, soundResourceStream);
-                    bagStream.Close();
-
-                    soundResourceStream.Seek(0L, SeekOrigin.Begin);
-                    newViewModel.InitFromStream(soundResourceStream);
-                }
-            }
-        }
-
         public SoundResourceViewModel(BagViewModel parentViewModel) : base(parentViewModel)
         {
             ExportFilter += "|Wav Sound|*.wav";
+            CurrentResourceView = new SoundResourceView();
+            CurrentResourceView.DataContext = new SanBag.ViewModels.ResourceViewModels.SoundResourceViewModel();
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -71,6 +48,21 @@ namespace SanBag.ViewModels.BagViewModels
 
             LibFSB.SaveAs(soundResource.SoundBytes, outputPath);
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
+        }
+
+        protected override void OnSelectedRecordChanged()
+        {
+            var view = CurrentResourceView.DataContext as ResourceViewModels.SoundResourceViewModel;
+            if (view == null)
+            {
+                return;
+            }
+
+            view.Unload();
+            using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
+            {
+                view.InitFromRecord(bagStream, SelectedRecord);
+            }
         }
     }
 }
