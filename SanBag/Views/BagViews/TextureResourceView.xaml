@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SanBag.Views.BagViews"
              xmlns:converters="clr-namespace:SanBag.Converters"
+             xmlns:resourceViews="clr-namespace:SanBag.Views.ResourceViews"
              mc:Ignorable="d" 
              d:DesignHeight="183.14" d:DesignWidth="486.628">
     <UserControl.Resources>
@@ -36,7 +37,7 @@
         </DataGrid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
         <Grid Grid.Column="2">
-            <Image Name="imagePreview" Source="{Binding PreviewImage}" />
+            <UserControl Content="{Binding Path=CurrentResourceView}" />
         </Grid>
     </Grid>
 </UserControl>

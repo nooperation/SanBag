@@ -135,7 +135,9 @@ namespace SanBag.ViewModels.ResourceViewModels
 
             using (var compressedStream = File.OpenRead(CurrentPath))
             {
-                var soundResource = new SoundResource(compressedStream);
+                var soundResource = new SoundResource();
+                soundResource.InitFromStream(compressedStream);
+
                 var soundBytes = soundResource.SoundBytes;
                 try
                 {
@@ -192,7 +194,9 @@ namespace SanBag.ViewModels.ResourceViewModels
             {
                 using (var compressedStream = File.OpenRead(CurrentPath))
                 {
-                    var soundResource = new SoundResource(compressedStream);
+                    var soundResource = new SoundResource();
+                    soundResource.InitFromStream(compressedStream);
+
                     var soundBytes = soundResource.SoundBytes;
                     try
                     {

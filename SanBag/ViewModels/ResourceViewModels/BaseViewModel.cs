@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using LibSanBag;
+using LibSanBag.FileResources;
 using SanBag.Annotations;
 
 namespace SanBag.ViewModels.ResourceViewModels
@@ -30,6 +31,14 @@ namespace SanBag.ViewModels.ResourceViewModels
 
         }
 
+        public void Load(Stream sourceStream, FileRecord fileRecord)
+        {
+            using (var ms = new MemoryStream())
+            {
+                fileRecord.Save(sourceStream, ms);
+                ReloadFromStream(ms);
+            }
+        }
 
         public virtual void ReloadFromStream(Stream resourceStream)
         {
