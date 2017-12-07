@@ -90,7 +90,7 @@
     <Compile Include="ViewModels\BagViewModels\ExportManifestViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModel.cs" />
-    <Compile Include="ViewModels\BagViewModels\SoundResourceViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\SoundResourceBagViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\BaseViewModel.cs" />
@@ -106,7 +106,7 @@
     <Compile Include="ViewModels\BagViewModels\LuaScriptViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\ManifestViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\ScriptSourceTextResourceViewModel.cs" />
-    <Compile Include="ViewModels\BagViewModels\TextureResourceViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\TextureResourceBagViewModel.cs" />
     <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Views\BagViews\ExportManifestView.xaml.cs">
@@ -117,8 +117,11 @@
     </Compile>
     <Compile Include="Converters\SizeToStringConverter.cs" />
     <Compile Include="Converters\TimestampNsConverter.cs" />
-    <Compile Include="Views\BagViews\SoundResourceView.xaml.cs">
-      <DependentUpon>SoundResourceView.xaml</DependentUpon>
+    <Compile Include="Views\BagViews\SoundResourceBagView.xaml.cs">
+      <DependentUpon>SoundResourceBagView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BagViews\TextureResourceBagView.xaml.cs">
+      <DependentUpon>TextureResourceBagView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceView.xaml.cs">
       <DependentUpon>ResourceView.xaml</DependentUpon>
@@ -144,9 +147,6 @@
     <Compile Include="Views\ResourceViews\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BagViews\TextureResourceView.xaml.cs">
-      <DependentUpon>TextureResourceView.xaml</DependentUpon>
-    </Compile>
     <Page Include="Views\BagView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -159,9 +159,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BagViews\SoundResourceView.xaml">
+    <Page Include="Views\BagViews\SoundResourceBagView.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Views\BagViews\TextureResourceBagView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -210,10 +214,6 @@
     <Page Include="Views\ResourceViews\TextureResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\BagViews\TextureResourceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BagViews\GenericBagView.xaml">
       <SubType>Designer</SubType>

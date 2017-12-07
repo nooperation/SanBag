@@ -21,7 +21,7 @@ using SanBag.Views.ResourceViews;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class TextureResourceViewModel : GenericBagViewModel
+    public class TextureResourceBagViewModel : GenericBagViewModel
     {
         private UserControl _currentResourceView;
         public UserControl CurrentResourceView
@@ -45,7 +45,7 @@ namespace SanBag.ViewModels.BagViewModels
             }
         }
 
-        public TextureResourceViewModel(BagViewModel parentViewModel)
+        public TextureResourceBagViewModel(BagViewModel parentViewModel)
             : base(parentViewModel)
         {
             ExportFilter += "|DDS Source Image|*.dds|PNG Image|*.png|JPG Image|*.jpg|BMP Image|*.bmp|GIF Image|*.gif";
