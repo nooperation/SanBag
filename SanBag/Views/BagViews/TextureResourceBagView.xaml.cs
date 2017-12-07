@@ -1,5 +1,9 @@
-﻿using System;
+﻿using LibSanBag;
+using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,18 +15,19 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace SanBag.Views.BagViews
 {
     /// <summary>
-    /// Interaction logic for SoundResourceView.xaml
+    /// Interaction logic for TextureResourceBagView.xaml
     /// </summary>
-    public partial class SoundResourceView : UserControl
+    public partial class TextureResourceBagView : UserControl
     {
-        public SoundResourceView()
+        public TextureResourceBagView()
         {
             InitializeComponent();
+
+            this.DataContext = this;
         }
     }
 }

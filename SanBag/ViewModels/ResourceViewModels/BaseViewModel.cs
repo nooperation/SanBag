@@ -7,37 +7,44 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using LibSanBag;
+using LibSanBag.FileResources;
 using SanBag.Annotations;
 
 namespace SanBag.ViewModels.ResourceViewModels
 {
-    class BaseViewModel : INotifyPropertyChanged
+    public abstract class BaseViewModel : INotifyPropertyChanged
     {
-        private string _currentPath;
-        public string CurrentPath
+        public string Name { get; set; }
+
+        public void InitFromPath(string filePath)
         {
-            get => _currentPath;
-            set
+            Name = Path.GetFileNameWithoutExtension(filePath);
+            using (var fileStream = File.OpenRead(filePath))
             {
-                _currentPath = value;
-                Reload();
-                OnPropertyChanged();
+                LoadFromStream(fileStream);
             }
         }
 
-        public virtual void Reload()
+        public void InitFromRecord(Stream sourceStream, FileRecord fileRecord)
         {
-
+            Name = fileRecord.Name;
+            using (var stream = new MemoryStream())
+            {
+                fileRecord.Save(sourceStream, stream);
+                stream.Seek(0, SeekOrigin.Begin);
+                LoadFromStream(stream);
+            }
         }
 
-
-        public virtual void ReloadFromStream(Stream resourceStream)
+        public void InitFromStream(Stream stream)
         {
-
+            Name = "Resource";
+            LoadFromStream(stream);
         }
+
+        protected abstract void LoadFromStream(Stream resourceStream);
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

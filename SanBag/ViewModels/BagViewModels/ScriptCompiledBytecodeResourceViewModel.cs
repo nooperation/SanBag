@@ -18,19 +18,8 @@ using System.Windows.Media.Imaging;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class ScriptCompiledBytecodeResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
+    public class ScriptCompiledBytecodeResourceViewModel : GenericBagViewModel
     {
-        private FileRecord _selectedRecord;
-        public FileRecord SelectedRecord
-        {
-            get => _selectedRecord;
-            set
-            {
-                _selectedRecord = value;
-                OnPropertyChanged();
-            }
-        }
-
         public ScriptCompiledBytecodeResourceViewModel(BagViewModel parentViewModel)
             : base(parentViewModel)
         {
@@ -45,17 +34,12 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            var scriptCompiledBytecode = new ScriptCompiledBytecodeResource(exportParameters.BagStream, exportParameters.FileRecord);
+            var scriptCompiledBytecode = new ScriptCompiledBytecodeResource();
+            scriptCompiledBytecode.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
             File.WriteAllBytes(outputPath, scriptCompiledBytecode.AssemblyBytes);
 
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

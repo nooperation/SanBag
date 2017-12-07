@@ -12,6 +12,17 @@ namespace SanBag.ViewModels
 {
     class ResourceViewModel : INotifyPropertyChanged
     {
+        private BaseViewModel _currentViewModel;
+        public BaseViewModel CurrentViewModel
+        {
+            get => _currentViewModel;
+            set
+            {
+                _currentViewModel = value;
+                OnPropertyChanged();
+            }
+        }
+
         private UserControl _currentView;
         public UserControl CurrentView
         {
@@ -35,34 +46,26 @@ namespace SanBag.ViewModels
 
             if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
             {
-                CurrentView = new SanBag.Views.ResourceViews.TextureResourceView()
-                {
-                    DataContext = new SanBag.ViewModels.ResourceViewModels.TextureResourceViewModel()
-                    {
-                        CurrentPath = resourcePath
-                    }
-                };
+                CurrentView = new SanBag.Views.ResourceViews.TextureResourceView();
+                CurrentViewModel = new SanBag.ViewModels.ResourceViewModels.TextureResourceViewModel();
             }
             else if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.SoundResource)
             {
-                CurrentView = new SanBag.Views.ResourceViews.SoundResourceView()
-                {
-                    DataContext = new SanBag.ViewModels.ResourceViewModels.SoundResourceViewModel()
-                    {
-                        CurrentPath = resourcePath
-                    }
-                };
+                CurrentView = new SanBag.Views.ResourceViews.SoundResourceView();
+                CurrentViewModel = new SanBag.ViewModels.ResourceViewModels.SoundResourceViewModel();
             }
             else
             {
                 var view = new RawResourceView();
-                view.DataContext = new RawResourceViewModel()
-                {
-                    HexControl = view.HexEdit,
-                    CurrentPath = resourcePath,
+                var model = new RawResourceViewModel {
+                    HexControl = view.HexEdit
                 };
                 CurrentView = view;
+                CurrentViewModel = model;
             }
+
+            CurrentView.DataContext = CurrentViewModel;
+            CurrentViewModel.InitFromPath(resourcePath);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

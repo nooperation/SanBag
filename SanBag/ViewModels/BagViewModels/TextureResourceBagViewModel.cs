@@ -15,22 +15,21 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using SanBag.Views.ResourceViews;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class TextureResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
+    public class TextureResourceBagViewModel : GenericBagViewModel
     {
-        private static BitmapImage _blankPreview = new BitmapImage();
-
-        private FileRecord _selectedRecord;
-        public FileRecord SelectedRecord
+        private UserControl _currentResourceView;
+        public UserControl CurrentResourceView
         {
-            get => _selectedRecord;
+            get => _currentResourceView;
             set
             {
-                _selectedRecord = value;
-                UpdatePreviewImage();
+                _currentResourceView = value;
                 OnPropertyChanged();
             }
         }
@@ -46,10 +45,12 @@ namespace SanBag.ViewModels.BagViewModels
             }
         }
 
-        public TextureResourceViewModel(BagViewModel parentViewModel)
+        public TextureResourceBagViewModel(BagViewModel parentViewModel)
             : base(parentViewModel)
         {
             ExportFilter += "|DDS Source Image|*.dds|PNG Image|*.png|JPG Image|*.jpg|BMP Image|*.bmp|GIF Image|*.gif";
+            CurrentResourceView = new TextureResourceView();
+            CurrentResourceView.DataContext = new SanBag.ViewModels.ResourceViewModels.TextureResourceViewModel();
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -62,7 +63,8 @@ namespace SanBag.ViewModels.BagViewModels
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
             using (var outFile = File.OpenWrite(outputPath))
             {
-                var textureResource = new TextureResource(exportParameters.BagStream, exportParameters.FileRecord);
+                var textureResource = new TextureResource();
+                textureResource.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
                 if (string.Equals(exportParameters.FileExtension, ".dds", StringComparison.CurrentCultureIgnoreCase))
                 {
                     var imageBytes = textureResource.DdsBytes;
@@ -100,43 +102,18 @@ namespace SanBag.ViewModels.BagViewModels
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
 
-        private void UpdatePreviewImage()
+        protected override void OnSelectedRecordChanged()
         {
-            try
+            var view = CurrentResourceView.DataContext as ResourceViewModels.TextureResourceViewModel;
+            if (view == null)
             {
-                if (SelectedRecord == null ||
-                    SelectedRecord.Info == null ||
-                    SelectedRecord.Info.Resource != FileRecordInfo.ResourceType.TextureResource ||
-                    SelectedRecord.Info.Payload != FileRecordInfo.PayloadType.Payload)
-                {
-                    PreviewImage = _blankPreview;
-                    return;
-                }
-
-                using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
-                {
-                    var textureResource = new TextureResource(bagStream, SelectedRecord);
-                    var bmpBytes = textureResource.ConvertTo(LibDDS.ConversionOptions.CodecType.CODEC_BMP, 256, 256);
-
-                    var tempPreview = new BitmapImage();
-                    tempPreview.BeginInit();
-                    tempPreview.StreamSource = new MemoryStream(bmpBytes);
-                    tempPreview.EndInit();
-
-                    PreviewImage = tempPreview;
-                }
+                return;
             }
-            catch (Exception ex)
+
+            using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
             {
-                MessageBox.Show($"Failed to view texture: {ex.Message}", "ERROR");
-                PreviewImage = _blankPreview;
+                view.InitFromRecord(bagStream, SelectedRecord);
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

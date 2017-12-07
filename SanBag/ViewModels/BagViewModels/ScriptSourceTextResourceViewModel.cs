@@ -17,20 +17,8 @@ using System.Threading.Tasks;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class ScriptSourceTextResourceViewModel : GenericBagViewModel, INotifyPropertyChanged
+    public class ScriptSourceTextResourceViewModel : GenericBagViewModel
     {
-        private FileRecord _selectedRecord;
-        public FileRecord SelectedRecord
-        {
-            get => _selectedRecord;
-            set
-            {
-                _selectedRecord = value;
-                UpdatePreviewText();
-                OnPropertyChanged();
-            }
-        }
-
         private string _previewCode = "";
         public string PreviewCode
         {
@@ -54,13 +42,14 @@ namespace SanBag.ViewModels.BagViewModels
                    record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
         }
 
-        private void UpdatePreviewText()
+        protected override void OnSelectedRecordChanged()
         {
             try
             {
                 using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
                 {
-                    var scriptSourceText = new ScriptSourceTextResource(bagStream, SelectedRecord);
+                    var scriptSourceText = new ScriptSourceTextResource();
+                    scriptSourceText.InitFromRecord(bagStream, SelectedRecord);
                     PreviewCode = scriptSourceText.Source;
                 }
             }
@@ -72,17 +61,13 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            var scriptCompiledBytecode = new ScriptSourceTextResource(exportParameters.BagStream, exportParameters.FileRecord);
+            var scriptCompiledBytecode = new ScriptSourceTextResource();
+            scriptCompiledBytecode.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
+
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
             File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
 
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

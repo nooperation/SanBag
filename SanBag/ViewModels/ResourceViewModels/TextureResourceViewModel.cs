@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using LibSanBag.FileResources;
+using LibSanBag.ResourceUtils;
 using SanBag.Annotations;
 
 namespace SanBag.ViewModels.ResourceViewModels
@@ -26,14 +27,12 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-        public override void Reload()
+        protected override void LoadFromStream(Stream resourceStream)
         {
-            byte[] imageBytes = null;
-            using (var compressedStream = File.OpenRead(CurrentPath))
-            {
-                var textureResource = new TextureResource(compressedStream);
-                imageBytes = textureResource.ConvertTo(LibSanBag.ResourceUtils.LibDDS.ConversionOptions.CodecType.CODEC_JPEG);
-            }
+            var resource = new TextureResource();
+            resource.InitFromStream(resourceStream);
+
+            var imageBytes = LibDDS.GetImageBytesFromDds(resource.DdsBytes, 256, 256);
             var newImage = new BitmapImage();
             newImage.BeginInit();
             newImage.StreamSource = new MemoryStream(imageBytes);

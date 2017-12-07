@@ -26,18 +26,6 @@ namespace SanBag.ViewModels.BagViewModels
 
         public CommandManifestExportSelected CommandManifestExportSelected { get; set; }
 
-        private FileRecord _selectedRecord;
-        public FileRecord SelectedRecord
-        {
-            get => _selectedRecord;
-            set
-            {
-                _selectedRecord = value;
-                UpdatePreview();
-                OnPropertyChanged();
-            }
-        }
-
         private List<ManifestEntry> _manifestList = new List<ManifestEntry>();
 
         public List<ManifestEntry> ManifestList
@@ -107,7 +95,7 @@ namespace SanBag.ViewModels.BagViewModels
             return record.Name.IndexOf("manifest", StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
-        private void UpdatePreview()
+        protected override void OnSelectedRecordChanged()
         {
             try
             {
@@ -198,12 +186,6 @@ namespace SanBag.ViewModels.BagViewModels
                 };
                 exportDialog.ShowDialog();
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

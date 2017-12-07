@@ -105,14 +105,14 @@ namespace SanBag.ViewModels
 
             if (LibDDS.IsAvailable && OodleLz.IsAvailable)
             {
-                var textureResourceViewModel = new TextureResourceViewModel(this);
+                var textureResourceBagViewModel = new TextureResourceBagViewModel(this);
                 Views.Add(new ViewType
                 {
-                    View = new TextureResourceView
+                    View = new TextureResourceBagView
                     {
-                        DataContext = textureResourceViewModel
+                        DataContext = textureResourceBagViewModel
                     },
-                    Filter = (record => RecordPassesNameFilter(record) && textureResourceViewModel.IsValidRecord(record)),
+                    Filter = (record => RecordPassesNameFilter(record) && textureResourceBagViewModel.IsValidRecord(record)),
                     Name = "TextureResource"
                 });
             }
@@ -161,10 +161,10 @@ namespace SanBag.ViewModels
                 Name = "Manifest"
             });
 
-            var soundViewModel = new SoundResourceViewModel(this);
+            var soundViewModel = new SoundResourceBagViewModel(this);
             Views.Add(new ViewType
             {
-                View = new SoundResourceView
+                View = new SoundResourceBagView
                 {
                     DataContext = soundViewModel
                 },
