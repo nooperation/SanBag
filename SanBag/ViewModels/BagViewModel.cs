@@ -131,7 +131,7 @@ namespace SanBag.ViewModels
             var scriptSourceTextResourceViewModel = new ScriptSourceTextResourceViewModel(this);
             Views.Add(new ViewType
             {
-                View = new ScriptSourceTextResourceView
+                View = new ScriptSourceTextResourceBagView
                 {
                     DataContext = scriptSourceTextResourceViewModel
                 },
@@ -142,7 +142,7 @@ namespace SanBag.ViewModels
             var luaScriptResourceViewModel = new LuaScriptResourceViewModel(this);
             Views.Add(new ViewType
             {
-                View = new ScriptSourceTextResourceView
+                View = new ScriptSourceTextResourceBagView
                 {
                     DataContext = luaScriptResourceViewModel
                 },

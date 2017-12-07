@@ -15,7 +15,7 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0">Filename</Label>
-        <TextBox Grid.Row="0" Grid.Column="1" IsReadOnly="True" Text="{Binding Path=Filename}" />
-        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True" Text="{Binding Path=SourceCode}" />
+        <TextBox Grid.Row="0" Grid.Column="1" IsReadOnly="True" Text="{Binding Path=FileName}" VerticalContentAlignment="Center" />
+        <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True" Text="{Binding Path=SourceCode}" FontFamily="Courier New" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Visible"/>
     </Grid>
 </UserControl>
