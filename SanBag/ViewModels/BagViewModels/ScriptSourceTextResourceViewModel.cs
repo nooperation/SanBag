@@ -14,6 +14,8 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
+using SanBag.Views.ResourceViews;
 
 namespace SanBag.ViewModels.BagViewModels
 {
@@ -30,33 +32,29 @@ namespace SanBag.ViewModels.BagViewModels
             }
         }
 
+        private UserControl _currentResourceView;
+        public UserControl CurrentResourceView
+        {
+            get => _currentResourceView;
+            set
+            {
+                _currentResourceView = value;
+                OnPropertyChanged();
+            }
+        }
+
         public ScriptSourceTextResourceViewModel(BagViewModel parentViewModel)
                 : base(parentViewModel)
         {
             ExportFilter += "|Script Source|*.cs";
+            CurrentResourceView = new ScriptSourceTextView();
+            CurrentResourceView.DataContext = new SanBag.ViewModels.ResourceViewModels.ScriptSourceTextViewModel();
         }
 
         public override bool IsValidRecord(FileRecord record)
         {
             return record.Info?.Resource == FileRecordInfo.ResourceType.ScriptSourceTextResource &&
                    record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
-        }
-
-        protected override void OnSelectedRecordChanged()
-        {
-            try
-            {
-                using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
-                {
-                    var scriptSourceText = new ScriptSourceTextResource();
-                    scriptSourceText.InitFromRecord(bagStream, SelectedRecord);
-                    PreviewCode = scriptSourceText.Source;
-                }
-            }
-            catch (Exception)
-            {
-                PreviewCode = "";
-            }
         }
 
         protected override void CustomFileExport(ExportParameters exportParameters)
@@ -68,6 +66,20 @@ namespace SanBag.ViewModels.BagViewModels
             File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
 
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
+        }
+
+        protected override void OnSelectedRecordChanged()
+        {
+            var view = CurrentResourceView.DataContext as ResourceViewModels.ScriptSourceTextViewModel;
+            if (view == null)
+            {
+                return;
+            }
+
+            using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
+            {
+                view.InitFromRecord(bagStream, SelectedRecord);
+            }
         }
     }
 }

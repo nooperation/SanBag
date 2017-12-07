@@ -117,6 +117,9 @@
     </Compile>
     <Compile Include="Converters\SizeToStringConverter.cs" />
     <Compile Include="Converters\TimestampNsConverter.cs" />
+    <Compile Include="Views\BagViews\ScriptSourceTextResourceBagView.xaml.cs">
+      <DependentUpon>ScriptSourceTextResourceBagView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BagViews\SoundResourceBagView.xaml.cs">
       <DependentUpon>SoundResourceBagView.xaml</DependentUpon>
     </Compile>
@@ -131,9 +134,6 @@
     </Compile>
     <Compile Include="Views\BagViews\ManifestResourceView.xaml.cs">
       <DependentUpon>ManifestResourceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BagViews\ScriptSourceTextResourceView.xaml.cs">
-      <DependentUpon>ScriptSourceTextResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\RawResourceView.xaml.cs">
       <DependentUpon>RawResourceView.xaml</DependentUpon>
@@ -158,6 +158,10 @@
     <Page Include="Views\BagViews\ExportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BagViews\ScriptSourceTextResourceBagView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Views\BagViews\SoundResourceBagView.xaml">
       <SubType>Designer</SubType>
@@ -194,10 +198,6 @@
     <Page Include="Views\BagViews\ManifestResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\BagViews\ScriptSourceTextResourceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ResourceViews\RawResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>

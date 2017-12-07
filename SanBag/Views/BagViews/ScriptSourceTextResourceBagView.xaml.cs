@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace SanBag.Views.BagViews
 {
     /// <summary>
-    /// Interaction logic for ScriptSourceTextResourceView.xaml
+    /// Interaction logic for ScriptSourceTextResourceBagView.xaml
     /// </summary>
-    public partial class ScriptSourceTextResourceView : UserControl
+    public partial class ScriptSourceTextResourceBagView : UserControl
     {
-        public ScriptSourceTextResourceView()
+        public ScriptSourceTextResourceBagView()
         {
             InitializeComponent();
         }

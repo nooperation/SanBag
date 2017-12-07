@@ -54,6 +54,12 @@ namespace SanBag.ViewModels
                 CurrentView = new SanBag.Views.ResourceViews.SoundResourceView();
                 CurrentViewModel = new SanBag.ViewModels.ResourceViewModels.SoundResourceViewModel();
             }
+            else if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource ||
+                     fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.LuaScriptResource)
+            {
+                CurrentView = new SanBag.Views.ResourceViews.ScriptSourceTextView();
+                CurrentViewModel = new SanBag.ViewModels.ResourceViewModels.ScriptSourceTextViewModel();
+            }
             else
             {
                 var view = new RawResourceView();
