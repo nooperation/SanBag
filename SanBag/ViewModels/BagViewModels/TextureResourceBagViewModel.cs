@@ -23,17 +23,6 @@ namespace SanBag.ViewModels.BagViewModels
 {
     public class TextureResourceBagViewModel : GenericBagViewModel
     {
-        private UserControl _currentResourceView;
-        public UserControl CurrentResourceView
-        {
-            get => _currentResourceView;
-            set
-            {
-                _currentResourceView = value;
-                OnPropertyChanged();
-            }
-        }
-
         private BitmapImage _currentPreview;
         public BitmapImage PreviewImage
         {

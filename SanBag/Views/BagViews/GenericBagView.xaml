@@ -15,7 +15,12 @@
         <Grid.RowDefinitions >
             <RowDefinition />
         </Grid.RowDefinitions>
-        <DataGrid Name="dataGridContent" ItemsSource="{Binding ParentViewModel.Records, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <DataGrid Name="dataGridContent" ItemsSource="{Binding ParentViewModel.Records, Mode=OneWay}" SelectedItem="{Binding SelectedRecord}"  IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Copy Url" Command="{Binding CommandCopyAsUrl}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItem}" />
@@ -29,5 +34,9 @@
                 <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Name" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
+        <Grid Grid.Column="2">
+            <UserControl Content="{Binding Path=CurrentResourceView}" />
+        </Grid>
     </Grid>
 </UserControl>

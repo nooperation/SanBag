@@ -60,6 +60,7 @@ namespace SanBag.ViewModels.ResourceViewModels
                 using (var decompressedBytesStream = new MemoryStream(DecompressedBytes))
                 {
                     resourceStream.CopyTo(decompressedBytesStream);
+                    DecompressedBytes = decompressedBytesStream.ToArray();
                 }
             }
         }

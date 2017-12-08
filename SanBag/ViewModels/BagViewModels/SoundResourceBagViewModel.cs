@@ -17,17 +17,6 @@ namespace SanBag.ViewModels.BagViewModels
 {
     class SoundResourceBagViewModel : GenericBagViewModel
     {
-        private UserControl _currentResourceView;
-        public UserControl CurrentResourceView
-        {
-            get => _currentResourceView;
-            set
-            {
-                _currentResourceView = value;
-                OnPropertyChanged();
-            }
-        }
-
         public SoundResourceBagViewModel(BagViewModel parentViewModel) : base(parentViewModel)
         {
             ExportFilter += "|Wav Sound|*.wav";

@@ -12,7 +12,9 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using SanBag.Views.BagViews;
+using SanBag.Views.ResourceViews;
 
 namespace SanBag.ViewModels.BagViewModels
 {
@@ -22,6 +24,17 @@ namespace SanBag.ViewModels.BagViewModels
         public CommandExportSelected CommandExportSelected { get; set; }
         public CommandCopyAsUrl CommandCopyAsUrl { get; set; }
         public string ExportFilter { get; set; }
+
+        private UserControl _currentResourceView;
+        public UserControl CurrentResourceView
+        {
+            get => _currentResourceView;
+            set
+            {
+                _currentResourceView = value;
+                OnPropertyChanged();
+            }
+        }
 
         private FileRecord _selectedRecord;
         public FileRecord SelectedRecord
@@ -41,6 +54,15 @@ namespace SanBag.ViewModels.BagViewModels
             this.CommandExportSelected = new CommandExportSelected(this);
             this.CommandCopyAsUrl = new CommandCopyAsUrl(this);
             this.ExportFilter = "Raw File|*.*";
+
+            var view = new RawResourceView();
+            var viewModel = new SanBag.ViewModels.ResourceViewModels.RawResourceViewModel()
+            {
+                HexControl = view.HexEdit
+            };
+
+            CurrentResourceView = view;
+            CurrentResourceView.DataContext = viewModel;
         }
 
         public virtual bool IsValidRecord(FileRecord record)
@@ -127,6 +149,16 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected virtual void OnSelectedRecordChanged()
         {
+            var view = CurrentResourceView.DataContext as ResourceViewModels.RawResourceViewModel;
+            if (view == null)
+            {
+                return;
+            }
+
+            using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
+            {
+                view.InitFromRecord(bagStream, SelectedRecord);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
