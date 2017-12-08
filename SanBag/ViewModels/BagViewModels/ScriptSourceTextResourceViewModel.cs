@@ -32,17 +32,6 @@ namespace SanBag.ViewModels.BagViewModels
             }
         }
 
-        private UserControl _currentResourceView;
-        public UserControl CurrentResourceView
-        {
-            get => _currentResourceView;
-            set
-            {
-                _currentResourceView = value;
-                OnPropertyChanged();
-            }
-        }
-
         public ScriptSourceTextResourceViewModel(BagViewModel parentViewModel)
                 : base(parentViewModel)
         {
