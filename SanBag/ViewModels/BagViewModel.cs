@@ -150,10 +150,10 @@ namespace SanBag.ViewModels
                 Name = "LuaScriptResource"
             });
 
-            var manifestViewModel = new ManifestViewModel(this);
+            var manifestViewModel = new ManifestBagViewModel(this);
             Views.Add(new ViewType
             {
-                View = new ManifestResourceView
+                View = new ManifestBagView
                 {
                     DataContext = manifestViewModel
                 },

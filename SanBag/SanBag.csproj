@@ -103,7 +103,7 @@
     </Compile>
     <Compile Include="ViewModels\BagViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\LuaScriptViewModel.cs" />
-    <Compile Include="ViewModels\BagViewModels\ManifestViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\ManifestBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\ScriptSourceTextResourceViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\TextureResourceBagViewModel.cs" />
     <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
@@ -128,8 +128,8 @@
     <Compile Include="Views\BagViews\ScriptCompiledBytecodeResourceView.xaml.cs">
       <DependentUpon>ScriptCompiledBytecodeResourceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BagViews\ManifestResourceView.xaml.cs">
-      <DependentUpon>ManifestResourceView.xaml</DependentUpon>
+    <Compile Include="Views\BagViews\ManifestBagView.xaml.cs">
+      <DependentUpon>ManifestBagView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\ManifestResourceView.xaml.cs">
       <DependentUpon>ManifestResourceView.xaml</DependentUpon>
@@ -190,7 +190,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BagViews\ManifestResourceView.xaml">
+    <Page Include="Views\BagViews\ManifestBagView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

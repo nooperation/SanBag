@@ -21,10 +21,10 @@ using static LibSanBag.FileResources.ManifestResource;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class ManifestViewModel : GenericBagViewModel
+    public class ManifestBagViewModel : GenericBagViewModel
     {
  
-        public ManifestViewModel(BagViewModel parentViewModel)
+        public ManifestBagViewModel(BagViewModel parentViewModel)
                 : base(parentViewModel)
         {
             ExportFilter += "|Manifest Dump|*.txt";
