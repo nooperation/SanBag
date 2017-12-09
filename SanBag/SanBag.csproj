@@ -95,6 +95,7 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ISavable.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\ManifestResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ScriptSourceTextViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\SoundResourceViewModel.cs" />
@@ -133,6 +134,9 @@
       <DependentUpon>ScriptCompiledBytecodeResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BagViews\ManifestResourceView.xaml.cs">
+      <DependentUpon>ManifestResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\ManifestResourceView.xaml.cs">
       <DependentUpon>ManifestResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\RawResourceView.xaml.cs">
@@ -198,6 +202,10 @@
     <Page Include="Views\BagViews\ManifestResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\ManifestResourceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ResourceViews\RawResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>

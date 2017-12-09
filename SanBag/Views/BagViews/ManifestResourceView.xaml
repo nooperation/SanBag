@@ -33,22 +33,7 @@
         </DataGrid>
         <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" />
         <Grid Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <ComboBox Grid.Row="0" ItemsSource="{Binding Filters}" SelectedItem="{Binding CurrentFilter}" Margin="5px" VerticalContentAlignment="Center" />
-            <DataGrid Grid.Row="1" ItemsSource="{Binding FilteredManifestList, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
-                <DataGrid.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Export" Command="{Binding CommandManifestExportSelected}" CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItems}" />
-                    </ContextMenu>
-                </DataGrid.ContextMenu>
-                <DataGrid.Columns>
-                    <DataGridTextColumn Binding="{Binding HashString}" ClipboardContentBinding="{x:Null}" Header="Hash" Width="*"/>
-                    <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Type" Width="*"/>
-                </DataGrid.Columns>
-            </DataGrid>
+            <UserControl Content="{Binding Path=CurrentResourceView}" />
         </Grid>
     </Grid>
 </UserControl>
