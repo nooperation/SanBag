@@ -111,8 +111,14 @@ namespace SanBag.ViewModels.BagViewModels
             RecordsToExport = recordsToExport;
             var totalExported = 0;
             var exportSuccessful = true;
+            FileStream bagStream = null;
 
-            using (var bagStream = File.OpenRead(bagPath))
+            if (!string.IsNullOrWhiteSpace(bagPath))
+            {
+                bagStream = File.OpenRead(bagPath);
+            }
+
+            using (bagStream)
             {
                 foreach (var record in recordsToExport)
                 {
