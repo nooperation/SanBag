@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -88,9 +89,6 @@ namespace SanBag.ViewModels.ResourceViewModels
             resource.InitFromStream(resourceStream);
             ManifestList = resource.Entries;
             ManifestList = resource.Entries;
-
-            //FileName = resource.Filename;
-            //SourceCode = resource.Source;
         }
 
         public void ExportRecords(List<ManifestResource.ManifestEntry> manifestEntriesToExport)
@@ -180,6 +178,7 @@ namespace SanBag.ViewModels.ResourceViewModels
                 }
                 catch (Exception ex)
                 {
+                    Debug.WriteLine($"ERROR downloading resource {exportParameters.FileRecord.Info.Hash}.{assetType}.{payloadType}: {ex.Message}");
                     continue;
                 }
             }

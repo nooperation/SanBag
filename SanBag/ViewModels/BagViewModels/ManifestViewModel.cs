@@ -21,7 +21,7 @@ using static LibSanBag.FileResources.ManifestResource;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class ManifestViewModel : GenericBagViewModel, INotifyPropertyChanged
+    public class ManifestViewModel : GenericBagViewModel
     {
  
         public ManifestViewModel(BagViewModel parentViewModel)
@@ -34,7 +34,7 @@ namespace SanBag.ViewModels.BagViewModels
 
         public override bool IsValidRecord(FileRecord record)
         {
-            return record.Name.IndexOf("manifest", StringComparison.OrdinalIgnoreCase) >= 0;
+            return record.Info?.Payload == FileRecordInfo.PayloadType.Manifest;
         }
 
         protected override void OnSelectedRecordChanged()
@@ -50,7 +50,6 @@ namespace SanBag.ViewModels.BagViewModels
                 view.InitFromRecord(bagStream, SelectedRecord);
             }
         }
-
 
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
@@ -117,41 +116,5 @@ namespace SanBag.ViewModels.BagViewModels
             //exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
 
-        internal void ExportRecords(List<ManifestEntry> recordsToExport)
-        {
-            //if (recordsToExport.Count == 0)
-            //{
-            //    return;
-            //}
-            //
-            //var dialog = new SaveFileDialog();
-            //dialog.Filter = ExportFilter;
-            //
-            //if (recordsToExport.Count == 1)
-            //{
-            //    dialog.FileName = recordsToExport[0].Name;
-            //}
-            //else
-            //{
-            //    dialog.FileName = "Multiple Files";
-            //}
-            //
-            //if (dialog.ShowDialog() == true)
-            //{
-            //    var outputDirectory = Path.GetDirectoryName(dialog.FileName);
-            //
-            //    var exportManifestViewModel = new ExportManifestViewModel
-            //    {
-            //        RecordsToExport = recordsToExport,
-            //        OutputDirectory = outputDirectory,
-            //    };
-            //
-            //    var exportDialog = new ExportManifestView
-            //    {
-            //        DataContext = exportManifestViewModel
-            //    };
-            //    exportDialog.ShowDialog();
-            //}
-        }
     }
 }
