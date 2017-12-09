@@ -53,67 +53,41 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            var payloadTypes = new List<FileRecordInfo.PayloadType> { FileRecordInfo.PayloadType.Payload, FileRecordInfo.PayloadType.Manifest };
-            var assetType = FileRecordInfo.GetResourceType(exportParameters.FileRecord.Name);
-            var assetVersions = AssetVersions.GetResourceVersions(assetType);
-
-            foreach (var payloadType in payloadTypes)
+            ManifestResource manifest;
+            using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
             {
-                FileRecordInfo.DownloadResults downloadResult;
-                try
-                {
-                    downloadResult = FileRecordInfo.DownloadResourceAsync(exportParameters.FileRecord.Name.ToLower(), assetType, payloadType, FileRecordInfo.VariantType.NoVariants, new HttpClientProvider()).Result;
-                    if (downloadResult != null)
-                    {
-                        var outputPath = Path.Combine(exportParameters.OutputDirectory, downloadResult.Name);
-
-                        using (var out_stream = File.OpenWrite(outputPath))
-                        {
-                            out_stream.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    continue;
-                }
+                manifest = new ManifestResource();
+                manifest.InitFromRecord(bagStream, SelectedRecord);
             }
-            //ManifestResource manifest;
-            //using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
-            //{
-            //    manifest = new ManifestResource();
-            //    manifest.InitFromRecord(bagStream, SelectedRecord);
-            //    ManifestList = manifest.Entries;
-            //}
-            //
-            //var sb = new StringBuilder();
-            //sb.AppendLine("Entries:");
-            //foreach (var item in manifest.Entries)
-            //{
-            //    sb.AppendLine($"  {item.HashString}.{item.Name}");
-            //}
-            //sb.AppendLine();
-            //sb.AppendLine("HashList:");
-            //foreach (var item in manifest.HashList)
-            //{
-            //    sb.AppendLine($"  {item}");
-            //}
-            //sb.AppendLine();
-            //sb.AppendLine("Unknown A:");
-            //foreach (var item in manifest.UnknownListA)
-            //{
-            //    sb.AppendLine($" {item.Item1} {item.Item2} {item.Item3}");
-            //}
-            //sb.AppendLine();
-            //sb.AppendLine("Unknown B:");
-            //foreach (var item in manifest.UnknownListB)
-            //{
-            //    sb.AppendLine($" {item}");
-            //}
-            //var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
-            //File.WriteAllText(outputPath, sb.ToString());
-            //
-            //exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
+
+            var sb = new StringBuilder();
+            sb.AppendLine("Entries:");
+            foreach (var item in manifest.Entries)
+            {
+                sb.AppendLine($"  {item.HashString}.{item.Name}");
+            }
+            sb.AppendLine();
+            sb.AppendLine("HashList:");
+            foreach (var item in manifest.HashList)
+            {
+                sb.AppendLine($"  {item}");
+            }
+            sb.AppendLine();
+            sb.AppendLine("Unknown A:");
+            foreach (var item in manifest.UnknownListA)
+            {
+                sb.AppendLine($" {item.Item1} {item.Item2} {item.Item3}");
+            }
+            sb.AppendLine();
+            sb.AppendLine("Unknown B:");
+            foreach (var item in manifest.UnknownListB)
+            {
+                sb.AppendLine($" {item}");
+            }
+            var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
+            File.WriteAllText(outputPath, sb.ToString());
+            
+            exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
 
     }
