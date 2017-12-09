@@ -101,7 +101,8 @@ namespace SanBag.ViewModels.BagViewModels
             {
                 using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
                 {
-                    var manifest = new ManifestResource(bagStream, SelectedRecord);
+                    var manifest = new ManifestResource();
+                    manifest.InitFromRecord(bagStream, SelectedRecord);
                     ManifestList = manifest.Entries;
                 }
             }
@@ -117,7 +118,8 @@ namespace SanBag.ViewModels.BagViewModels
             ManifestResource manifest;
             using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
             {
-                manifest = new ManifestResource(bagStream, SelectedRecord);
+                manifest = new ManifestResource();
+                manifest.InitFromRecord(bagStream, SelectedRecord);
                 ManifestList = manifest.Entries;
             }
 
