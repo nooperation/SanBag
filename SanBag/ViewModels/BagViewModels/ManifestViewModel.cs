@@ -15,6 +15,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using LibSanBag.Providers;
 using SanBag.Views.BagViews;
 using static LibSanBag.FileResources.ManifestResource;
 
@@ -53,6 +54,31 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
+            var payloadTypes = new List<FileRecordInfo.PayloadType> { FileRecordInfo.PayloadType.Payload, FileRecordInfo.PayloadType.Manifest };
+            var assetType = FileRecordInfo.GetResourceType(exportParameters.FileRecord.Name);
+            var assetVersions = AssetVersions.GetResourceVersions(assetType);
+
+            foreach (var payloadType in payloadTypes)
+            {
+                FileRecordInfo.DownloadResults downloadResult;
+                try
+                {
+                    downloadResult = FileRecordInfo.DownloadResourceAsync(exportParameters.FileRecord.Name.ToLower(), assetType, payloadType, FileRecordInfo.VariantType.NoVariants, new HttpClientProvider()).Result;
+                    if (downloadResult != null)
+                    {
+                        var outputPath = Path.Combine(exportParameters.OutputDirectory, downloadResult.Name);
+
+                        using (var out_stream = File.OpenWrite(outputPath))
+                        {
+                            out_stream.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+                    continue;
+                }
+            }
             //ManifestResource manifest;
             //using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
             //{

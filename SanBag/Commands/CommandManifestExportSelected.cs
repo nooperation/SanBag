@@ -3,12 +3,13 @@ using System.Linq;
 using System.Windows.Input;
 using static LibSanBag.FileResources.ManifestResource;
 using SanBag.ViewModels.BagViewModels;
+using SanBag.ViewModels.ResourceViewModels;
 
 namespace SanBag.Commands
 {
     public class CommandManifestExportSelected : ICommand
     {
-        private readonly ManifestViewModel _viewModel;
+        private readonly ManifestResourceViewModel _viewModel;
 
         event EventHandler ICommand.CanExecuteChanged
         {
@@ -16,7 +17,7 @@ namespace SanBag.Commands
             remove => CommandManager.RequerySuggested -= value;
         }
 
-        public CommandManifestExportSelected(ManifestViewModel viewModel)
+        public CommandManifestExportSelected(ManifestResourceViewModel viewModel)
         {
             this._viewModel = viewModel;
         }
