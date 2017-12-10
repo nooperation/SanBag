@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using SanBag.Views.BagViews;
 using SanBag.Views.ResourceViews;
+using ExportView = SanBag.Views.ExportView;
 
 namespace SanBag.ViewModels.BagViewModels
 {
