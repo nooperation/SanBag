@@ -13,6 +13,7 @@ using SanBag.Commands;
 using SanBag.Models;
 using SanBag.ViewModels.BagViewModels;
 using SanBag.Views.BagViews;
+using ExportView = SanBag.Views.ExportView;
 
 namespace SanBag.ViewModels.ResourceViewModels
 {

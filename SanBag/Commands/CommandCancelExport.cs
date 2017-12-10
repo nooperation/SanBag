@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using SanBag.ViewModels;
 using SanBag.ViewModels.BagViewModels;
 
 namespace SanBag.Commands

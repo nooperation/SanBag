@@ -1,18 +1,16 @@
-﻿using LibSanBag;
-using SanBag.Commands;
-using SanBag.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using LibSanBag;
+using SanBag.Commands;
+using SanBag.Models;
 
-namespace SanBag.ViewModels.BagViewModels
+namespace SanBag.ViewModels
 {
     public class ExportViewModel : INotifyPropertyChanged
     {
