@@ -57,7 +57,8 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
             catch (Exception)
             {
-                using (var decompressedBytesStream = new MemoryStream(DecompressedBytes))
+                resourceStream.Seek(0, SeekOrigin.Begin);
+                using (var decompressedBytesStream = new MemoryStream())
                 {
                     resourceStream.CopyTo(decompressedBytesStream);
                     DecompressedBytes = decompressedBytesStream.ToArray();

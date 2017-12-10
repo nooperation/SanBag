@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\LibSanBag.1.1.0\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.1.0\build\LibSanBag.props')" />
+  <Import Project="..\packages\LibSanBag.1.1.2\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.1.2\build\LibSanBag.props')" />
   <Import Project="..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -40,8 +40,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibSanBag, Version=1.1.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\LibSanBag.1.1.0\lib\net46\LibSanBag.dll</HintPath>
+    <Reference Include="LibSanBag, Version=1.1.2.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\LibSanBag.1.1.2\lib\net46\LibSanBag.dll</HintPath>
     </Reference>
     <Reference Include="NAudio, Version=1.8.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\NAudio.1.8.3\lib\net35\NAudio.dll</HintPath>
@@ -73,7 +73,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Commands\CommandExit.cs" />
-    <Compile Include="Commands\CommandManifestCancelExport.cs" />
     <Compile Include="Commands\CommandCancelExport.cs" />
     <Compile Include="Commands\CommandExportSelected.cs" />
     <Compile Include="Commands\CommandManifestExportSelected.cs" />
@@ -87,7 +86,6 @@
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ResourceUtils\Utils.cs" />
-    <Compile Include="ViewModels\BagViewModels\ExportManifestViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\SoundResourceBagViewModel.cs" />
@@ -95,6 +93,7 @@
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ISavable.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\ManifestResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ScriptSourceTextViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\SoundResourceViewModel.cs" />
@@ -104,14 +103,11 @@
     </Compile>
     <Compile Include="ViewModels\BagViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\LuaScriptViewModel.cs" />
-    <Compile Include="ViewModels\BagViewModels\ManifestViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\ManifestBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\ScriptSourceTextResourceViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\TextureResourceBagViewModel.cs" />
     <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />
-    <Compile Include="Views\BagViews\ExportManifestView.xaml.cs">
-      <DependentUpon>ExportManifestView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\BagViews\GenericBagView.xaml.cs">
       <DependentUpon>GenericBagView.xaml</DependentUpon>
     </Compile>
@@ -132,7 +128,10 @@
     <Compile Include="Views\BagViews\ScriptCompiledBytecodeResourceView.xaml.cs">
       <DependentUpon>ScriptCompiledBytecodeResourceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BagViews\ManifestResourceView.xaml.cs">
+    <Compile Include="Views\BagViews\ManifestBagView.xaml.cs">
+      <DependentUpon>ManifestBagView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\ManifestResourceView.xaml.cs">
       <DependentUpon>ManifestResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\RawResourceView.xaml.cs">
@@ -148,10 +147,6 @@
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\BagView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\BagViews\ExportManifestView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -195,9 +190,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BagViews\ManifestResourceView.xaml">
+    <Page Include="Views\BagViews\ManifestBagView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\ManifestResourceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ResourceViews\RawResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -243,7 +242,9 @@
       <Link>LICENSE</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -262,6 +263,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props'))" />
-    <Error Condition="!Exists('..\packages\LibSanBag.1.1.0\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.1.0\build\LibSanBag.props'))" />
+    <Error Condition="!Exists('..\packages\LibSanBag.1.1.2\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.1.2\build\LibSanBag.props'))" />
   </Target>
 </Project>

@@ -18,9 +18,9 @@ namespace SanBag.Views.BagViews
     /// <summary>
     /// Interaction logic for ManifestResourceView.xaml
     /// </summary>
-    public partial class ManifestResourceView : UserControl
+    public partial class ManifestBagView : UserControl
     {
-        public ManifestResourceView()
+        public ManifestBagView()
         {
             InitializeComponent();
         }
