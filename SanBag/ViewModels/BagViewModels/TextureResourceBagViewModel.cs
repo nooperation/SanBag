@@ -47,46 +47,52 @@ namespace SanBag.ViewModels.BagViewModels
             return record.Info?.Resource == FileRecordInfo.ResourceType.TextureResource;
         }
 
+        public static void Export(TextureResource resource, Stream outStream, string fileExtension)
+        {
+            if (string.Equals(fileExtension, ".dds", StringComparison.CurrentCultureIgnoreCase))
+            {
+                var imageBytes = resource.DdsBytes;
+                outStream.Write(imageBytes, 0, imageBytes.Length);
+            }
+            else
+            {
+                var codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
+                switch (fileExtension)
+                {
+                    case ".png":
+                        codec = LibDDS.ConversionOptions.CodecType.CODEC_PNG;
+                        break;
+                    case ".jpg":
+                    case ".jpeg":
+                        codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
+                        break;
+                    case ".gif":
+                        codec = LibDDS.ConversionOptions.CodecType.CODEC_GIF;
+                        break;
+                    case ".bmp":
+                        codec = LibDDS.ConversionOptions.CodecType.CODEC_BMP;
+                        break;
+                    case ".ico":
+                        codec = LibDDS.ConversionOptions.CodecType.CODEC_ICO;
+                        break;
+                    case ".wmp":
+                        codec = LibDDS.ConversionOptions.CodecType.CODEC_WMP;
+                        break;
+                }
+                var imageBytes = resource.ConvertTo(codec);
+                outStream.Write(imageBytes, 0, imageBytes.Length);
+            }
+        }
+
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
+
+            var textureResource = new TextureResource();
+            textureResource.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
             using (var outFile = File.OpenWrite(outputPath))
             {
-                var textureResource = new TextureResource();
-                textureResource.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
-                if (string.Equals(exportParameters.FileExtension, ".dds", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    var imageBytes = textureResource.DdsBytes;
-                    outFile.Write(imageBytes, 0, imageBytes.Length);
-                }
-                else
-                {
-                    var codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
-                    switch (exportParameters.FileExtension.ToLower())
-                    {
-                        case ".png":
-                            codec = LibDDS.ConversionOptions.CodecType.CODEC_PNG;
-                            break;
-                        case ".jpg":
-                        case ".jpeg":
-                            codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
-                            break;
-                        case ".gif":
-                            codec = LibDDS.ConversionOptions.CodecType.CODEC_GIF;
-                            break;
-                        case ".bmp":
-                            codec = LibDDS.ConversionOptions.CodecType.CODEC_BMP;
-                            break;
-                        case ".ico":
-                            codec = LibDDS.ConversionOptions.CodecType.CODEC_ICO;
-                            break;
-                        case ".wmp":
-                            codec = LibDDS.ConversionOptions.CodecType.CODEC_WMP;
-                            break;
-                    }
-                    var imageBytes = textureResource.ConvertTo(codec);
-                    outFile.Write(imageBytes, 0, imageBytes.Length);
-                }
+                Export(textureResource, outFile, exportParameters.FileExtension);
             }
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
