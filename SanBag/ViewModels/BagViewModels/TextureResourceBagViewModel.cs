@@ -44,7 +44,8 @@ namespace SanBag.ViewModels.BagViewModels
 
         public override bool IsValidRecord(FileRecord record)
         {
-            return record.Info?.Resource == FileRecordInfo.ResourceType.TextureResource;
+            return record.Info?.Resource == FileRecordInfo.ResourceType.TextureResource &&
+                   record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
         }
 
         public static void Export(TextureResource resource, Stream outStream, string fileExtension)

@@ -191,20 +191,21 @@ namespace SanBag.ViewModels.ResourceViewModels
             {
                 using (var compressedStream = File.OpenRead(CompressedSoundPath))
                 {
-                    var soundResource = new SoundResource();
-                    soundResource.InitFromStream(compressedStream);
-
-                    var soundBytes = soundResource.SoundBytes;
                     try
                     {
+                        var soundResource = new SoundResource();
+                        soundResource.InitFromStream(compressedStream);
+
+                        var soundBytes = soundResource.SoundBytes;
                         LibFSB.SaveAs(soundBytes, dialog.FileName);
+
+                        MessageBox.Show($"Successfully wrote {soundBytes.Length} byte(s) to {dialog.FileName}");
                     }
                     catch (Exception ex)
                     {
                         MessageBox.Show("Failed to save audio: " + ex.Message);
                         return;
                     }
-                    MessageBox.Show($"Successfully wrote {soundBytes.Length} byte(s) to {dialog.FileName}");
                 }
             }
         }
