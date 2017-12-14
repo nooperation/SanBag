@@ -43,8 +43,15 @@ namespace SanBag.ViewModels.BagViewModels
             get => _selectedRecord;
             set
             {
-                _selectedRecord = value;
-                OnSelectedRecordChanged();
+                try
+                {
+                    _selectedRecord = value;
+                    OnSelectedRecordChanged();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to load resource: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                }
                 OnPropertyChanged();
             }
         }

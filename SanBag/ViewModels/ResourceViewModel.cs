@@ -43,6 +43,7 @@ namespace SanBag.ViewModels
         {
             var fileName = Path.GetFileName(resourcePath);
             var fileInfo = LibSanBag.FileRecordInfo.Create(fileName);
+            var isRawView = false;
 
             if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
             {
@@ -62,16 +63,38 @@ namespace SanBag.ViewModels
             }
             else
             {
+                isRawView = true;
+            }
+
+            if (isRawView == false)
+            {
+                try
+                {
+                    CurrentView.DataContext = CurrentViewModel;
+                    CurrentViewModel.InitFromPath(resourcePath);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    isRawView = true;
+                    MessageBox.Show($"Failed to load resource: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                }
+            }
+
+            try
+            {
                 var view = new RawResourceView();
-                var model = new RawResourceViewModel {
+                var model = new RawResourceViewModel
+                {
                     HexControl = view.HexEdit
                 };
                 CurrentView = view;
                 CurrentViewModel = model;
             }
-
-            CurrentView.DataContext = CurrentViewModel;
-            CurrentViewModel.InitFromPath(resourcePath);
+            catch (Exception ex)
+            {
+                MessageBox.Show("Failed to load raw view: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
