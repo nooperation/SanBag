@@ -90,6 +90,7 @@ namespace SanBag.ViewModels
 
         private void Init()
         {
+            Views = new List<ViewType>();
             CommandOpenBag = new CommandOpenBag(this);
 
             var genericBagViewModel = new GenericBagViewModel(this);
@@ -196,6 +197,7 @@ namespace SanBag.ViewModels
 
         public void OpenBag(string path)
         {
+            Init();
             BagPath = path;
 
             using (var in_stream = File.OpenRead(path))
