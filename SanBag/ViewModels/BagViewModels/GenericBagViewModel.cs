@@ -15,6 +15,7 @@ using System.Windows;
 using System.Windows.Controls;
 using SanBag.Views.BagViews;
 using SanBag.Views.ResourceViews;
+using ExportView = SanBag.Views.ExportView;
 
 namespace SanBag.ViewModels.BagViewModels
 {
@@ -42,8 +43,18 @@ namespace SanBag.ViewModels.BagViewModels
             get => _selectedRecord;
             set
             {
-                _selectedRecord = value;
-                OnSelectedRecordChanged();
+                try
+                {
+                    _selectedRecord = value;
+                    if (value != null)
+                    {
+                        OnSelectedRecordChanged();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to load resource: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                }
                 OnPropertyChanged();
             }
         }
@@ -149,6 +160,11 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected virtual void OnSelectedRecordChanged()
         {
+            if (SelectedRecord == null)
+            {
+                return;
+            }
+
             var view = CurrentResourceView.DataContext as ResourceViewModels.RawResourceViewModel;
             if (view == null)
             {

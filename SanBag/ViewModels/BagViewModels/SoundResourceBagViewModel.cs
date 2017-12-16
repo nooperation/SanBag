@@ -26,7 +26,8 @@ namespace SanBag.ViewModels.BagViewModels
 
         public override bool IsValidRecord(FileRecord record)
         {
-            return record.Info?.Resource == FileRecordInfo.ResourceType.SoundResource;
+            return record.Info?.Resource == FileRecordInfo.ResourceType.SoundResource &&
+                   record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
         }
 
         protected override void CustomFileExport(ExportParameters exportParameters)

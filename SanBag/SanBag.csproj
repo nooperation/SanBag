@@ -113,23 +113,11 @@
     </Compile>
     <Compile Include="Converters\SizeToStringConverter.cs" />
     <Compile Include="Converters\TimestampNsConverter.cs" />
-    <Compile Include="Views\BagViews\ScriptSourceTextResourceBagView.xaml.cs">
-      <DependentUpon>ScriptSourceTextResourceBagView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BagViews\SoundResourceBagView.xaml.cs">
-      <DependentUpon>SoundResourceBagView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BagViews\TextureResourceBagView.xaml.cs">
-      <DependentUpon>TextureResourceBagView.xaml</DependentUpon>
+    <Compile Include="Views\ExportView.xaml.cs">
+      <DependentUpon>ExportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceView.xaml.cs">
       <DependentUpon>ResourceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BagViews\ScriptCompiledBytecodeResourceView.xaml.cs">
-      <DependentUpon>ScriptCompiledBytecodeResourceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\BagViews\ManifestBagView.xaml.cs">
-      <DependentUpon>ManifestBagView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\ManifestResourceView.xaml.cs">
       <DependentUpon>ManifestResourceView.xaml</DependentUpon>
@@ -150,19 +138,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\BagViews\ExportView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\BagViews\ScriptSourceTextResourceBagView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
-    <Page Include="Views\BagViews\SoundResourceBagView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
-    </Page>
-    <Page Include="Views\BagViews\TextureResourceBagView.xaml">
+    <Page Include="Views\ExportView.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
@@ -174,23 +150,12 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\BagViewModels\ExportViewModel.cs" />
-    <Compile Include="Views\BagViews\ExportView.xaml.cs">
-      <DependentUpon>ExportView.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="ViewModels\ExportViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\ResourceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\BagViews\ScriptCompiledBytecodeResourceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\BagViews\ManifestBagView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

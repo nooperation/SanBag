@@ -43,35 +43,61 @@ namespace SanBag.ViewModels
         {
             var fileName = Path.GetFileName(resourcePath);
             var fileInfo = LibSanBag.FileRecordInfo.Create(fileName);
+            var isRawView = false;
 
-            if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
+            if (fileInfo?.Payload == LibSanBag.FileRecordInfo.PayloadType.Manifest)
             {
-                CurrentView = new SanBag.Views.ResourceViews.TextureResourceView();
-                CurrentViewModel = new SanBag.ViewModels.ResourceViewModels.TextureResourceViewModel();
+                CurrentView = new ManifestResourceView();
+                CurrentViewModel = new ManifestResourceViewModel();
+            }
+            else if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
+            {
+                CurrentView = new TextureResourceView();
+                CurrentViewModel = new TextureResourceViewModel();
             }
             else if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.SoundResource)
             {
-                CurrentView = new SanBag.Views.ResourceViews.SoundResourceView();
-                CurrentViewModel = new SanBag.ViewModels.ResourceViewModels.SoundResourceViewModel();
+                CurrentView = new SoundResourceView();
+                CurrentViewModel = new SoundResourceViewModel();
             }
             else if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource ||
                      fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.LuaScriptResource)
             {
-                CurrentView = new SanBag.Views.ResourceViews.ScriptSourceTextView();
-                CurrentViewModel = new SanBag.ViewModels.ResourceViewModels.ScriptSourceTextViewModel();
+                CurrentView = new ScriptSourceTextView();
+                CurrentViewModel = new ScriptSourceTextViewModel();
             }
             else
             {
-                var view = new RawResourceView();
-                var model = new RawResourceViewModel {
-                    HexControl = view.HexEdit
-                };
-                CurrentView = view;
-                CurrentViewModel = model;
+                isRawView = true;
             }
 
-            CurrentView.DataContext = CurrentViewModel;
-            CurrentViewModel.InitFromPath(resourcePath);
+            if (isRawView)
+            {
+                try
+                {
+                    var view = new RawResourceView();
+                    var model = new RawResourceViewModel
+                    {
+                        HexControl = view.HexEdit
+                    };
+                    CurrentView = view;
+                    CurrentViewModel = model;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Failed to load raw view: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                }
+            }
+            try
+            {
+                CurrentView.DataContext = CurrentViewModel;
+                CurrentViewModel.InitFromPath(resourcePath);
+                return;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to load resource: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

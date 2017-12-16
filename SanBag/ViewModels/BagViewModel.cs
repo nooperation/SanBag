@@ -90,6 +90,7 @@ namespace SanBag.ViewModels
 
         private void Init()
         {
+            Views = new List<ViewType>();
             CommandOpenBag = new CommandOpenBag(this);
 
             var genericBagViewModel = new GenericBagViewModel(this);
@@ -108,7 +109,7 @@ namespace SanBag.ViewModels
                 var textureResourceBagViewModel = new TextureResourceBagViewModel(this);
                 Views.Add(new ViewType
                 {
-                    View = new TextureResourceBagView
+                    View = new GenericBagView
                     {
                         DataContext = textureResourceBagViewModel
                     },
@@ -120,7 +121,7 @@ namespace SanBag.ViewModels
             var scriptCompiledBytecodeResourceView = new ScriptCompiledBytecodeResourceViewModel(this);
             Views.Add(new ViewType
             {
-                View = new ScriptCompiledBytecodeResourceView
+                View = new GenericBagView
                 {
                     DataContext = scriptCompiledBytecodeResourceView
                 },
@@ -131,7 +132,7 @@ namespace SanBag.ViewModels
             var scriptSourceTextResourceViewModel = new ScriptSourceTextResourceViewModel(this);
             Views.Add(new ViewType
             {
-                View = new ScriptSourceTextResourceBagView
+                View = new GenericBagView
                 {
                     DataContext = scriptSourceTextResourceViewModel
                 },
@@ -142,7 +143,7 @@ namespace SanBag.ViewModels
             var luaScriptResourceViewModel = new LuaScriptResourceViewModel(this);
             Views.Add(new ViewType
             {
-                View = new ScriptSourceTextResourceBagView
+                View = new GenericBagView
                 {
                     DataContext = luaScriptResourceViewModel
                 },
@@ -153,7 +154,7 @@ namespace SanBag.ViewModels
             var manifestViewModel = new ManifestBagViewModel(this);
             Views.Add(new ViewType
             {
-                View = new ManifestBagView
+                View = new GenericBagView
                 {
                     DataContext = manifestViewModel
                 },
@@ -164,7 +165,7 @@ namespace SanBag.ViewModels
             var soundViewModel = new SoundResourceBagViewModel(this);
             Views.Add(new ViewType
             {
-                View = new SoundResourceBagView
+                View = new GenericBagView
                 {
                     DataContext = soundViewModel
                 },
@@ -196,6 +197,7 @@ namespace SanBag.ViewModels
 
         public void OpenBag(string path)
         {
+            Init();
             BagPath = path;
 
             using (var in_stream = File.OpenRead(path))
