@@ -46,7 +46,10 @@ namespace SanBag.ViewModels.BagViewModels
                 try
                 {
                     _selectedRecord = value;
-                    OnSelectedRecordChanged();
+                    if (value != null)
+                    {
+                        OnSelectedRecordChanged();
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -157,6 +160,11 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected virtual void OnSelectedRecordChanged()
         {
+            if (SelectedRecord == null)
+            {
+                return;
+            }
+
             var view = CurrentResourceView.DataContext as ResourceViewModels.RawResourceViewModel;
             if (view == null)
             {
