@@ -173,6 +173,17 @@ namespace SanBag.ViewModels
                 Name = "SoundResource"
             });
 
+            var geometryViewModel = new GeometryResourceBagViewModel(this);
+            Views.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = geometryViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && geometryViewModel.IsValidRecord(record)),
+                Name = "GeometryResource"
+            });
+
             CurrentView = Views[0];
         }
 

@@ -66,6 +66,11 @@ namespace SanBag.ViewModels
                 CurrentView = new ScriptSourceTextView();
                 CurrentViewModel = new ScriptSourceTextViewModel();
             }
+            else if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.GeometryResourceResource)
+            {
+                CurrentView = new GeometryResourceView();
+                CurrentViewModel = new GeometryResourceViewModel();
+            }
             else
             {
                 isRawView = true;
