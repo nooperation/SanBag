@@ -89,7 +89,6 @@ namespace SanBag.ViewModels.ResourceViewModels
             var resource = new ManifestResource();
             resource.InitFromStream(resourceStream);
             ManifestList = resource.Entries;
-            ManifestList = resource.Entries;
         }
 
         public void ExportRecords(List<ManifestResource.ManifestEntry> manifestEntriesToExport)

@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\LibSanBag.1.1.4\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.1.4\build\LibSanBag.props')" />
+  <Import Project="..\packages\LibSanBag.1.1.5\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.1.5\build\LibSanBag.props')" />
   <Import Project="..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -46,8 +46,8 @@
     <Reference Include="HelixToolkit.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
       <HintPath>..\packages\HelixToolkit.Wpf.1.0.0\lib\net45\HelixToolkit.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="LibSanBag, Version=1.1.4.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\LibSanBag.1.1.4\lib\net46\LibSanBag.dll</HintPath>
+    <Reference Include="LibSanBag, Version=1.1.5.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\LibSanBag.1.1.5\lib\net46\LibSanBag.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -240,6 +240,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props'))" />
-    <Error Condition="!Exists('..\packages\LibSanBag.1.1.4\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.1.4\build\LibSanBag.props'))" />
+    <Error Condition="!Exists('..\packages\LibSanBag.1.1.5\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.1.5\build\LibSanBag.props'))" />
   </Target>
 </Project>
