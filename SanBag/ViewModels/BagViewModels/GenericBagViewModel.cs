@@ -21,7 +21,7 @@ using ExportView = SanBag.Views.ExportView;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class GenericBagViewModel: INotifyPropertyChanged
+    public class GenericBagViewModel : INotifyPropertyChanged
     {
         public BagViewModel ParentViewModel { get; set; }
         public CommandExportSelected CommandExportSelected { get; set; }
@@ -160,31 +160,41 @@ namespace SanBag.ViewModels.BagViewModels
 
             var isRawView = false;
 
-            if (SelectedRecord.Info?.Payload == LibSanBag.FileRecordInfo.PayloadType.Manifest)
+            if (SelectedRecord.Info != null)
             {
-                CurrentResourceView = new ManifestResourceView();
-                CurrentResourceView.DataContext = new ManifestResourceViewModel();
-            }
-            else if (SelectedRecord.Info?.Resource == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
-            {
-                CurrentResourceView = new TextureResourceView();
-                CurrentResourceView.DataContext = new TextureResourceViewModel();
-            }
-            else if (SelectedRecord.Info?.Resource == LibSanBag.FileRecordInfo.ResourceType.SoundResource)
-            {
-                CurrentResourceView = new SoundResourceView();
-                CurrentResourceView.DataContext = new SoundResourceViewModel();
-            }
-            else if (SelectedRecord.Info?.Resource == LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource ||
-                     SelectedRecord.Info?.Resource == LibSanBag.FileRecordInfo.ResourceType.LuaScriptResource)
-            {
-                CurrentResourceView = new ScriptSourceTextView();
-                CurrentResourceView.DataContext = new ScriptSourceTextViewModel();
-            }
-            else if (SelectedRecord.Info?.Resource == LibSanBag.FileRecordInfo.ResourceType.GeometryResourceResource)
-            {
-                CurrentResourceView = new GeometryResourceView();
-                CurrentResourceView.DataContext = new GeometryResourceViewModel();
+                if (SelectedRecord.Info.Payload == LibSanBag.FileRecordInfo.PayloadType.Manifest)
+                {
+                    CurrentResourceView = new ManifestResourceView
+                    {
+                        DataContext = new ManifestResourceViewModel()
+                    };
+                }
+                else
+                {
+                    switch (SelectedRecord.Info.Resource)
+                    {
+                        case FileRecordInfo.ResourceType.TextureResource:
+                            CurrentResourceView = new TextureResourceView();
+                            CurrentResourceView.DataContext = new TextureResourceViewModel();
+                            break;
+                        case FileRecordInfo.ResourceType.SoundResource:
+                            CurrentResourceView = new SoundResourceView();
+                            CurrentResourceView.DataContext = new SoundResourceViewModel();
+                            break;
+                        case FileRecordInfo.ResourceType.ScriptSourceTextResource:
+                        case FileRecordInfo.ResourceType.LuaScriptResource:
+                            CurrentResourceView = new ScriptSourceTextView();
+                            CurrentResourceView.DataContext = new ScriptSourceTextViewModel();
+                            break;
+                        case FileRecordInfo.ResourceType.GeometryResourceResource:
+                            CurrentResourceView = new GeometryResourceView();
+                            CurrentResourceView.DataContext = new GeometryResourceViewModel();
+                            break;
+                        default:
+                            isRawView = true;
+                            break;
+                    }
+                }
             }
             else
             {
@@ -210,7 +220,7 @@ namespace SanBag.ViewModels.BagViewModels
             }
             try
             {
-                var currentViewModel = CurrentResourceView.DataContext as ResourceViewModels.BaseViewModel;
+                var currentViewModel = CurrentResourceView.DataContext as BaseViewModel;
                 if (currentViewModel == null)
                 {
                     return;
