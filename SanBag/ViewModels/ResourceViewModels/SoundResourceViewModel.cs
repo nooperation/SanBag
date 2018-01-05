@@ -210,8 +210,10 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-        public void Unload()
+        public override void Unload()
         {
+            base.Unload();
+
             lock (_updateTimer)
             {
                 _updateTimer.Stop();

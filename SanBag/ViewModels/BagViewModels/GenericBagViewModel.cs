@@ -214,6 +214,12 @@ namespace SanBag.ViewModels.BagViewModels
 
             try
             {
+                var previousViewModel = CurrentResourceView?.DataContext as BaseViewModel;
+                if (previousViewModel != null)
+                {
+                    previousViewModel.Unload();
+                }
+
                 CurrentResourceView = GetControlFor(SelectedRecord.Info);
 
                 var currentViewModel = CurrentResourceView.DataContext as BaseViewModel;

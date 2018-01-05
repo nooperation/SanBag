@@ -42,6 +42,10 @@ namespace SanBag.ViewModels.ResourceViewModels
             LoadFromStream(stream);
         }
 
+        public virtual void Unload()
+        {
+        }
+
         protected abstract void LoadFromStream(Stream resourceStream);
 
         public event PropertyChangedEventHandler PropertyChanged;
