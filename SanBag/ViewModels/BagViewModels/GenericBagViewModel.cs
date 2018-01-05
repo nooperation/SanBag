@@ -27,6 +27,7 @@ namespace SanBag.ViewModels.BagViewModels
         public CommandExportSelected CommandExportSelected { get; set; }
         public CommandCopyAsUrl CommandCopyAsUrl { get; set; }
         public string ExportFilter { get; set; }
+        private Dictionary<FileRecordInfo.ResourceType, UserControl> ControlMap { get; }
 
         private UserControl _currentResourceView;
         public UserControl CurrentResourceView
@@ -67,6 +68,37 @@ namespace SanBag.ViewModels.BagViewModels
             this.CommandExportSelected = new CommandExportSelected(this);
             this.CommandCopyAsUrl = new CommandCopyAsUrl(this);
             this.ExportFilter = "Raw File|*.*";
+
+            ControlMap = new Dictionary<FileRecordInfo.ResourceType, UserControl>()
+            {
+                [FileRecordInfo.ResourceType.TextureResource] = new TextureResourceView
+                {
+                    DataContext = new TextureResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.ScriptSourceTextResource] = new ScriptSourceTextView()
+                {
+                    DataContext = new ScriptSourceTextViewModel()
+                },
+                [FileRecordInfo.ResourceType.LuaScriptResource] = new ScriptSourceTextView()
+                {
+                    DataContext = new ScriptSourceTextViewModel()
+                },
+                [FileRecordInfo.ResourceType.GeometryResourceResource] = new GeometryResourceView()
+                {
+                    DataContext = new GeometryResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.SoundResource] = new SoundResourceView()
+                {
+                    DataContext = new SoundResourceViewModel()
+                },
+            };
+
+            var rawView = new RawResourceView();
+            rawView.DataContext = new RawResourceViewModel
+            {
+                HexControl = rawView.HexEdit
+            };
+            ControlMap[FileRecordInfo.ResourceType.Unknown] = rawView;
         }
 
         public virtual bool IsValidRecord(FileRecord record)
@@ -115,6 +147,27 @@ namespace SanBag.ViewModels.BagViewModels
             }
         }
 
+        public UserControl GetControlFor(FileRecordInfo record)
+        {
+            if (record != null)
+            {
+                if (SelectedRecord.Info.Payload == LibSanBag.FileRecordInfo.PayloadType.Manifest)
+                {
+                    return new ManifestResourceView
+                    {
+                        DataContext = new ManifestResourceViewModel()
+                    };
+                }
+
+                if (ControlMap.ContainsKey(SelectedRecord.Info.Resource))
+                {
+                    return ControlMap[SelectedRecord.Info.Resource];
+                }
+            }
+
+            return ControlMap[FileRecordInfo.ResourceType.Unknown];
+        }
+
         private static void ExportRawFile(ExportParameters exportParameters)
         {
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
@@ -151,6 +204,7 @@ namespace SanBag.ViewModels.BagViewModels
             }
         }
 
+
         protected virtual void OnSelectedRecordChanged()
         {
             if (SelectedRecord == null)
@@ -158,77 +212,23 @@ namespace SanBag.ViewModels.BagViewModels
                 return;
             }
 
-            var isRawView = false;
-
-            if (SelectedRecord.Info != null)
-            {
-                if (SelectedRecord.Info.Payload == LibSanBag.FileRecordInfo.PayloadType.Manifest)
-                {
-                    CurrentResourceView = new ManifestResourceView
-                    {
-                        DataContext = new ManifestResourceViewModel()
-                    };
-                }
-                else
-                {
-                    switch (SelectedRecord.Info.Resource)
-                    {
-                        case FileRecordInfo.ResourceType.TextureResource:
-                            CurrentResourceView = new TextureResourceView();
-                            CurrentResourceView.DataContext = new TextureResourceViewModel();
-                            break;
-                        case FileRecordInfo.ResourceType.SoundResource:
-                            CurrentResourceView = new SoundResourceView();
-                            CurrentResourceView.DataContext = new SoundResourceViewModel();
-                            break;
-                        case FileRecordInfo.ResourceType.ScriptSourceTextResource:
-                        case FileRecordInfo.ResourceType.LuaScriptResource:
-                            CurrentResourceView = new ScriptSourceTextView();
-                            CurrentResourceView.DataContext = new ScriptSourceTextViewModel();
-                            break;
-                        case FileRecordInfo.ResourceType.GeometryResourceResource:
-                            CurrentResourceView = new GeometryResourceView();
-                            CurrentResourceView.DataContext = new GeometryResourceViewModel();
-                            break;
-                        default:
-                            isRawView = true;
-                            break;
-                    }
-                }
-            }
-            else
-            {
-                isRawView = true;
-            }
-
-            if (isRawView)
-            {
-                try
-                {
-                    var view = new RawResourceView();
-                    var model = new RawResourceViewModel
-                    {
-                        HexControl = view.HexEdit
-                    };
-                    CurrentResourceView = view;
-                    CurrentResourceView.DataContext = model;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Failed to load raw view: " + ex.Message, "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
-                }
-            }
             try
             {
-                var currentViewModel = CurrentResourceView.DataContext as BaseViewModel;
-                if (currentViewModel == null)
+                var previousViewModel = CurrentResourceView?.DataContext as BaseViewModel;
+                if (previousViewModel != null)
                 {
-                    return;
+                    previousViewModel.Unload();
                 }
 
-                using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
+                CurrentResourceView = GetControlFor(SelectedRecord.Info);
+
+                var currentViewModel = CurrentResourceView.DataContext as BaseViewModel;
+                if (currentViewModel != null)
                 {
-                    currentViewModel.InitFromRecord(bagStream, SelectedRecord);
+                    using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
+                    {
+                        currentViewModel.InitFromRecord(bagStream, SelectedRecord);
+                    }
                 }
             }
             catch (Exception ex)
