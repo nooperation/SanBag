@@ -13,18 +13,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using LibSanBag.ResourceUtils;
+using SanBag.ViewModels.ResourceViewModels;
 using SanBag.Views.BagViews;
 using SanBag.Views.ResourceViews;
 using ExportView = SanBag.Views.ExportView;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class GenericBagViewModel: INotifyPropertyChanged
+    public class GenericBagViewModel : INotifyPropertyChanged
     {
         public BagViewModel ParentViewModel { get; set; }
         public CommandExportSelected CommandExportSelected { get; set; }
         public CommandCopyAsUrl CommandCopyAsUrl { get; set; }
         public string ExportFilter { get; set; }
+        private Dictionary<FileRecordInfo.ResourceType, UserControl> ControlMap { get; }
 
         private UserControl _currentResourceView;
         public UserControl CurrentResourceView
@@ -66,14 +69,36 @@ namespace SanBag.ViewModels.BagViewModels
             this.CommandCopyAsUrl = new CommandCopyAsUrl(this);
             this.ExportFilter = "Raw File|*.*";
 
-            var view = new RawResourceView();
-            var viewModel = new SanBag.ViewModels.ResourceViewModels.RawResourceViewModel()
+            ControlMap = new Dictionary<FileRecordInfo.ResourceType, UserControl>()
             {
-                HexControl = view.HexEdit
+                [FileRecordInfo.ResourceType.TextureResource] = new TextureResourceView
+                {
+                    DataContext = new TextureResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.ScriptSourceTextResource] = new ScriptSourceTextView()
+                {
+                    DataContext = new ScriptSourceTextViewModel()
+                },
+                [FileRecordInfo.ResourceType.LuaScriptResource] = new ScriptSourceTextView()
+                {
+                    DataContext = new ScriptSourceTextViewModel()
+                },
+                [FileRecordInfo.ResourceType.GeometryResourceResource] = new GeometryResourceView()
+                {
+                    DataContext = new GeometryResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.SoundResource] = new SoundResourceView()
+                {
+                    DataContext = new SoundResourceViewModel()
+                },
             };
 
-            CurrentResourceView = view;
-            CurrentResourceView.DataContext = viewModel;
+            var rawView = new RawResourceView();
+            rawView.DataContext = new RawResourceViewModel
+            {
+                HexControl = rawView.HexEdit
+            };
+            ControlMap[FileRecordInfo.ResourceType.Unknown] = rawView;
         }
 
         public virtual bool IsValidRecord(FileRecord record)
@@ -122,6 +147,27 @@ namespace SanBag.ViewModels.BagViewModels
             }
         }
 
+        public UserControl GetControlFor(FileRecordInfo record)
+        {
+            if (record != null)
+            {
+                if (SelectedRecord.Info.Payload == LibSanBag.FileRecordInfo.PayloadType.Manifest)
+                {
+                    return new ManifestResourceView
+                    {
+                        DataContext = new ManifestResourceViewModel()
+                    };
+                }
+
+                if (ControlMap.ContainsKey(SelectedRecord.Info.Resource))
+                {
+                    return ControlMap[SelectedRecord.Info.Resource];
+                }
+            }
+
+            return ControlMap[FileRecordInfo.ResourceType.Unknown];
+        }
+
         private static void ExportRawFile(ExportParameters exportParameters)
         {
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
@@ -158,6 +204,7 @@ namespace SanBag.ViewModels.BagViewModels
             }
         }
 
+
         protected virtual void OnSelectedRecordChanged()
         {
             if (SelectedRecord == null)
@@ -165,15 +212,28 @@ namespace SanBag.ViewModels.BagViewModels
                 return;
             }
 
-            var view = CurrentResourceView.DataContext as ResourceViewModels.RawResourceViewModel;
-            if (view == null)
+            try
             {
-                return;
-            }
+                var previousViewModel = CurrentResourceView?.DataContext as BaseViewModel;
+                if (previousViewModel != null)
+                {
+                    previousViewModel.Unload();
+                }
 
-            using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
+                CurrentResourceView = GetControlFor(SelectedRecord.Info);
+
+                var currentViewModel = CurrentResourceView.DataContext as BaseViewModel;
+                if (currentViewModel != null)
+                {
+                    using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
+                    {
+                        currentViewModel.InitFromRecord(bagStream, SelectedRecord);
+                    }
+                }
+            }
+            catch (Exception ex)
             {
-                view.InitFromRecord(bagStream, SelectedRecord);
+                MessageBox.Show($"Failed to load resource: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
         }
 
