@@ -31,7 +31,7 @@ namespace SanBag.ViewModels.ResourceViewModels
 
         protected override void LoadFromStream(Stream resourceStream)
         {
-            var resource = new GeometryResource();
+            var resource = GeometryResource.Create();
             resource.InitFromStream(resourceStream);
 
             var positions = new List<Point3D>();
