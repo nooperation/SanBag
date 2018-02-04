@@ -41,7 +41,7 @@ namespace SanBag.ViewModels.ResourceViewModels
 
         protected override void LoadFromStream(Stream resourceStream)
         {
-            _currentResource = new TextureResource();
+            _currentResource = TextureResource.Create();
             _currentResource.InitFromStream(resourceStream);
 
             var imageBytes = LibDDS.GetImageBytesFromDds(_currentResource.DdsBytes, 256, 256);

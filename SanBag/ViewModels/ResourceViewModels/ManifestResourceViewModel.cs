@@ -86,7 +86,7 @@ namespace SanBag.ViewModels.ResourceViewModels
 
         protected override void LoadFromStream(Stream resourceStream)
         {
-            var resource = new ManifestResource();
+            var resource = ManifestResource.Create();
             resource.InitFromStream(resourceStream);
             ManifestList = resource.Entries;
             ManifestList = resource.Entries;

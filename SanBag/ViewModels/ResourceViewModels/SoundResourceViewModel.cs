@@ -147,7 +147,7 @@ namespace SanBag.ViewModels.ResourceViewModels
             var audioPath = Path.Combine(Path.GetTempPath(), "SanBagTemp.wav");
             using (var compressedStream = File.OpenRead(CompressedSoundPath))
             {
-                var soundResource = new SoundResource();
+                var soundResource = SoundResource.Create();
                 soundResource.InitFromStream(compressedStream);
 
                 var soundBytes = soundResource.SoundBytes;
@@ -193,7 +193,7 @@ namespace SanBag.ViewModels.ResourceViewModels
                 {
                     try
                     {
-                        var soundResource = new SoundResource();
+                        var soundResource = SoundResource.Create();
                         soundResource.InitFromStream(compressedStream);
 
                         var soundBytes = soundResource.SoundBytes;
