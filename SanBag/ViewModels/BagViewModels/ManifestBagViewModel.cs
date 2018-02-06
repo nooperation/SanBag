@@ -56,7 +56,7 @@ namespace SanBag.ViewModels.BagViewModels
             ManifestResource manifest;
             using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
             {
-                manifest = ManifestResource.Create();
+                manifest = ManifestResource.Create(exportParameters.FileRecord.Info.VersionHash);
                 manifest.InitFromRecord(bagStream, SelectedRecord);
             }
 

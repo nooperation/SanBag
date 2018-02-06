@@ -48,7 +48,7 @@ namespace SanBag.ViewModels.BagViewModels
             {
                 using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
                 {
-                    var scriptSourceText = LuaScriptResource.Create();
+                    var scriptSourceText = LuaScriptResource.Create(SelectedRecord.Info.VersionHash);
                     scriptSourceText.InitFromRecord(bagStream, SelectedRecord);
                     PreviewCode = scriptSourceText.Source;
                 }
@@ -61,7 +61,7 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            var scriptCompiledBytecode = LuaScriptResource.Create();
+            var scriptCompiledBytecode = LuaScriptResource.Create(exportParameters.FileRecord.Info.VersionHash);
             scriptCompiledBytecode.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
 
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));

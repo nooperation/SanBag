@@ -33,7 +33,7 @@ namespace SanBag.ViewModels.BagViewModels
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
-            var soundResource = SoundResource.Create();
+            var soundResource = SoundResource.Create(exportParameters.FileRecord.Info.VersionHash);
             soundResource.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
 
             LibFSB.SaveAs(soundResource.SoundBytes, outputPath);
