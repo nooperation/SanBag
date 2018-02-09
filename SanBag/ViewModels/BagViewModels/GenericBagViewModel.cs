@@ -151,6 +151,14 @@ namespace SanBag.ViewModels.BagViewModels
         {
             if (record != null)
             {
+                if (SelectedRecord.Info.IsRawImage)
+                {
+                    return new RawImageView
+                    {
+                        DataContext = new RawImageViewModel()
+                    };
+                }
+
                 if (SelectedRecord.Info.Payload == LibSanBag.FileRecordInfo.PayloadType.Manifest)
                 {
                     return new ManifestResourceView
