@@ -55,7 +55,7 @@ namespace SanBag.ViewModels.ResourceViewModels
         public void SaveAs()
         {
             var dialog = new SaveFileDialog();
-            dialog.FileName = Path.GetFileName(Name) + ".png";
+            dialog.FileName = Path.GetFileName(Name);
             dialog.Filter = "PNG Image|*.png";
             if (dialog.ShowDialog() == true)
             {
