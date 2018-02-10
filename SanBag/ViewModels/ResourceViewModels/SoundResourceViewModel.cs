@@ -106,6 +106,7 @@ namespace SanBag.ViewModels.ResourceViewModels
         }
 
         private string CompressedSoundPath { get; set; }
+        private string Version { get; set; }
 
         public SoundResourceViewModel()
         {
@@ -131,8 +132,10 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-        protected override void LoadFromStream(Stream resourceStream)
+        protected override void LoadFromStream(Stream resourceStream, string version)
         {
+            Version = version;
+
             CompressedSoundPath = Path.GetTempPath() + "SanBagTemp.bin";
             if (File.Exists(CompressedSoundPath))
             {
@@ -147,7 +150,7 @@ namespace SanBag.ViewModels.ResourceViewModels
             var audioPath = Path.Combine(Path.GetTempPath(), "SanBagTemp.wav");
             using (var compressedStream = File.OpenRead(CompressedSoundPath))
             {
-                var soundResource = SoundResource.Create();
+                var soundResource = SoundResource.Create(version);
                 soundResource.InitFromStream(compressedStream);
 
                 var soundBytes = soundResource.SoundBytes;
@@ -193,7 +196,7 @@ namespace SanBag.ViewModels.ResourceViewModels
                 {
                     try
                     {
-                        var soundResource = SoundResource.Create();
+                        var soundResource = SoundResource.Create(Version);
                         soundResource.InitFromStream(compressedStream);
 
                         var soundBytes = soundResource.SoundBytes;

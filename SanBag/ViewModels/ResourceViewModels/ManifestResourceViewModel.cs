@@ -84,9 +84,9 @@ namespace SanBag.ViewModels.ResourceViewModels
             CommandManifestExportSelected = new CommandManifestExportSelected(this);
         }
 
-        protected override void LoadFromStream(Stream resourceStream)
+        protected override void LoadFromStream(Stream resourceStream, string version)
         {
-            var resource = ManifestResource.Create();
+            var resource = ManifestResource.Create(version);
             resource.InitFromStream(resourceStream);
             ManifestList = resource.Entries;
             ManifestList = resource.Entries;

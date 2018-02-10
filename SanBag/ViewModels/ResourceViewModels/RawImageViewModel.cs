@@ -39,7 +39,7 @@ namespace SanBag.ViewModels.ResourceViewModels
             CommandSaveAs = new CommandSaveAs(this);
         }
 
-        protected override void LoadFromStream(Stream resourceStream)
+        protected override void LoadFromStream(Stream resourceStream, string version)
         {
             ImageBytes = new byte[resourceStream.Length];
             resourceStream.Read(ImageBytes, 0, (int)resourceStream.Length);

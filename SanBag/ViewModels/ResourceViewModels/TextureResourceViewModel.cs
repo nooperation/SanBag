@@ -39,9 +39,9 @@ namespace SanBag.ViewModels.ResourceViewModels
             CommandSaveAs = new CommandSaveAs(this);
         }
 
-        protected override void LoadFromStream(Stream resourceStream)
+        protected override void LoadFromStream(Stream resourceStream, string version)
         {
-            _currentResource = TextureResource.Create();
+            _currentResource = TextureResource.Create(version);
             _currentResource.InitFromStream(resourceStream);
 
             var imageBytes = LibDDS.GetImageBytesFromDds(_currentResource.DdsBytes, 256, 256);
