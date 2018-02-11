@@ -154,6 +154,7 @@ namespace SanBag.ViewModels.ResourceViewModels
                 FileRecordInfo.PayloadType.Manifest
             };
             var assetType = FileRecordInfo.GetResourceType(exportParameters.FileRecord.Name);
+            var errorMessages = new StringBuilder();
 
             foreach (var payloadType in payloadTypes)
             {
@@ -179,9 +180,14 @@ namespace SanBag.ViewModels.ResourceViewModels
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"ERROR downloading resource {exportParameters.FileRecord.Info.Hash}.{assetType}.{payloadType}: {ex.Message}");
+                    errorMessages.AppendLine($"ERROR downloading resource {exportParameters.FileRecord.Info.Hash}.{assetType}.{payloadType}: {ex.Message}");
                     continue;
                 }
+            }
+
+            if (errorMessages.Length > 0)
+            {
+                throw new Exception(errorMessages.ToString());
             }
         }
     }
