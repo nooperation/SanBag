@@ -161,7 +161,7 @@ namespace SanBag.ViewModels.ResourceViewModels
                 try
                 {
                     var downloadTask = FileRecordInfo.DownloadResourceAsync(
-                        exportParameters.FileRecord.Info.Hash.ToLower(),
+                        exportParameters.FileRecord.Info?.Hash.ToLower() ?? string.Empty,
                         assetType,
                         payloadType,
                         FileRecordInfo.VariantType.NoVariants,
@@ -180,7 +180,7 @@ namespace SanBag.ViewModels.ResourceViewModels
                 }
                 catch (Exception ex)
                 {
-                    errorMessages.AppendLine($"ERROR downloading resource {exportParameters.FileRecord.Info.Hash}.{assetType}.{payloadType}: {ex.Message}");
+                    errorMessages.AppendLine($"ERROR downloading resource {exportParameters.FileRecord.Info?.Hash ?? string.Empty}.{assetType}.{payloadType}: {ex.Message}");
                     continue;
                 }
             }
