@@ -34,7 +34,7 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            var scriptCompiledBytecode = ScriptCompiledBytecodeResource.Create(exportParameters.FileRecord.Info.VersionHash);
+            var scriptCompiledBytecode = ScriptCompiledBytecodeResource.Create(exportParameters.FileRecord.Info?.VersionHash ?? string.Empty);
             scriptCompiledBytecode.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
             File.WriteAllBytes(outputPath, scriptCompiledBytecode.AssemblyBytes);

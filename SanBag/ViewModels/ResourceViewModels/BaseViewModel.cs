@@ -34,7 +34,7 @@ namespace SanBag.ViewModels.ResourceViewModels
             {
                 fileRecord.Save(sourceStream, stream);
                 stream.Seek(0, SeekOrigin.Begin);
-                LoadFromStream(stream, fileRecord.Info.VersionHash ?? string.Empty);
+                LoadFromStream(stream, fileRecord.Info?.VersionHash ?? string.Empty);
             }
         }
 

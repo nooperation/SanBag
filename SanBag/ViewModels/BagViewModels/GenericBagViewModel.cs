@@ -147,11 +147,11 @@ namespace SanBag.ViewModels.BagViewModels
             }
         }
 
-        public UserControl GetControlFor(FileRecordInfo record)
+        public UserControl GetControlFor(FileRecordInfo recordInfo)
         {
-            if (record != null)
+            if (recordInfo != null)
             {
-                if (SelectedRecord.Info.IsRawImage)
+                if (recordInfo.IsRawImage)
                 {
                     return new RawImageView
                     {
@@ -159,7 +159,7 @@ namespace SanBag.ViewModels.BagViewModels
                     };
                 }
 
-                if (SelectedRecord.Info.Payload == LibSanBag.FileRecordInfo.PayloadType.Manifest)
+                if (recordInfo.Payload == LibSanBag.FileRecordInfo.PayloadType.Manifest)
                 {
                     return new ManifestResourceView
                     {
@@ -167,9 +167,9 @@ namespace SanBag.ViewModels.BagViewModels
                     };
                 }
 
-                if (ControlMap.ContainsKey(SelectedRecord.Info.Resource))
+                if (ControlMap.ContainsKey(recordInfo.Resource))
                 {
-                    return ControlMap[SelectedRecord.Info.Resource];
+                    return ControlMap[recordInfo.Resource];
                 }
             }
 
