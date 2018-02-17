@@ -40,9 +40,9 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-        protected override void LoadFromStream(Stream resourceStream)
+        protected override void LoadFromStream(Stream resourceStream, string version)
         {
-            var resource = new ScriptSourceTextResource();
+            var resource = ScriptSourceTextResource.Create(version);
             resource.InitFromStream(resourceStream);
 
             FileName = resource.Filename;

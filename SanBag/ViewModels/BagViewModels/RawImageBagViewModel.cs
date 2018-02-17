@@ -14,52 +14,53 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media.Imaging;
 using SanBag.Views.ResourceViews;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class ScriptSourceTextResourceViewModel : GenericBagViewModel
+    public class RawImageBagViewModel : GenericBagViewModel
     {
-        private string _previewCode = "";
-        public string PreviewCode
+        private BitmapImage _currentPreview;
+        public BitmapImage PreviewImage
         {
-            get => _previewCode;
+            get => _currentPreview;
             set
             {
-                _previewCode = value;
+                _currentPreview = value;
                 OnPropertyChanged();
             }
         }
 
-        public ScriptSourceTextResourceViewModel(BagViewModel parentViewModel)
-                : base(parentViewModel)
+        public RawImageBagViewModel(BagViewModel parentViewModel)
+            : base(parentViewModel)
         {
-            ExportFilter += "|Script Source|*.cs";
-            CurrentResourceView = new ScriptSourceTextView();
-            CurrentResourceView.DataContext = new SanBag.ViewModels.ResourceViewModels.ScriptSourceTextViewModel();
+            ExportFilter = "PNG Image|*.png";
+            CurrentResourceView = new RawImageView();
+            CurrentResourceView.DataContext = new SanBag.ViewModels.ResourceViewModels.RawImageViewModel();
         }
 
         public override bool IsValidRecord(FileRecord record)
         {
-            return record.Info?.Resource == FileRecordInfo.ResourceType.ScriptSourceTextResource &&
-                   record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
+            return record.Info?.IsRawImage == true;
         }
 
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            var scriptCompiledBytecode = ScriptSourceTextResource.Create(exportParameters.FileRecord.Info?.VersionHash ?? string.Empty);
-            scriptCompiledBytecode.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
-
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
-            File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
 
+            using (var outFile = File.OpenWrite(outputPath))
+            {
+                exportParameters.FileRecord.Save(exportParameters.BagStream, outFile);
+            }
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
 
         protected override void OnSelectedRecordChanged()
         {
-            var view = CurrentResourceView.DataContext as ResourceViewModels.ScriptSourceTextViewModel;
+            var view = CurrentResourceView.DataContext as ResourceViewModels.RawImageViewModel;
             if (view == null)
             {
                 return;

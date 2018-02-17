@@ -89,7 +89,7 @@ namespace SanBag.ViewModels.BagViewModels
         {
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
 
-            var textureResource = new TextureResource();
+            var textureResource = TextureResource.Create(exportParameters.FileRecord.Info?.VersionHash ?? string.Empty);
             textureResource.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
             using (var outFile = File.OpenWrite(outputPath))
             {

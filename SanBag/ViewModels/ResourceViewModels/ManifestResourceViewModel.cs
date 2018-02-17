@@ -84,9 +84,9 @@ namespace SanBag.ViewModels.ResourceViewModels
             CommandManifestExportSelected = new CommandManifestExportSelected(this);
         }
 
-        protected override void LoadFromStream(Stream resourceStream)
+        protected override void LoadFromStream(Stream resourceStream, string version)
         {
-            var resource = new ManifestResource();
+            var resource = ManifestResource.Create(version);
             resource.InitFromStream(resourceStream);
             ManifestList = resource.Entries;
             ManifestList = resource.Entries;
@@ -154,13 +154,14 @@ namespace SanBag.ViewModels.ResourceViewModels
                 FileRecordInfo.PayloadType.Manifest
             };
             var assetType = FileRecordInfo.GetResourceType(exportParameters.FileRecord.Name);
+            var errorMessages = new StringBuilder();
 
             foreach (var payloadType in payloadTypes)
             {
                 try
                 {
                     var downloadTask = FileRecordInfo.DownloadResourceAsync(
-                        exportParameters.FileRecord.Info.Hash.ToLower(),
+                        exportParameters.FileRecord.Info?.Hash.ToLower() ?? string.Empty,
                         assetType,
                         payloadType,
                         FileRecordInfo.VariantType.NoVariants,
@@ -179,9 +180,14 @@ namespace SanBag.ViewModels.ResourceViewModels
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine($"ERROR downloading resource {exportParameters.FileRecord.Info.Hash}.{assetType}.{payloadType}: {ex.Message}");
+                    errorMessages.AppendLine($"ERROR downloading resource {exportParameters.FileRecord.Info?.Hash ?? string.Empty}.{assetType}.{payloadType}: {ex.Message}");
                     continue;
                 }
+            }
+
+            if (errorMessages.Length > 0)
+            {
+                throw new Exception(errorMessages.ToString());
             }
         }
     }

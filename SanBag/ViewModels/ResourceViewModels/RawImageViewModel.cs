@@ -18,9 +18,9 @@ using SanBag.ViewModels.BagViewModels;
 
 namespace SanBag.ViewModels.ResourceViewModels
 {
-    class TextureResourceViewModel : BaseViewModel, ISavable
+    class RawImageViewModel : BaseViewModel, ISavable
     {
-        private TextureResource _currentResource;
+        private byte[] ImageBytes { get; set; }
         public CommandSaveAs CommandSaveAs { get; set; }
 
         private BitmapImage _currentImage;
@@ -34,20 +34,19 @@ namespace SanBag.ViewModels.ResourceViewModels
             }
         }
 
-        public TextureResourceViewModel()
+        public RawImageViewModel()
         {
             CommandSaveAs = new CommandSaveAs(this);
         }
 
         protected override void LoadFromStream(Stream resourceStream, string version)
         {
-            _currentResource = TextureResource.Create(version);
-            _currentResource.InitFromStream(resourceStream);
+            ImageBytes = new byte[resourceStream.Length];
+            resourceStream.Read(ImageBytes, 0, (int)resourceStream.Length);
 
-            var imageBytes = LibDDS.GetImageBytesFromDds(_currentResource.DdsBytes, 256, 256);
             var newImage = new BitmapImage();
             newImage.BeginInit();
-            newImage.StreamSource = new MemoryStream(imageBytes);
+            newImage.StreamSource = new MemoryStream(ImageBytes);
             newImage.EndInit();
 
             CurrentImage = newImage;
@@ -56,13 +55,13 @@ namespace SanBag.ViewModels.ResourceViewModels
         public void SaveAs()
         {
             var dialog = new SaveFileDialog();
-            dialog.FileName = Path.GetFileName(Name) + ".dds";
-            dialog.Filter = "DDS Source Image|*.dds|PNG Image|*.png|JPG Image|*.jpg|BMP Image|*.bmp|GIF Image|*.gif";
+            dialog.FileName = Path.GetFileName(Name);
+            dialog.Filter = "PNG Image|*.png";
             if (dialog.ShowDialog() == true)
             {
                 using (var outFile = File.OpenWrite(dialog.FileName))
                 {
-                    TextureResourceBagViewModel.Export(_currentResource, outFile, Path.GetExtension(dialog.FileName).ToLower());
+                    outFile.Write(ImageBytes, 0, ImageBytes.Length);
                 }
             }
         }

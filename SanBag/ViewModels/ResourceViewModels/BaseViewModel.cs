@@ -18,10 +18,12 @@ namespace SanBag.ViewModels.ResourceViewModels
 
         public void InitFromPath(string filePath)
         {
-            Name = Path.GetFileNameWithoutExtension(filePath);
+            Name = Path.GetFileName(filePath);
+            var version = FileRecordInfo.Create(Name)?.VersionHash ?? string.Empty;
+
             using (var fileStream = File.OpenRead(filePath))
             {
-                LoadFromStream(fileStream);
+                LoadFromStream(fileStream, version);
             }
         }
 
@@ -32,21 +34,21 @@ namespace SanBag.ViewModels.ResourceViewModels
             {
                 fileRecord.Save(sourceStream, stream);
                 stream.Seek(0, SeekOrigin.Begin);
-                LoadFromStream(stream);
+                LoadFromStream(stream, fileRecord.Info?.VersionHash ?? string.Empty);
             }
         }
 
-        public void InitFromStream(Stream stream)
+        public void InitFromStream(Stream stream, string version="")
         {
             Name = "Resource";
-            LoadFromStream(stream);
+            LoadFromStream(stream, version);
         }
 
         public virtual void Unload()
         {
         }
 
-        protected abstract void LoadFromStream(Stream resourceStream);
+        protected abstract void LoadFromStream(Stream resourceStream, string version);
 
         public event PropertyChangedEventHandler PropertyChanged;
         [NotifyPropertyChangedInvocator]

@@ -184,6 +184,17 @@ namespace SanBag.ViewModels
                 Name = "GeometryResource"
             });
 
+            var rawImageViewModel = new RawImageBagViewModel(this);
+            Views.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawImageViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawImageViewModel.IsValidRecord(record)),
+                Name = "Png"
+            });
+
             CurrentView = Views[0];
         }
 

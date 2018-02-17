@@ -49,7 +49,7 @@ namespace SanBag.ViewModels.ResourceViewModels
             CommandSaveAs = new CommandSaveAs(this);
         }
 
-        protected override void LoadFromStream(Stream resourceStream)
+        protected override void LoadFromStream(Stream resourceStream, string version)
         {
             try
             {
