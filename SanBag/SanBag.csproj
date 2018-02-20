@@ -105,9 +105,6 @@
     <Compile Include="ViewModels\ResourceViewModels\SoundResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawImageViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\TextureResourceViewModel.cs" />
-    <Compile Include="Views\AtlasView.xaml.cs">
-      <DependentUpon>AtlasView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\BagView.xaml.cs">
       <DependentUpon>BagView.xaml</DependentUpon>
     </Compile>
@@ -150,10 +147,6 @@
     <Compile Include="Views\ResourceViews\TextureResourceView.xaml.cs">
       <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AtlasView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\BagView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
