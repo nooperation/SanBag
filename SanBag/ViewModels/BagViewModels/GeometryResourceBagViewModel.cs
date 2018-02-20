@@ -20,7 +20,7 @@ namespace SanBag.ViewModels.BagViewModels
     {
         public GeometryResourceBagViewModel(BagViewModel parentViewModel) : base(parentViewModel)
         {
-            ExportFilter += "|Fbx File (Download)|*.fbx";
+            //ExportFilter += "|Fbx File (Download)|*.fbx";
             CurrentResourceView = new GeometryResourceView();
             CurrentResourceView.DataContext = new ResourceViewModels.GeometryResourceViewModel();
         }
