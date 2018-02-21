@@ -34,17 +34,25 @@ namespace SanBag.ViewModels
                 var arguments = Environment.GetCommandLineArgs();
                 if (arguments.Length > 1)
                 {
-                    var pathToOpen = arguments[1].Trim().ToLower();
-                    var extension = Path.GetExtension(pathToOpen);
-                    if (extension == ".bag")
+                    var firstArgument = arguments[1].Trim().ToLower();
+                    if (firstArgument == "atlas")
                     {
-                        CurrentView = new BagView();
-                        CurrentView.DataContext = new BagViewModel(arguments[1]);
+                        CurrentView = new AtlasView();
+                        CurrentView.DataContext = new AtlasViewModel();
                     }
                     else
                     {
-                        CurrentView = new ResourceView();
-                        CurrentView.DataContext = new ResourceViewModel(arguments[1]);
+                        var extension = Path.GetExtension(firstArgument);
+                        if (extension == ".bag")
+                        {
+                            CurrentView = new BagView();
+                            CurrentView.DataContext = new BagViewModel(arguments[1]);
+                        }
+                        else
+                        {
+                            CurrentView = new ResourceView();
+                            CurrentView.DataContext = new ResourceViewModel(arguments[1]);
+                        }
                     }
                 }
                 else
