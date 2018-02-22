@@ -7,9 +7,14 @@ using System.Net;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Windows;
+using System.Windows.Controls;
+using LibSanBag;
+using LibSanBag.FileResources;
 using Newtonsoft.Json;
 using SanBag.Commands;
 using SanBag.Models;
+using SanBag.ViewModels.ResourceViewModels;
+using SanBag.Views.ResourceViews;
 
 namespace SanBag.ViewModels
 {
@@ -69,6 +74,73 @@ namespace SanBag.ViewModels
             {
                 _totalPages = value;
                 OnPropertyChanged();
+            }
+        }
+
+        private UserControl _currentAtlasView;
+        public UserControl CurrentAtlasView
+        {
+            get => _currentAtlasView;
+            set
+            {
+                _currentAtlasView = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private Datum _selectedItem;
+        public Datum SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                _selectedItem = value;
+                try
+                {
+                    if (value != null)
+                    {
+                        OnSelectedItemChanged();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to load resource: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                }
+
+                OnPropertyChanged();
+            }
+        }
+
+        private async void OnSelectedItemChanged()
+        {
+            if (SelectedItem == null)
+            {
+                return;
+            }
+
+            try
+            {
+                var viewModel = new ManifestResourceViewModel();
+
+                CurrentAtlasView = new ManifestResourceView();
+                CurrentAtlasView.DataContext = viewModel;
+
+                var downloadManifestResult = await FileRecordInfo.DownloadResourceAsync(
+                    SelectedItem.Attributes.SceneAssetId,
+                    FileRecordInfo.ResourceType.WorldSource,
+                    FileRecordInfo.PayloadType.Manifest,
+                    FileRecordInfo.VariantType.NoVariants,
+                    new LibSanBag.Providers.HttpClientProvider()
+                );
+
+                using (var manifestStream = new MemoryStream(downloadManifestResult.Bytes))
+                {
+                    viewModel.InitFromStream(manifestStream);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Failed to select item: {e.Message}");
             }
         }
 
