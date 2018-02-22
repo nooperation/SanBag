@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 using SanBag.Commands;
 using SanBag.Models;
 using SanBag.ViewModels.ResourceViewModels;
+using SanBag.Views;
 using SanBag.Views.ResourceViews;
 
 namespace SanBag.ViewModels
@@ -122,8 +123,7 @@ namespace SanBag.ViewModels
             {
                 var viewModel = new ManifestResourceViewModel();
 
-                CurrentAtlasView = new ManifestResourceView();
-                CurrentAtlasView.DataContext = viewModel;
+                CurrentAtlasView = new LoadingView();
 
                 var downloadManifestResult = await FileRecordInfo.DownloadResourceAsync(
                     SelectedItem.Attributes.SceneAssetId,
@@ -135,6 +135,8 @@ namespace SanBag.ViewModels
 
                 using (var manifestStream = new MemoryStream(downloadManifestResult.Bytes))
                 {
+                    CurrentAtlasView = new ManifestResourceView();
+                    CurrentAtlasView.DataContext = viewModel;
                     viewModel.InitFromStream(manifestStream);
                 }
             }

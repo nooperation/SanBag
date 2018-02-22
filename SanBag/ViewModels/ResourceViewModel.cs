@@ -119,6 +119,15 @@ namespace SanBag.ViewModels
             }
         }
 
+        public void Unload()
+        {
+            var previousViewModel = CurrentView?.DataContext as BaseViewModel;
+            if (previousViewModel != null)
+            {
+                previousViewModel.Unload();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]

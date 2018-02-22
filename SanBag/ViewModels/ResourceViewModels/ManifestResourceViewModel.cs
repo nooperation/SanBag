@@ -124,6 +124,14 @@ namespace SanBag.ViewModels.ResourceViewModels
 
             try
             {
+                var previousViewModel = CurrentResourceView?.DataContext as ResourceViewModel;
+                if (previousViewModel != null)
+                {
+                    previousViewModel.Unload();
+                }
+
+                CurrentResourceView = new LoadingView();
+
                 var downloadManifestResult = await FileRecordInfo.DownloadResourceAsync(
                     SelectedRecord.HashString,
                     FileRecordInfo.GetResourceType(SelectedRecord.Name),
