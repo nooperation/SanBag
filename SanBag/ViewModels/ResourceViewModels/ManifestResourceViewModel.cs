@@ -5,6 +5,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 using LibSanBag;
 using LibSanBag.FileResources;
 using LibSanBag.Providers;
@@ -12,7 +14,9 @@ using Microsoft.Win32;
 using SanBag.Commands;
 using SanBag.Models;
 using SanBag.ViewModels.BagViewModels;
+using SanBag.Views;
 using SanBag.Views.BagViews;
+using SanBag.Views.ResourceViews;
 using ExportView = SanBag.Views.ExportView;
 
 namespace SanBag.ViewModels.ResourceViewModels
@@ -74,6 +78,76 @@ namespace SanBag.ViewModels.ResourceViewModels
                 filters.Insert(0, FilterNone);
 
                 return filters;
+            }
+        }
+
+        private UserControl _currentResourceView;
+        public UserControl CurrentResourceView
+        {
+            get => _currentResourceView;
+            set
+            {
+                _currentResourceView = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ManifestResource.ManifestEntry _selectedRecord;
+        public ManifestResource.ManifestEntry SelectedRecord
+        {
+            get => _selectedRecord;
+            set
+            {
+                _selectedRecord = value;
+                try
+                {
+                    if (value != null)
+                    {
+                        OnSelectedRecordhanged();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Failed to load resource: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+                }
+
+                OnPropertyChanged();
+            }
+        }
+
+        private async void OnSelectedRecordhanged()
+        {
+            if (SelectedRecord == null)
+            {
+                return;
+            }
+
+            try
+            {
+                var downloadManifestResult = await FileRecordInfo.DownloadResourceAsync(
+                    SelectedRecord.HashString,
+                    FileRecordInfo.GetResourceType(SelectedRecord.Name),
+                    FileRecordInfo.PayloadType.Payload,
+                    FileRecordInfo.VariantType.NoVariants,
+                    new LibSanBag.Providers.HttpClientProvider()
+                );
+
+                using (var manifestStream = new MemoryStream(downloadManifestResult.Bytes))
+                {
+                    var viewModel = new ResourceViewModel(
+                        manifestStream,
+                        FileRecordInfo.GetResourceType(SelectedRecord.Name),
+                        FileRecordInfo.PayloadType.Payload,
+                        downloadManifestResult.Version
+                    );
+
+                    CurrentResourceView = new ResourceView();
+                    CurrentResourceView.DataContext = viewModel;
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show($"Failed to select item: {e.Message}");
             }
         }
 
