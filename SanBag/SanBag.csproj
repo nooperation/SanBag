@@ -133,6 +133,9 @@
     <Compile Include="Views\ExportView.xaml.cs">
       <DependentUpon>ExportView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\LoadingView.xaml.cs">
+      <DependentUpon>LoadingView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ResourceView.xaml.cs">
       <DependentUpon>ResourceView.xaml</DependentUpon>
     </Compile>
@@ -168,6 +171,10 @@
     <Page Include="Views\ExportView.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Views\LoadingView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
