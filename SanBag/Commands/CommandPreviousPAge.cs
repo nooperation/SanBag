@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using LibSanBag;
 using SanBag.ViewModels;
 using SanBag.ViewModels.BagViewModels;
 
 namespace SanBag.Commands
 {
-    public class CommandSearch : ICommand
+    public class CommandPreviousPage: ICommand
     {
         private readonly AtlasViewModel _viewModel;
 
@@ -20,7 +15,7 @@ namespace SanBag.Commands
             remove => CommandManager.RequerySuggested -= value;
         }
 
-        public CommandSearch(AtlasViewModel viewModel)
+        public CommandPreviousPage(AtlasViewModel viewModel)
         {
             this._viewModel = viewModel;
         }
@@ -32,9 +27,7 @@ namespace SanBag.Commands
 
         void ICommand.Execute(object parameter)
         {
-            var query = parameter as string;
-
-            _viewModel.Search(query);
+            _viewModel.PreviousPage();
         }
     }
 }

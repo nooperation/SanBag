@@ -20,12 +20,26 @@
         <TextBox  Grid.Column="1" Text="{Binding Path=SearchQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <Button Grid.Column="2" Command="{Binding Path=CommandSearch}" CommandParameter="{Binding Path=SearchQuery}" IsDefault="True">Search</Button>
         <Grid Grid.Row="1" Grid.ColumnSpan="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="200px"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <ListBox Grid.Row="1" Grid.Column="0" ItemsSource="{Binding Path=SearchResults, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedItem}" />
-            <UserControl Grid.Row="1" Grid.Column="1" Content="{Binding CurrentAtlasView}" />
+            <ListBox Grid.Row="0" Grid.Column="0" ItemsSource="{Binding Path=SearchResults, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedItem="{Binding SelectedItem}" />
+            <Grid Grid.Row="1" Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width="48"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" HorizontalContentAlignment="Center" Command="{Binding CommandPreviousPage}">Prev</Button>
+                <ComboBox Grid.Column="1" ItemsSource="{Binding PageNumbers}" SelectedItem="{Binding CurrentPage}" />
+                <Button Grid.Column="2" HorizontalContentAlignment="Center" Command="{Binding CommandNextPage}">Next</Button>
+            </Grid>
+            <UserControl Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Content="{Binding CurrentAtlasView}" />
         </Grid>
     </Grid>
 </UserControl>

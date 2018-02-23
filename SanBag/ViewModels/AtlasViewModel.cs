@@ -19,9 +19,11 @@ using SanBag.Views.ResourceViews;
 
 namespace SanBag.ViewModels
 {
-    class AtlasViewModel : INotifyPropertyChanged
+    public class AtlasViewModel : INotifyPropertyChanged
     {
         public CommandSearch CommandSearch { get; set; }
+        public CommandNextPage CommandNextPage { get; set; }
+        public CommandPreviousPage CommandPreviousPage { get; set; }
 
         private string _searchQuery;
         public string SearchQuery
@@ -30,6 +32,17 @@ namespace SanBag.ViewModels
             set
             {
                 _searchQuery = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _lastQuery;
+        public string LastQuery
+        {
+            get => _lastQuery;
+            set
+            {
+                _lastQuery = value;
                 OnPropertyChanged();
             }
         }
@@ -56,13 +69,19 @@ namespace SanBag.ViewModels
             }
         }
 
-        private int _page;
-        public int Page
+        private int _currentPage;
+        public int CurrentPage
         {
-            get => _page;
+            get => _currentPage;
             set
             {
-                _page = value;
+                if (_currentPage == value)
+                {
+                    return;
+                }
+
+                _currentPage = value;
+                ChangePage(value);
                 OnPropertyChanged();
             }
         }
@@ -74,6 +93,18 @@ namespace SanBag.ViewModels
             set
             {
                 _totalPages = value;
+                PageNumbers = new List<int>(Enumerable.Range(1, value));
+                OnPropertyChanged();
+            }
+        }
+
+        private List<int> _pageNumbers;
+        public List<int> PageNumbers
+        {
+            get => _pageNumbers;
+            set
+            {
+                _pageNumbers = value;
                 OnPropertyChanged();
             }
         }
@@ -149,10 +180,13 @@ namespace SanBag.ViewModels
         public AtlasViewModel()
         {
             CommandSearch = new CommandSearch(this);
+            CommandNextPage = new CommandNextPage(this);
+            CommandPreviousPage = new CommandPreviousPage(this);
 
             SearchQuery = "";
             SearchResults = new List<Datum>();
             ExperienceView = "TODO";
+            TotalPages = 1;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -161,12 +195,12 @@ namespace SanBag.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Search(string query)
+        public void Search(string query, int page=1)
         {
             try
             {
                 var perPage = 10;
-                var request = WebRequest.Create($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}");
+                var request = WebRequest.Create($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}&page={page}");
                 var response = request.GetResponse();
 
                 var responseJson = "";
@@ -178,12 +212,33 @@ namespace SanBag.ViewModels
                 var results = JsonConvert.DeserializeObject<AtlasResponse>(responseJson);
                 SearchResults = results.Data.ToList();
                 TotalPages = results.Meta.TotalPages;
-                Page = results.Meta.Page;
+                CurrentPage = results.Meta.Page;
+                LastQuery = query;
             }
             catch (Exception e)
             {
                 MessageBox.Show($"Failed to search: {e.Message}");
             }
+        }
+
+        public void ChangePage(int newPage)
+        {
+            if (newPage > TotalPages || newPage < 1)
+            {
+                return;
+            }
+
+            Search(LastQuery, newPage);
+        }
+
+        public void NextPage()
+        {
+            ChangePage(CurrentPage + 1);
+        }
+
+        public void PreviousPage()
+        {
+            ChangePage(CurrentPage - 1);
         }
     }
 }

@@ -79,6 +79,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\CommandChangePage.cs" />
+    <Compile Include="Commands\CommandPreviousPage.cs" />
+    <Compile Include="Commands\CommandNextPage.cs" />
     <Compile Include="Commands\CommandExit.cs" />
     <Compile Include="Commands\CommandCancelExport.cs" />
     <Compile Include="Commands\CommandExportSelected.cs" />
