@@ -186,7 +186,7 @@ namespace SanBag.ViewModels
             SearchQuery = "";
             SearchResults = new List<Datum>();
             ExperienceView = "TODO";
-            TotalPages = 1;
+            TotalPages = 0;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
