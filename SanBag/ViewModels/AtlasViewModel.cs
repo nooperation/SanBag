@@ -47,8 +47,8 @@ namespace SanBag.ViewModels
             }
         }
 
-        private List<Datum> _searchResults;
-        public List<Datum> SearchResults
+        private List<ExperienceView> _searchResults;
+        public List<ExperienceView> SearchResults
         {
             get => _searchResults;
             set
@@ -120,8 +120,8 @@ namespace SanBag.ViewModels
             }
         }
 
-        private Datum _selectedItem;
-        public Datum SelectedItem
+        private ExperienceView _selectedItem;
+        public ExperienceView SelectedItem
         {
             get => _selectedItem;
             set
@@ -145,7 +145,8 @@ namespace SanBag.ViewModels
 
         private async void OnSelectedItemChanged()
         {
-            if (SelectedItem == null)
+            var experienceViewModel = SelectedItem?.DataContext as ExperienceViewModel;
+            if (experienceViewModel == null)
             {
                 return;
             }
@@ -157,7 +158,7 @@ namespace SanBag.ViewModels
                 CurrentAtlasView = new LoadingView();
 
                 var downloadManifestResult = await FileRecordInfo.DownloadResourceAsync(
-                    SelectedItem.Attributes.SceneAssetId,
+                    experienceViewModel.Experience.Attributes.SceneAssetId,
                     FileRecordInfo.ResourceType.WorldSource,
                     FileRecordInfo.PayloadType.Manifest,
                     FileRecordInfo.VariantType.NoVariants,
@@ -184,7 +185,7 @@ namespace SanBag.ViewModels
             CommandPreviousPage = new CommandPreviousPage(this);
 
             SearchQuery = "";
-            SearchResults = new List<Datum>();
+            SearchResults = new List<ExperienceView>();
             ExperienceView = "TODO";
             TotalPages = 0;
         }
@@ -199,7 +200,7 @@ namespace SanBag.ViewModels
         {
             try
             {
-                var perPage = 10;
+                var perPage = 5;
                 var request = WebRequest.Create($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}&page={page}");
                 var response = request.GetResponse();
 
@@ -210,7 +211,16 @@ namespace SanBag.ViewModels
                 }
 
                 var results = JsonConvert.DeserializeObject<AtlasResponse>(responseJson);
-                SearchResults = results.Data.ToList();
+                var tempSearchResults = new List<ExperienceView>();
+                foreach (var experienceData in results.Data)
+                {
+                    tempSearchResults.Add(new Views.ExperienceView()
+                    {
+                        DataContext = new ExperienceViewModel(experienceData)
+                    });
+                }
+                SearchResults = tempSearchResults;
+
                 TotalPages = results.Meta.TotalPages;
                 CurrentPage = results.Meta.Page;
                 LastQuery = query;
