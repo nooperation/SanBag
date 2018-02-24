@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using CommonUI.ViewModels;
+using CommonUI.Views;
 using SanBag.Views;
 
 namespace SanBag.ViewModels
@@ -35,24 +37,17 @@ namespace SanBag.ViewModels
                 if (arguments.Length > 1)
                 {
                     var firstArgument = arguments[1].Trim().ToLower();
-                    if (firstArgument == "atlas")
+
+                    var extension = Path.GetExtension(firstArgument);
+                    if (extension == ".bag")
                     {
-                        CurrentView = new AtlasView();
-                        CurrentView.DataContext = new AtlasViewModel();
+                        CurrentView = new BagView();
+                        CurrentView.DataContext = new BagViewModel(arguments[1]);
                     }
                     else
                     {
-                        var extension = Path.GetExtension(firstArgument);
-                        if (extension == ".bag")
-                        {
-                            CurrentView = new BagView();
-                            CurrentView.DataContext = new BagViewModel(arguments[1]);
-                        }
-                        else
-                        {
-                            CurrentView = new ResourceView();
-                            CurrentView.DataContext = new ResourceViewModel(arguments[1]);
-                        }
+                        CurrentView = new ResourceView();
+                        CurrentView.DataContext = new ResourceViewModel(arguments[1]);
                     }
                 }
                 else

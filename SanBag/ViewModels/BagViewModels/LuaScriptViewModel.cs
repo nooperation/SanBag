@@ -2,10 +2,10 @@
 using LibSanBag.FileResources;
 using LibSanBag.ResourceUtils;
 using Microsoft.Win32;
-using SanBag.Commands;
-using SanBag.Models;
-using SanBag.ResourceUtils;
-using SanBag.Views;
+using CommonUI.Commands;
+using CommonUI.Models;
+using CommonUI.ResourceUtils;
+using CommonUI.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

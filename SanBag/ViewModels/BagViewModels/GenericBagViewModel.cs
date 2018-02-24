@@ -1,8 +1,8 @@
 ﻿using LibSanBag;
 using Microsoft.Win32;
-using SanBag.Commands;
-using SanBag.Models;
-using SanBag.Views;
+using CommonUI.Commands;
+using CommonUI.Models;
+using CommonUI.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,11 +13,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using CommonUI.ViewModels;
 using LibSanBag.ResourceUtils;
-using SanBag.ViewModels.ResourceViewModels;
-using SanBag.Views.BagViews;
-using SanBag.Views.ResourceViews;
-using ExportView = SanBag.Views.ExportView;
+using CommonUI.ViewModels.ResourceViewModels;
+using CommonUI.Views.ResourceViews;
+using SanBag.Commands;
+using ExportView = CommonUI.Views.ExportView;
 
 namespace SanBag.ViewModels.BagViewModels
 {
@@ -94,10 +95,7 @@ namespace SanBag.ViewModels.BagViewModels
             };
 
             var rawView = new RawResourceView();
-            rawView.DataContext = new RawResourceViewModel
-            {
-                HexControl = rawView.HexEdit
-            };
+            rawView.DataContext = new RawResourceViewModel(rawView);
             ControlMap[FileRecordInfo.ResourceType.Unknown] = rawView;
         }
 

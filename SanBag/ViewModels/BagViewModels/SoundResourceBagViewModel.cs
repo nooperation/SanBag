@@ -10,8 +10,9 @@ using System.Windows.Controls;
 using LibSanBag;
 using LibSanBag.FileResources;
 using LibSanBag.ResourceUtils;
-using SanBag.Models;
-using SanBag.Views.ResourceViews;
+using CommonUI.Models;
+using CommonUI.Views.ResourceViews;
+using CommonUI.ViewModels.ResourceViewModels;
 
 namespace SanBag.ViewModels.BagViewModels
 {
@@ -21,7 +22,7 @@ namespace SanBag.ViewModels.BagViewModels
         {
             ExportFilter += "|Wav Sound|*.wav";
             CurrentResourceView = new SoundResourceView();
-            CurrentResourceView.DataContext = new SanBag.ViewModels.ResourceViewModels.SoundResourceViewModel();
+            CurrentResourceView.DataContext = new SoundResourceViewModel();
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -42,7 +43,7 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected override void OnSelectedRecordChanged()
         {
-            var view = CurrentResourceView.DataContext as ResourceViewModels.SoundResourceViewModel;
+            var view = CurrentResourceView.DataContext as SoundResourceViewModel;
             if (view == null)
             {
                 return;
