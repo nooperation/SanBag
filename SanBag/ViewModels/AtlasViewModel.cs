@@ -202,7 +202,7 @@ namespace SanBag.ViewModels
             {
                 CurrentAtlasView = null;
 
-                var perPage = 5;
+                var perPage = 4;
                 var request = WebRequest.Create($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}&page={page}");
                 var response = request.GetResponse();
 
