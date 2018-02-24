@@ -2,10 +2,10 @@
 using LibSanBag.FileResources;
 using LibSanBag.ResourceUtils;
 using Microsoft.Win32;
-using SanBag.Commands;
-using SanBag.Models;
-using SanBag.ResourceUtils;
-using SanBag.Views;
+using CommonUI.Commands;
+using CommonUI.Models;
+using CommonUI.ResourceUtils;
+using CommonUI.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +17,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
-using SanBag.Views.ResourceViews;
+using CommonUI.Views.ResourceViews;
+using CommonUI.ViewModels.ResourceViewModels;
 
 namespace SanBag.ViewModels.BagViewModels
 {
@@ -39,7 +40,7 @@ namespace SanBag.ViewModels.BagViewModels
         {
             ExportFilter = "PNG Image|*.png";
             CurrentResourceView = new RawImageView();
-            CurrentResourceView.DataContext = new SanBag.ViewModels.ResourceViewModels.RawImageViewModel();
+            CurrentResourceView.DataContext = new RawImageViewModel();
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -60,7 +61,7 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected override void OnSelectedRecordChanged()
         {
-            var view = CurrentResourceView.DataContext as ResourceViewModels.RawImageViewModel;
+            var view = CurrentResourceView.DataContext as RawImageViewModel;
             if (view == null)
             {
                 return;

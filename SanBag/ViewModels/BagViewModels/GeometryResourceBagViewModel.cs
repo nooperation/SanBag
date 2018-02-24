@@ -11,8 +11,9 @@ using System.Windows.Controls;
 using LibSanBag;
 using LibSanBag.FileResources;
 using LibSanBag.ResourceUtils;
-using SanBag.Models;
-using SanBag.Views.ResourceViews;
+using CommonUI.Models;
+using CommonUI.Views.ResourceViews;
+using CommonUI.ViewModels.ResourceViewModels;
 
 namespace SanBag.ViewModels.BagViewModels
 {
@@ -22,7 +23,7 @@ namespace SanBag.ViewModels.BagViewModels
         {
             //ExportFilter += "|Fbx File (Download)|*.fbx";
             CurrentResourceView = new GeometryResourceView();
-            CurrentResourceView.DataContext = new ResourceViewModels.GeometryResourceViewModel();
+            CurrentResourceView.DataContext = new GeometryResourceViewModel();
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -72,7 +73,7 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected override void OnSelectedRecordChanged()
         {
-            var view = CurrentResourceView.DataContext as ResourceViewModels.GeometryResourceViewModel;
+            var view = CurrentResourceView.DataContext as CommonUI.ViewModels.ResourceViewModels.GeometryResourceViewModel;
             if (view == null)
             {
                 return;
