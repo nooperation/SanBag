@@ -200,6 +200,8 @@ namespace SanBag.ViewModels
         {
             try
             {
+                CurrentAtlasView = null;
+
                 var perPage = 5;
                 var request = WebRequest.Create($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}&page={page}");
                 var response = request.GetResponse();
@@ -222,8 +224,10 @@ namespace SanBag.ViewModels
                 SearchResults = tempSearchResults;
 
                 TotalPages = results.Meta.TotalPages;
-                CurrentPage = results.Meta.Page;
                 LastQuery = query;
+
+                _currentPage = page;
+                OnPropertyChanged(nameof(CurrentPage));
             }
             catch (Exception e)
             {
