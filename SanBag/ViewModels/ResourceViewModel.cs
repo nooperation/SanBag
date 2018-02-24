@@ -39,34 +39,48 @@ namespace SanBag.ViewModels
             OpenFile(fileToOpen);
         }
 
+        public ResourceViewModel(Stream resourceStream, LibSanBag.FileRecordInfo.ResourceType resourceType, LibSanBag.FileRecordInfo.PayloadType payloadType, string version)
+        {
+            OpenStream(resourceStream, resourceType, payloadType, version);
+        }
+
         public void OpenFile(string resourcePath)
         {
             var fileName = Path.GetFileName(resourcePath);
             var fileInfo = LibSanBag.FileRecordInfo.Create(fileName);
+
+            using (var resourceStream = File.OpenRead(resourcePath))
+            {
+                OpenStream(resourceStream, fileInfo.Resource, fileInfo.Payload, fileInfo.VersionHash);
+            }
+        }
+
+        public void OpenStream(Stream resourceStream, LibSanBag.FileRecordInfo.ResourceType resourceType, LibSanBag.FileRecordInfo.PayloadType payloadType, string version)
+        {
             var isRawView = false;
 
-            if (fileInfo?.Payload == LibSanBag.FileRecordInfo.PayloadType.Manifest)
+            if (payloadType == LibSanBag.FileRecordInfo.PayloadType.Manifest)
             {
                 CurrentView = new ManifestResourceView();
                 CurrentViewModel = new ManifestResourceViewModel();
             }
-            else if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
+            else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
             {
                 CurrentView = new TextureResourceView();
                 CurrentViewModel = new TextureResourceViewModel();
             }
-            else if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.SoundResource)
+            else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.SoundResource)
             {
                 CurrentView = new SoundResourceView();
                 CurrentViewModel = new SoundResourceViewModel();
             }
-            else if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource ||
-                     fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.LuaScriptResource)
+            else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource ||
+                     resourceType == LibSanBag.FileRecordInfo.ResourceType.LuaScriptResource)
             {
                 CurrentView = new ScriptSourceTextView();
                 CurrentViewModel = new ScriptSourceTextViewModel();
             }
-            else if (fileInfo?.Resource == LibSanBag.FileRecordInfo.ResourceType.GeometryResourceResource)
+            else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.GeometryResourceResource)
             {
                 CurrentView = new GeometryResourceView();
                 CurrentViewModel = new GeometryResourceViewModel();
@@ -96,12 +110,21 @@ namespace SanBag.ViewModels
             try
             {
                 CurrentView.DataContext = CurrentViewModel;
-                CurrentViewModel.InitFromPath(resourcePath);
+                CurrentViewModel.InitFromStream(resourceStream, version);
                 return;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Failed to load resource: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
+        }
+
+        public void Unload()
+        {
+            var previousViewModel = CurrentView?.DataContext as BaseViewModel;
+            if (previousViewModel != null)
+            {
+                previousViewModel.Unload();
             }
         }
 

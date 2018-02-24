@@ -14,13 +14,16 @@ using Newtonsoft.Json;
 using SanBag.Commands;
 using SanBag.Models;
 using SanBag.ViewModels.ResourceViewModels;
+using SanBag.Views;
 using SanBag.Views.ResourceViews;
 
 namespace SanBag.ViewModels
 {
-    class AtlasViewModel : INotifyPropertyChanged
+    public class AtlasViewModel : INotifyPropertyChanged
     {
         public CommandSearch CommandSearch { get; set; }
+        public CommandNextPage CommandNextPage { get; set; }
+        public CommandPreviousPage CommandPreviousPage { get; set; }
 
         private string _searchQuery;
         public string SearchQuery
@@ -33,8 +36,19 @@ namespace SanBag.ViewModels
             }
         }
 
-        private List<Datum> _searchResults;
-        public List<Datum> SearchResults
+        private string _lastQuery;
+        public string LastQuery
+        {
+            get => _lastQuery;
+            set
+            {
+                _lastQuery = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private List<ExperienceView> _searchResults;
+        public List<ExperienceView> SearchResults
         {
             get => _searchResults;
             set
@@ -55,13 +69,19 @@ namespace SanBag.ViewModels
             }
         }
 
-        private int _page;
-        public int Page
+        private int _currentPage;
+        public int CurrentPage
         {
-            get => _page;
+            get => _currentPage;
             set
             {
-                _page = value;
+                if (_currentPage == value)
+                {
+                    return;
+                }
+
+                _currentPage = value;
+                ChangePage(value);
                 OnPropertyChanged();
             }
         }
@@ -73,6 +93,18 @@ namespace SanBag.ViewModels
             set
             {
                 _totalPages = value;
+                PageNumbers = new List<int>(Enumerable.Range(1, value));
+                OnPropertyChanged();
+            }
+        }
+
+        private List<int> _pageNumbers;
+        public List<int> PageNumbers
+        {
+            get => _pageNumbers;
+            set
+            {
+                _pageNumbers = value;
                 OnPropertyChanged();
             }
         }
@@ -88,8 +120,8 @@ namespace SanBag.ViewModels
             }
         }
 
-        private Datum _selectedItem;
-        public Datum SelectedItem
+        private ExperienceView _selectedItem;
+        public ExperienceView SelectedItem
         {
             get => _selectedItem;
             set
@@ -113,7 +145,8 @@ namespace SanBag.ViewModels
 
         private async void OnSelectedItemChanged()
         {
-            if (SelectedItem == null)
+            var experienceViewModel = SelectedItem?.DataContext as ExperienceViewModel;
+            if (experienceViewModel == null)
             {
                 return;
             }
@@ -122,11 +155,10 @@ namespace SanBag.ViewModels
             {
                 var viewModel = new ManifestResourceViewModel();
 
-                CurrentAtlasView = new ManifestResourceView();
-                CurrentAtlasView.DataContext = viewModel;
+                CurrentAtlasView = new LoadingView();
 
                 var downloadManifestResult = await FileRecordInfo.DownloadResourceAsync(
-                    SelectedItem.Attributes.SceneAssetId,
+                    experienceViewModel.Experience.Attributes.SceneAssetId,
                     FileRecordInfo.ResourceType.WorldSource,
                     FileRecordInfo.PayloadType.Manifest,
                     FileRecordInfo.VariantType.NoVariants,
@@ -135,6 +167,8 @@ namespace SanBag.ViewModels
 
                 using (var manifestStream = new MemoryStream(downloadManifestResult.Bytes))
                 {
+                    CurrentAtlasView = new ManifestResourceView();
+                    CurrentAtlasView.DataContext = viewModel;
                     viewModel.InitFromStream(manifestStream);
                 }
             }
@@ -147,10 +181,13 @@ namespace SanBag.ViewModels
         public AtlasViewModel()
         {
             CommandSearch = new CommandSearch(this);
+            CommandNextPage = new CommandNextPage(this);
+            CommandPreviousPage = new CommandPreviousPage(this);
 
             SearchQuery = "";
-            SearchResults = new List<Datum>();
+            SearchResults = new List<ExperienceView>();
             ExperienceView = "TODO";
+            TotalPages = 0;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -159,12 +196,14 @@ namespace SanBag.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Search(string query)
+        public void Search(string query, int page=1)
         {
             try
             {
-                var perPage = 10;
-                var request = WebRequest.Create($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}");
+                CurrentAtlasView = null;
+
+                var perPage = 4;
+                var request = WebRequest.Create($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}&page={page}");
                 var response = request.GetResponse();
 
                 var responseJson = "";
@@ -174,14 +213,46 @@ namespace SanBag.ViewModels
                 }
 
                 var results = JsonConvert.DeserializeObject<AtlasResponse>(responseJson);
-                SearchResults = results.Data.ToList();
+                var tempSearchResults = new List<ExperienceView>();
+                foreach (var experienceData in results.Data)
+                {
+                    tempSearchResults.Add(new Views.ExperienceView()
+                    {
+                        DataContext = new ExperienceViewModel(experienceData)
+                    });
+                }
+                SearchResults = tempSearchResults;
+
                 TotalPages = results.Meta.TotalPages;
-                Page = results.Meta.Page;
+                LastQuery = query;
+
+                _currentPage = page;
+                OnPropertyChanged(nameof(CurrentPage));
             }
             catch (Exception e)
             {
                 MessageBox.Show($"Failed to search: {e.Message}");
             }
+        }
+
+        public void ChangePage(int newPage)
+        {
+            if (newPage > TotalPages || newPage < 1)
+            {
+                return;
+            }
+
+            Search(LastQuery, newPage);
+        }
+
+        public void NextPage()
+        {
+            ChangePage(CurrentPage + 1);
+        }
+
+        public void PreviousPage()
+        {
+            ChangePage(CurrentPage - 1);
         }
     }
 }
