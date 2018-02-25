@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using CommonUI.ViewModels;
+using CommonUI.Views;
 using SanBag.Views;
 
 namespace SanBag.ViewModels
@@ -34,8 +36,9 @@ namespace SanBag.ViewModels
                 var arguments = Environment.GetCommandLineArgs();
                 if (arguments.Length > 1)
                 {
-                    var pathToOpen = arguments[1].Trim().ToLower();
-                    var extension = Path.GetExtension(pathToOpen);
+                    var firstArgument = arguments[1].Trim().ToLower();
+
+                    var extension = Path.GetExtension(firstArgument);
                     if (extension == ".bag")
                     {
                         CurrentView = new BagView();

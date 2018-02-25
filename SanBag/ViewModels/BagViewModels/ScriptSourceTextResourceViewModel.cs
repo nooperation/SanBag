@@ -2,10 +2,10 @@
 using LibSanBag.FileResources;
 using LibSanBag.ResourceUtils;
 using Microsoft.Win32;
-using SanBag.Commands;
-using SanBag.Models;
-using SanBag.ResourceUtils;
-using SanBag.Views;
+using CommonUI.Commands;
+using CommonUI.Models;
+using CommonUI.ResourceUtils;
+using CommonUI.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,7 +15,8 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
-using SanBag.Views.ResourceViews;
+using CommonUI.ViewModels.ResourceViewModels;
+using CommonUI.Views.ResourceViews;
 
 namespace SanBag.ViewModels.BagViewModels
 {
@@ -37,7 +38,7 @@ namespace SanBag.ViewModels.BagViewModels
         {
             ExportFilter += "|Script Source|*.cs";
             CurrentResourceView = new ScriptSourceTextView();
-            CurrentResourceView.DataContext = new SanBag.ViewModels.ResourceViewModels.ScriptSourceTextViewModel();
+            CurrentResourceView.DataContext = new ScriptSourceTextViewModel();
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -59,7 +60,7 @@ namespace SanBag.ViewModels.BagViewModels
 
         protected override void OnSelectedRecordChanged()
         {
-            var view = CurrentResourceView.DataContext as ResourceViewModels.ScriptSourceTextViewModel;
+            var view = CurrentResourceView.DataContext as CommonUI.ViewModels.ResourceViewModels.ScriptSourceTextViewModel;
             if (view == null)
             {
                 return;

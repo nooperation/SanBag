@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C799B853-615E-4215-A17A-4E2F9687A163}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>CommonUI</RootNamespace>
+    <AssemblyName>CommonUI</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="HelixToolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
+      <HintPath>..\packages\HelixToolkit.1.0.0\lib\portable-net45+win8+wpa81+wp8\HelixToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="HelixToolkit.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
+      <HintPath>..\packages\HelixToolkit.Wpf.1.0.0\lib\net45\HelixToolkit.Wpf.dll</HintPath>
+    </Reference>
+    <Reference Include="LibSanBag, Version=1.2.7.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\LibSanBag.1.2.7\lib\net46\LibSanBag.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFHexaEditor.1.2.1\lib\net45\System.ValueTuple.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WPFHexaEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WPFHexaEditor.1.2.1\lib\net45\WPFHexaEditor.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\CommandCancelExport.cs" />
+    <Compile Include="Commands\CommandExit.cs" />
+    <Compile Include="Commands\CommandManifestExportSelected.cs" />
+    <Compile Include="Commands\CommandPauseSound.cs" />
+    <Compile Include="Commands\CommandPlaySound.cs" />
+    <Compile Include="Commands\CommandSaveAs.cs" />
+    <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
+    <Compile Include="Converters\InvertBoolConverter.cs" />
+    <Compile Include="Converters\PercentageToStringConverter.cs" />
+    <Compile Include="Converters\SizeToStringConverter.cs" />
+    <Compile Include="Converters\TimestampNsConverter.cs" />
+    <Compile Include="Models\ExportParams.cs" />
+    <Compile Include="Models\ViewType.cs" />
+    <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ResourceUtils\Utils.cs" />
+    <Compile Include="ViewModels\ExportViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\GeometryResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\ISavable.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\ManifestResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\RawImageViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\ScriptSourceTextViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\SoundResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\TextureResourceViewModel.cs" />
+    <Compile Include="Views\ExportView.xaml.cs">
+      <DependentUpon>ExportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\LoadingView.xaml.cs">
+      <DependentUpon>LoadingView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceView.xaml.cs">
+      <DependentUpon>ResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\GeometryResourceView.xaml.cs">
+      <DependentUpon>GeometryResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\ManifestResourceView.xaml.cs">
+      <DependentUpon>ManifestResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\RawImageView.xaml.cs">
+      <DependentUpon>RawImageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\RawResourceView.xaml.cs">
+      <DependentUpon>RawResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\ScriptSourceTextView.xaml.cs">
+      <DependentUpon>ScriptSourceTextView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\SoundResourceView.xaml.cs">
+      <DependentUpon>SoundResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\TextureResourceView.xaml.cs">
+      <DependentUpon>TextureResourceView.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\ExportView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\LoadingView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\GeometryResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\ManifestResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\RawImageView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\RawResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\ScriptSourceTextView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\SoundResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\TextureResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="x64\LibDDS.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props'))" />
+  </Target>
+</Project>

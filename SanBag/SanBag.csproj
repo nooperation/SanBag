@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\LibSanBag.1.2.5\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.2.5\build\LibSanBag.props')" />
+  <Import Project="..\packages\LibSanBag.1.2.7\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.2.7\build\LibSanBag.props')" />
   <Import Project="..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -21,7 +21,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\x64\Debug\</OutputPath>
+    <OutputPath>..\bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <DebugType>full</DebugType>
     <PlatformTarget>x64</PlatformTarget>
@@ -30,7 +30,7 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
-    <OutputPath>bin\x64\Release\</OutputPath>
+    <OutputPath>..\bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <Optimize>true</Optimize>
     <DebugType>pdbonly</DebugType>
@@ -40,20 +40,12 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="HelixToolkit, Version=1.0.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
-      <HintPath>..\packages\HelixToolkit.1.0.0\lib\portable-net45+win8+wpa81+wp8\HelixToolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="HelixToolkit.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
-      <HintPath>..\packages\HelixToolkit.Wpf.1.0.0\lib\net45\HelixToolkit.Wpf.dll</HintPath>
-    </Reference>
-    <Reference Include="LibSanBag, Version=1.2.5.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\LibSanBag.1.2.5\lib\net46\LibSanBag.dll</HintPath>
+    <Reference Include="LibSanBag, Version=1.2.7.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\LibSanBag.1.2.7\lib\net46\LibSanBag.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="System.ValueTuple, Version=4.0.2.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\WPFHexaEditor.1.2.1\lib\net45\System.ValueTuple.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -66,94 +58,36 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="WPFHexaEditor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WPFHexaEditor.1.2.1\lib\net45\WPFHexaEditor.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commands\CommandExit.cs" />
-    <Compile Include="Commands\CommandCancelExport.cs" />
     <Compile Include="Commands\CommandExportSelected.cs" />
-    <Compile Include="Commands\CommandManifestExportSelected.cs" />
     <Compile Include="Commands\CommandOpenBag.cs" />
     <Compile Include="Commands\CommandCopyAsUrl.cs" />
-    <Compile Include="Commands\CommandPauseSound.cs" />
-    <Compile Include="Commands\CommandPlaySound.cs" />
-    <Compile Include="Commands\CommandSaveAs.cs" />
-    <Compile Include="Converters\PercentageToStringConverter.cs" />
-    <Compile Include="Models\ExportParams.cs" />
-    <Compile Include="Models\ViewType.cs" />
     <Compile Include="Properties\Annotations.cs" />
-    <Compile Include="ResourceUtils\Utils.cs" />
-    <Compile Include="ViewModels\BagViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\GeometryResourceBagViewModel.cs" />
-    <Compile Include="ViewModels\BagViewModels\SoundResourceBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\LuaScriptViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\ManifestBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\RawImageBagViewModel.cs" />
-    <Compile Include="ViewModels\ResourceViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\ScriptSourceTextResourceViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\SoundResourceBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\TextureResourceBagViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
-    <Compile Include="ViewModels\ResourceViewModels\BaseViewModel.cs" />
-    <Compile Include="ViewModels\ResourceViewModels\ISavable.cs" />
-    <Compile Include="ViewModels\ResourceViewModels\ManifestResourceViewModel.cs" />
-    <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
-    <Compile Include="ViewModels\ResourceViewModels\GeometryResourceViewModel.cs" />
-    <Compile Include="ViewModels\ResourceViewModels\ScriptSourceTextViewModel.cs" />
-    <Compile Include="ViewModels\ResourceViewModels\SoundResourceViewModel.cs" />
-    <Compile Include="ViewModels\ResourceViewModels\RawImageViewModel.cs" />
-    <Compile Include="ViewModels\ResourceViewModels\TextureResourceViewModel.cs" />
     <Compile Include="Views\BagView.xaml.cs">
       <DependentUpon>BagView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ViewModels\BagViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
-    <Compile Include="ViewModels\BagViewModels\LuaScriptViewModel.cs" />
-    <Compile Include="ViewModels\BagViewModels\ManifestBagViewModel.cs" />
-    <Compile Include="ViewModels\BagViewModels\ScriptSourceTextResourceViewModel.cs" />
-    <Compile Include="ViewModels\BagViewModels\TextureResourceBagViewModel.cs" />
-    <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
-    <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Views\BagViews\GenericBagView.xaml.cs">
       <DependentUpon>GenericBagView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Converters\SizeToStringConverter.cs" />
-    <Compile Include="Converters\TimestampNsConverter.cs" />
-    <Compile Include="Views\ExportView.xaml.cs">
-      <DependentUpon>ExportView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ResourceView.xaml.cs">
-      <DependentUpon>ResourceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ResourceViews\ManifestResourceView.xaml.cs">
-      <DependentUpon>ManifestResourceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ResourceViews\RawResourceView.xaml.cs">
-      <DependentUpon>RawResourceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ResourceViews\ScriptSourceTextView.xaml.cs">
-      <DependentUpon>ScriptSourceTextView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ResourceViews\SoundResourceView.xaml.cs">
-      <DependentUpon>SoundResourceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ResourceViews\GeometryResourceView.xaml.cs">
-      <DependentUpon>GeometryResourceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ResourceViews\RawImageView.xaml.cs">
-      <DependentUpon>RawImageView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ResourceViews\TextureResourceView.xaml.cs">
-      <DependentUpon>TextureResourceView.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\BagView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ExportView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>XamlIntelliSenseFileGenerator</Generator>
     </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -163,43 +97,10 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModels\ExportViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\ResourceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ResourceViews\ManifestResourceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ResourceViews\RawResourceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ResourceViews\ScriptSourceTextView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ResourceViews\SoundResourceView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ResourceViews\GeometryResourceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ResourceViews\RawImageView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ResourceViews\TextureResourceView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\BagViews\GenericBagView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -228,9 +129,7 @@
       <Link>LICENSE</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -238,6 +137,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CommonUI\CommonUI.csproj">
+      <Project>{c799b853-615e-4215-a17a-4e2f9687a163}</Project>
+      <Name>CommonUI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
@@ -249,6 +154,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props'))" />
-    <Error Condition="!Exists('..\packages\LibSanBag.1.2.5\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.2.5\build\LibSanBag.props'))" />
+    <Error Condition="!Exists('..\packages\LibSanBag.1.2.7\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.2.7\build\LibSanBag.props'))" />
   </Target>
 </Project>

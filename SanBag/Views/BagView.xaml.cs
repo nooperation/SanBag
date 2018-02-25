@@ -1,6 +1,5 @@
 ﻿using LibSanBag;
 using Microsoft.Win32;
-using SanBag.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
