@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using CommonUI.ViewModels.ResourceViewModels;
 
@@ -10,7 +6,7 @@ namespace CommonUI.Commands
 {
     public class CommandPlaySound : ICommand
     {
-        private SoundResourceViewModel _viewModel;
+        private readonly SoundResourceViewModel _viewModel;
 
         event EventHandler ICommand.CanExecuteChanged
         {
@@ -20,7 +16,7 @@ namespace CommonUI.Commands
 
         public CommandPlaySound(SoundResourceViewModel viewModel)
         {
-            this._viewModel = viewModel;
+            _viewModel = viewModel;
         }
 
         bool ICommand.CanExecute(object parameter)

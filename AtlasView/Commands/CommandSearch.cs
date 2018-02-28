@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using AtlasView.ViewModels;
 
@@ -20,7 +16,7 @@ namespace AtlasView.Commands
 
         public CommandSearch(AtlasViewModel viewModel)
         {
-            this._viewModel = viewModel;
+            _viewModel = viewModel;
         }
 
         bool ICommand.CanExecute(object parameter)
