@@ -113,6 +113,29 @@ namespace CommonUI.ViewModels.ResourceViewModels
             }
         }
 
+        private FileRecordInfo.PayloadType _currentPayloadType;
+        public FileRecordInfo.PayloadType CurrentPayloadType
+        {
+            get => _currentPayloadType;
+            set
+            {
+                _currentPayloadType = value;
+                OnSelectedRecordhanged();
+                OnPropertyChanged();
+            }
+        }
+
+        private List<FileRecordInfo.PayloadType> _payloadtypes;
+        public List<FileRecordInfo.PayloadType> PayloadTypes
+        {
+            get => _payloadtypes;
+            set
+            {
+                _payloadtypes = value;
+                OnPropertyChanged();
+            }
+        }
+
         private async void OnSelectedRecordhanged()
         {
             if (SelectedRecord == null)
@@ -133,7 +156,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 var downloadManifestResult = await FileRecordInfo.DownloadResourceAsync(
                     SelectedRecord.HashString,
                     FileRecordInfo.GetResourceType(SelectedRecord.Name),
-                    FileRecordInfo.PayloadType.Payload,
+                    CurrentPayloadType,
                     FileRecordInfo.VariantType.NoVariants,
                     new LibSanBag.Providers.HttpClientProvider()
                 );
@@ -143,7 +166,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     var viewModel = new ResourceViewModel(
                         manifestStream,
                         FileRecordInfo.GetResourceType(SelectedRecord.Name),
-                        FileRecordInfo.PayloadType.Payload,
+                        CurrentPayloadType,
                         downloadManifestResult.Version
                     );
 
@@ -162,6 +185,9 @@ namespace CommonUI.ViewModels.ResourceViewModels
             Filters.Add(FilterNone);
             CurrentFilter = FilterNone;
             CommandManifestExportSelected = new CommandManifestExportSelected(this);
+
+            PayloadTypes = Enum.GetValues(typeof(FileRecordInfo.PayloadType)).OfType<FileRecordInfo.PayloadType>().ToList();
+            CurrentPayloadType = FileRecordInfo.PayloadType.Payload;
         }
 
         protected override void LoadFromStream(Stream resourceStream, string version)
