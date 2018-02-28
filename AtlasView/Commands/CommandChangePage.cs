@@ -16,7 +16,7 @@ namespace AtlasView.Commands
 
         public CommandChangePage(AtlasViewModel viewModel)
         {
-            this._viewModel = viewModel;
+            _viewModel = viewModel;
         }
 
         bool ICommand.CanExecute(object parameter)

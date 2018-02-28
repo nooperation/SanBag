@@ -16,7 +16,7 @@ namespace CommonUI.Commands
 
         public CommandCancelExport(ExportViewModel viewModel)
         {
-            this._viewModel = viewModel;
+            _viewModel = viewModel;
         }
 
         bool ICommand.CanExecute(object parameter)

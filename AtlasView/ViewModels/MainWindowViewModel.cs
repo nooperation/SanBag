@@ -1,14 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using AtlasView.Views;
 
 namespace AtlasView.ViewModels
 {
@@ -31,8 +25,10 @@ namespace AtlasView.ViewModels
 
             try
             {
-                CurrentView = new Views.AtlasView();
-                CurrentView.DataContext = new AtlasViewModel();
+                CurrentView = new Views.AtlasView
+                {
+                    DataContext = new AtlasViewModel()
+                };
             }
             catch (Exception ex)
             {
