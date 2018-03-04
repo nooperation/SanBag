@@ -64,26 +64,43 @@ namespace CommonUI.ViewModels
                 CurrentView = new ManifestResourceView();
                 CurrentViewModel = new ManifestResourceViewModel();
             }
-            else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
+            else if (payloadType == LibSanBag.FileRecordInfo.PayloadType.Debug)
             {
-                CurrentView = new TextureResourceView();
-                CurrentViewModel = new TextureResourceViewModel();
+                CurrentView = new RawTextResourceView();
+                CurrentViewModel = new RawTextResourceViewModel();
             }
-            else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.SoundResource)
+            else if (payloadType == LibSanBag.FileRecordInfo.PayloadType.Payload)
             {
-                CurrentView = new SoundResourceView();
-                CurrentViewModel = new SoundResourceViewModel();
-            }
-            else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource ||
-                     resourceType == LibSanBag.FileRecordInfo.ResourceType.LuaScriptResource)
-            {
-                CurrentView = new ScriptSourceTextView();
-                CurrentViewModel = new ScriptSourceTextViewModel();
-            }
-            else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.GeometryResourceResource)
-            {
-                CurrentView = new GeometryResourceView();
-                CurrentViewModel = new GeometryResourceViewModel();
+                if (resourceType == LibSanBag.FileRecordInfo.ResourceType.TextureResource)
+                {
+                    CurrentView = new TextureResourceView();
+                    CurrentViewModel = new TextureResourceViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.SoundResource)
+                {
+                    CurrentView = new SoundResourceView();
+                    CurrentViewModel = new SoundResourceViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource ||
+                         resourceType == LibSanBag.FileRecordInfo.ResourceType.LuaScriptResource)
+                {
+                    CurrentView = new ScriptSourceTextView();
+                    CurrentViewModel = new ScriptSourceTextViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.GeometryResourceResource)
+                {
+                    CurrentView = new GeometryResourceView();
+                    CurrentViewModel = new GeometryResourceViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.LicenseResource)
+                {
+                    CurrentView = new RawTextResourceView();
+                    CurrentViewModel = new RawTextResourceViewModel();
+                }
+                else
+                {
+                    isRawView = true;
+                }
             }
             else
             {
