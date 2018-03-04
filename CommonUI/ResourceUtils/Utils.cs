@@ -7,10 +7,14 @@ namespace CommonUI.ResourceUtils
     {
         public static string GetSansarDirectory()
         {
-            var installLocation = Registry.GetValue(@"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Sansar", "InstallLocation", null) as string;
+            const string installKeyName = @"HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Sansar";
+
+            var installLocation = Registry.GetValue(installKeyName, "InstallLocation", null) as string;
             if (installLocation == null)
             {
-                var iconPath = Registry.GetValue(@"HKEY_CLASSES_ROOT\sansar\DefaultIcon", "", null) as string;
+                const string defaultIconKeyName = @"HKEY_CLASSES_ROOT\sansar\DefaultIcon";
+
+                var iconPath = Registry.GetValue(defaultIconKeyName, "", null) as string;
                 installLocation = Path.GetFullPath(iconPath + @"\..\..");
             }
 

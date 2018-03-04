@@ -30,7 +30,14 @@
                     <DataGridTextColumn Binding="{Binding Name}" ClipboardContentBinding="{x:Null}" Header="Type" Width="*"/>
                 </DataGrid.Columns>
             </DataGrid>
-            <UserControl Grid.Column="2" Content="{Binding CurrentResourceView}" />
+            <Grid  Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <ComboBox Grid.Row="0" SelectedIndex="0" ItemsSource="{Binding PayloadTypes}" SelectedItem="{Binding CurrentPayloadType}" />
+                <UserControl Grid.Row="1" Content="{Binding CurrentResourceView}" />
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

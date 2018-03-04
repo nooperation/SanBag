@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Windows.Input;
 using static LibSanBag.FileResources.ManifestResource;
@@ -18,20 +19,21 @@ namespace CommonUI.Commands
 
         public CommandManifestExportSelected(ManifestResourceViewModel viewModel)
         {
-            this._viewModel = viewModel;
+            _viewModel = viewModel;
         }
 
         bool ICommand.CanExecute(object parameter)
         {
-            return true;
+            return parameter is IList;
         }
 
         void ICommand.Execute(object parameter)
         {
-            var items = parameter as System.Collections.IList;
-            var manifestEntries = items.Cast<ManifestEntry>().ToList();
-
-            _viewModel.ExportRecords(manifestEntries);
+            if (parameter is IList items)
+            {
+                var manifestEntries = items.Cast<ManifestEntry>().ToList();
+                _viewModel.ExportRecords(manifestEntries);
+            }
         }
     }
 }

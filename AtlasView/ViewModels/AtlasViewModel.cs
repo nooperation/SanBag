@@ -5,11 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using LibSanBag;
-using LibSanBag.FileResources;
 using Newtonsoft.Json;
 using AtlasView.Commands;
 using AtlasView.Models;
@@ -145,8 +143,7 @@ namespace AtlasView.ViewModels
 
         private async void OnSelectedItemChanged()
         {
-            var experienceViewModel = SelectedItem?.DataContext as ExperienceViewModel;
-            if (experienceViewModel == null)
+            if (!(SelectedItem?.DataContext is ExperienceViewModel experienceViewModel))
             {
                 return;
             }
@@ -167,8 +164,9 @@ namespace AtlasView.ViewModels
 
                 using (var manifestStream = new MemoryStream(downloadManifestResult.Bytes))
                 {
-                    CurrentAtlasView = new ManifestResourceView();
-                    CurrentAtlasView.DataContext = viewModel;
+                    CurrentAtlasView = new ManifestResourceView {
+                        DataContext = viewModel
+                    };
                     viewModel.InitFromStream(manifestStream);
                 }
             }
@@ -206,7 +204,7 @@ namespace AtlasView.ViewModels
                 var request = WebRequest.Create($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}&page={page}");
                 var response = request.GetResponse();
 
-                var responseJson = "";
+                string responseJson;
                 using (var sr = new StreamReader(response.GetResponseStream()))
                 {
                     responseJson = sr.ReadToEnd();
@@ -216,7 +214,7 @@ namespace AtlasView.ViewModels
                 var tempSearchResults = new List<ExperienceView>();
                 foreach (var experienceData in results.Data)
                 {
-                    tempSearchResults.Add(new Views.ExperienceView()
+                    tempSearchResults.Add(new ExperienceView
                     {
                         DataContext = new ExperienceViewModel(experienceData)
                     });

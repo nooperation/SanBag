@@ -92,6 +92,10 @@ namespace SanBag.ViewModels.BagViewModels
                 {
                     DataContext = new SoundResourceViewModel()
                 },
+                [FileRecordInfo.ResourceType.LicenseResource] = new RawTextResourceView()
+                {
+                    DataContext = new RawTextResourceViewModel()
+                },
             };
 
             var rawView = new RawResourceView();
@@ -176,7 +180,7 @@ namespace SanBag.ViewModels.BagViewModels
 
         private static void ExportRawFile(ExportParameters exportParameters)
         {
-            var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
+            var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name));
 
             using (var outStream = File.OpenWrite(outputPath))
             {
