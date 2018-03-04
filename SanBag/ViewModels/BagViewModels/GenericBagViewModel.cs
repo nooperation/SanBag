@@ -92,6 +92,10 @@ namespace SanBag.ViewModels.BagViewModels
                 {
                     DataContext = new SoundResourceViewModel()
                 },
+                [FileRecordInfo.ResourceType.LicenseResource] = new RawTextResourceView()
+                {
+                    DataContext = new RawTextResourceViewModel()
+                },
             };
 
             var rawView = new RawResourceView();
