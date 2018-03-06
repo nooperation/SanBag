@@ -172,7 +172,10 @@ namespace AtlasView.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Failed to select item: {e.Message}");
+                CurrentAtlasView = new ErrorView()
+                {
+                    DataContext = new ErrorViewModel(e)
+                };
             }
         }
 
