@@ -150,6 +150,9 @@ namespace AtlasView.ViewModels
 
             try
             {
+                var existingViewModel = CurrentAtlasView?.DataContext as BaseViewModel;
+                existingViewModel?.Unload();
+
                 var viewModel = new ManifestResourceViewModel();
 
                 CurrentAtlasView = new LoadingView();

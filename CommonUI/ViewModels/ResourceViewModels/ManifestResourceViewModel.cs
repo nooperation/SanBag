@@ -296,5 +296,11 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 throw new Exception(errorMessages.ToString());
             }
         }
+
+        public override void Unload()
+        {
+            var currentResourceViewModel = CurrentResourceView?.DataContext as ResourceViewModel;
+            currentResourceViewModel?.Unload();
+        }
     }
 }
