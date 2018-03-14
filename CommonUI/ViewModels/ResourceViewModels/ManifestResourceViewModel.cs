@@ -199,7 +199,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
             PayloadTypes = Enum.GetValues(typeof(FileRecordInfo.PayloadType)).OfType<FileRecordInfo.PayloadType>().ToList();
             CurrentPayloadType = FileRecordInfo.PayloadType.Payload;
-            ExportAllVersions = false;
+            IsExportingAllVersions = false;
         }
 
         protected override void LoadFromStream(Stream resourceStream, string version)
