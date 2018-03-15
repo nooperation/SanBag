@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\LibSanBag.1.2.10\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.2.10\build\LibSanBag.props')" />
+  <Import Project="..\packages\LibSanBag.1.2.17\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.2.17\build\LibSanBag.props')" />
   <Import Project="..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -40,8 +40,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibSanBag, Version=1.2.10.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\LibSanBag.1.2.10\lib\net46\LibSanBag.dll</HintPath>
+    <Reference Include="LibSanBag, Version=1.2.17.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\LibSanBag.1.2.17\lib\net46\LibSanBag.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -67,6 +67,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ViewModels\AtlasViewModel.cs" />
+    <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\ExperienceViewModel.cs" />
     <Compile Include="ViewModels\MainWindowViewModel.cs" />
     <Compile Include="Views\AtlasView.xaml.cs">
@@ -74,6 +75,9 @@
     </Compile>
     <Compile Include="Views\ExperienceView.xaml.cs">
       <DependentUpon>ExperienceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ErrorView.xaml.cs">
+      <DependentUpon>ErrorView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoadingView.xaml.cs">
       <DependentUpon>LoadingView.xaml</DependentUpon>
@@ -94,6 +98,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ExperienceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ErrorView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -149,6 +157,6 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props'))" />
-    <Error Condition="!Exists('..\packages\LibSanBag.1.2.10\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.2.10\build\LibSanBag.props'))" />
+    <Error Condition="!Exists('..\packages\LibSanBag.1.2.17\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.2.17\build\LibSanBag.props'))" />
   </Target>
 </Project>

@@ -150,6 +150,9 @@ namespace AtlasView.ViewModels
 
             try
             {
+                var existingViewModel = CurrentAtlasView?.DataContext as BaseViewModel;
+                existingViewModel?.Unload();
+
                 var viewModel = new ManifestResourceViewModel();
 
                 CurrentAtlasView = new LoadingView();
@@ -172,7 +175,10 @@ namespace AtlasView.ViewModels
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Failed to select item: {e.Message}");
+                CurrentAtlasView = new ErrorView()
+                {
+                    DataContext = new ErrorViewModel(e)
+                };
             }
         }
 
@@ -194,15 +200,15 @@ namespace AtlasView.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public void Search(string query, int page=1)
+        public async void Search(string query, int page=1)
         {
             try
             {
-                CurrentAtlasView = null;
+                CurrentAtlasView = new LoadingView();
 
                 var perPage = 4;
                 var request = WebRequest.Create($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}&page={page}");
-                var response = request.GetResponse();
+                var response = await request.GetResponseAsync();
 
                 string responseJson;
                 using (var sr = new StreamReader(response.GetResponseStream()))
@@ -226,10 +232,15 @@ namespace AtlasView.ViewModels
 
                 _currentPage = page;
                 OnPropertyChanged(nameof(CurrentPage));
+
+                CurrentAtlasView = null;
             }
             catch (Exception e)
             {
-                MessageBox.Show($"Failed to search: {e.Message}");
+                CurrentAtlasView = new ErrorView()
+                {
+                    DataContext = new ErrorViewModel(e)
+                };
             }
         }
 

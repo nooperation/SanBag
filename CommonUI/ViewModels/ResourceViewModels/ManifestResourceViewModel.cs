@@ -136,6 +136,17 @@ namespace CommonUI.ViewModels.ResourceViewModels
             }
         }
 
+        private bool _isExportingAllVersions;
+        public bool IsExportingAllVersions
+        {
+            get => _isExportingAllVersions;
+            set
+            {
+                _isExportingAllVersions = value;
+                OnPropertyChanged();
+            }
+        }
+
         private async void OnSelectedRecordhanged()
         {
             if (SelectedRecord == null)
@@ -188,6 +199,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
             PayloadTypes = Enum.GetValues(typeof(FileRecordInfo.PayloadType)).OfType<FileRecordInfo.PayloadType>().ToList();
             CurrentPayloadType = FileRecordInfo.PayloadType.Payload;
+            IsExportingAllVersions = false;
         }
 
         protected override void LoadFromStream(Stream resourceStream, string version)
@@ -253,41 +265,42 @@ namespace CommonUI.ViewModels.ResourceViewModels
             }
         }
 
-        protected void CustomFileExport(ExportParameters exportParameters)
+        private void ExportAllVersions(ExportParameters exportParameters, List<FileRecordInfo.PayloadType> payloadTypes)
         {
-            var payloadTypes = new List<FileRecordInfo.PayloadType> {
-                FileRecordInfo.PayloadType.Payload,
-                FileRecordInfo.PayloadType.Manifest
-            };
             var assetType = FileRecordInfo.GetResourceType(exportParameters.FileRecord.Name);
             var errorMessages = new StringBuilder();
 
-            foreach (var payloadType in payloadTypes)
+            var versions = AssetVersions.GetResourceVersions(assetType);
+            foreach (var assetVersion in versions)
             {
-                try
+                foreach (var payloadType in payloadTypes)
                 {
-                    var downloadTask = FileRecordInfo.DownloadResourceAsync(
-                        exportParameters.FileRecord.Info?.Hash.ToLower() ?? string.Empty,
-                        assetType,
-                        payloadType,
-                        FileRecordInfo.VariantType.NoVariants,
-                        new HttpClientProvider()
-                    );
-                    var downloadResult = downloadTask.Result;
-                    if (downloadResult != null)
+                    try
                     {
-                        var outputPath = Path.Combine(exportParameters.OutputDirectory, downloadResult.Name);
-
-                        using (var outStream = File.OpenWrite(outputPath))
+                        var downloadTask = FileRecordInfo.DownloadResourceAsync(
+                            exportParameters.FileRecord.Info?.Hash.ToLower() ?? string.Empty,
+                            assetType,
+                            payloadType,
+                            FileRecordInfo.VariantType.NoVariants,
+                            assetVersion,
+                            new HttpClientProvider()
+                        );
+                        var downloadResult = downloadTask.Result;
+                        if (downloadResult != null)
                         {
-                            outStream.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
+                            var outputPath = Path.Combine(exportParameters.OutputDirectory, downloadResult.Name);
+
+                            using (var outStream = File.OpenWrite(outputPath))
+                            {
+                                outStream.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
+                            }
                         }
                     }
-                }
-                catch (Exception ex)
-                {
-                    errorMessages.AppendLine($"ERROR downloading resource {exportParameters.FileRecord.Info?.Hash ?? string.Empty}.{assetType}.{payloadType}: {ex.Message}");
-                    continue;
+                    catch (Exception ex)
+                    {
+                        errorMessages.AppendLine($"ERROR downloading resource {exportParameters.FileRecord.Info?.Hash ?? string.Empty}.{assetType}.{payloadType}: {ex.Message}");
+                        continue;
+                    }
                 }
             }
 
@@ -295,6 +308,92 @@ namespace CommonUI.ViewModels.ResourceViewModels
             {
                 throw new Exception(errorMessages.ToString());
             }
+        }
+
+        private void ExportFirstValidVersion(ExportParameters exportParameters, List<FileRecordInfo.PayloadType> payloadTypes)
+        {
+            var assetType = FileRecordInfo.GetResourceType(exportParameters.FileRecord.Name);
+            var errorMessages = new StringBuilder();
+
+            try
+            {
+                var downloadTask = FileRecordInfo.DownloadResourceAsync(
+                    exportParameters.FileRecord.Info?.Hash.ToLower() ?? string.Empty,
+                    assetType,
+                    payloadTypes[0],
+                    FileRecordInfo.VariantType.NoVariants,
+                    new HttpClientProvider()
+                );
+                var downloadResult = downloadTask.Result;
+                if (downloadResult != null)
+                {
+                    var outputPath = Path.Combine(exportParameters.OutputDirectory, downloadResult.Name);
+                    using (var outStream = File.OpenWrite(outputPath))
+                    {
+                        outStream.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
+                    }
+
+                    for (int i = 1; i < payloadTypes.Count; i++)
+                    {
+                        try
+                        {
+                            downloadTask = FileRecordInfo.DownloadResourceAsync(
+                                exportParameters.FileRecord.Info?.Hash.ToLower() ?? string.Empty,
+                                assetType,
+                                payloadTypes[i],
+                                FileRecordInfo.VariantType.NoVariants,
+                                new HttpClientProvider()
+                            );
+                            downloadResult = downloadTask.Result;
+                            if (downloadResult != null)
+                            {
+                                outputPath = Path.Combine(exportParameters.OutputDirectory, downloadResult.Name);
+                                using (var outStream = File.OpenWrite(outputPath))
+                                {
+                                    outStream.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            errorMessages.AppendLine($"ERROR downloading resource {exportParameters.FileRecord.Info?.Hash ?? string.Empty}.{assetType}.{payloadTypes[i]}: {ex.Message}");
+                            continue;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                errorMessages.AppendLine($"ERROR downloading resource {exportParameters.FileRecord.Info?.Hash ?? string.Empty}.{assetType}.{payloadTypes[0]}: {ex.Message}");
+            }
+
+            if (errorMessages.Length > 0)
+            {
+                throw new Exception(errorMessages.ToString());
+            }
+        }
+
+        protected void CustomFileExport(ExportParameters exportParameters)
+        {
+            var payloadTypes = new List<FileRecordInfo.PayloadType> {
+                FileRecordInfo.PayloadType.Payload,
+                FileRecordInfo.PayloadType.Manifest,
+            };
+
+            if (IsExportingAllVersions)
+            {
+                ExportAllVersions(exportParameters, payloadTypes);
+            }
+            else
+            {
+                ExportFirstValidVersion(exportParameters, payloadTypes);
+            }
+        }
+
+        public override void Unload()
+        {
+            var currentResourceViewModel = CurrentResourceView?.DataContext as ResourceViewModel;
+            currentResourceViewModel?.Unload();
         }
     }
 }
