@@ -89,6 +89,7 @@
     <Compile Include="ViewModels\ResourceViewModels\ManifestResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawImageViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\ScriptMetadataResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawTextResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ScriptSourceTextViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\SoundResourceViewModel.cs" />
@@ -113,6 +114,9 @@
     </Compile>
     <Compile Include="Views\ResourceViews\RawResourceView.xaml.cs">
       <DependentUpon>RawResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\ScriptMetaDataResourceView.xaml.cs">
+      <DependentUpon>ScriptMetaDataResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\RawTextResourceView.xaml.cs">
       <DependentUpon>RawTextResourceView.xaml</DependentUpon>
@@ -153,6 +157,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ResourceViews\RawResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\ScriptMetaDataResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

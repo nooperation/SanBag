@@ -97,6 +97,11 @@ namespace CommonUI.ViewModels
                     CurrentView = new RawTextResourceView();
                     CurrentViewModel = new RawTextResourceViewModel();
                 }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ScriptMetadataResource)
+                {
+                    CurrentView = new ScriptMetadataResourceView();
+                    CurrentViewModel = new ScriptMetadataResourceViewModel();
+                }
                 else
                 {
                     isRawView = true;
