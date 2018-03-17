@@ -11,32 +11,50 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0">Assembly</Label>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Resource.AssemblyName}" IsReadOnly="True" />
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Resource.AssemblyName}" IsReadOnly="True" VerticalContentAlignment="Center" />
         <Label Grid.Row="1" Grid.Column="0">ScriptSourceText</Label>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Resource.ScriptSourceTextName}" IsReadOnly="True" />
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Resource.ScriptSourceTextName}" IsReadOnly="True" VerticalContentAlignment="Center" />
         <Label Grid.Row="2" Grid.Column="0">Warnings</Label>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Resource.Warnings}" IsReadOnly="True" Height="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
-        <Label Grid.Row="3" Grid.Column="0">Properties</Label>
-        <TreeView Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=Resource.Properties}">
-            <TreeView.ItemTemplate >
-                <HierarchicalDataTemplate ItemsSource="{Binding Path=Resource.Properties}">
-                    <TextBlock Text="asdf" />
-                </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
-        </TreeView>
-        <Label Grid.Row="4" Grid.Column="0">Strings</Label>
-        <DataGrid Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=Resource.Strings, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Resource.Warnings}" IsReadOnly="True" Height="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"  VerticalContentAlignment="Center"/>
+        <Label Grid.Row="3" Grid.Column="0">Strings</Label>
+        <DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=Resource.Strings, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Key}" ClipboardContentBinding="{x:Null}" Header="Key" Width="*" />
+                <DataGridTextColumn Binding="{Binding Key}" ClipboardContentBinding="{x:Null}" Header="Key" Width="auto" />
                 <DataGridTextColumn Binding="{Binding Value}" ClipboardContentBinding="{x:Null}" Header="Value" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+        <Label Grid.Row="4" Grid.Column="0">Properties</Label>
+        <ListView Grid.Row="4" Grid.Column="1" ItemsSource="{Binding Path=Resource.Properties}" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Padding="5px" BorderThickness="1" Background="WhiteSmoke" BorderBrush="Silver" CornerRadius="8,8,3,3">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Label Grid.Row="0" Grid.Column="0">Name</Label>
+                            <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Name}" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                            <Label Grid.Row="1" Grid.Column="0">Type</Label>
+                            <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Type}" VerticalContentAlignment="Center" IsReadOnly="True"/>
+                            <Label Grid.Row="2" Grid.Column="0">Attributes</Label>
+                            <DataGrid Grid.Row="2" Grid.Column="1"  ItemsSource="{Binding Path=Attributes, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="True"/>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListView>
     </Grid>
 </UserControl>
