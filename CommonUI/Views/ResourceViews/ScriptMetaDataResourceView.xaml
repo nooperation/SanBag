@@ -22,7 +22,7 @@
         <Label Grid.Row="1" Grid.Column="0">ScriptSourceText</Label>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Resource.ScriptSourceTextName}" IsReadOnly="True" VerticalContentAlignment="Center" />
         <Label Grid.Row="2" Grid.Column="0">Warnings</Label>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Resource.Warnings}" IsReadOnly="True" Height="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"  VerticalContentAlignment="Center"/>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Resource.Warnings}" IsReadOnly="True" MaxHeight="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
         <Label Grid.Row="3" Grid.Column="0">Strings</Label>
         <DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=Resource.Strings, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
