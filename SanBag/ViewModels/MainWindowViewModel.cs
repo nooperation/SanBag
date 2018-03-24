@@ -39,7 +39,7 @@ namespace SanBag.ViewModels
                     var firstArgument = arguments[1].Trim().ToLower();
 
                     var extension = Path.GetExtension(firstArgument);
-                    if (extension == ".bag")
+                    if (extension == ".bag" && firstArgument.IndexOf("userpreferences", StringComparison.OrdinalIgnoreCase) < 0)
                     {
                         CurrentView = new BagView();
                         CurrentView.DataContext = new BagViewModel(arguments[1]);

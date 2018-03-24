@@ -46,6 +46,9 @@
     <Reference Include="LibSanBag, Version=1.2.20.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\LibSanBag.1.2.20\lib\net46\LibSanBag.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -90,6 +93,7 @@
     <Compile Include="ViewModels\ResourceViewModels\ManifestResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawImageViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\UserPreferencesViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ScriptMetadataResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawTextResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ScriptSourceTextViewModel.cs" />
@@ -115,6 +119,9 @@
     </Compile>
     <Compile Include="Views\ResourceViews\RawResourceView.xaml.cs">
       <DependentUpon>RawResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\UserPreferencesView.xaml.cs">
+      <DependentUpon>UserPreferencesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\ScriptMetaDataResourceView.xaml.cs">
       <DependentUpon>ScriptMetaDataResourceView.xaml</DependentUpon>
@@ -158,6 +165,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ResourceViews\RawResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\UserPreferencesView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
