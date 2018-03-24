@@ -1,4 +1,6 @@
 ﻿using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CommonUI.ViewModels.ResourceViewModels
 {
@@ -23,7 +25,9 @@ namespace CommonUI.ViewModels.ResourceViewModels
         {
             using (var sr = new StreamReader(resourceStream))
             {
-                CurrentText = "TODO";
+                var json = LibSanBag.ResourceUtils.LibUserPreferences.Read(sr.BaseStream, null, null);
+                var root = JToken.Parse(json);
+                CurrentText = root.ToString(Formatting.Indented);
             }
         }
     }
