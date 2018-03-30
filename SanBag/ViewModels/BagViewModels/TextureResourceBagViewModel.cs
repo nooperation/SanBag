@@ -38,7 +38,7 @@ namespace SanBag.ViewModels.BagViewModels
         public TextureResourceBagViewModel(BagViewModel parentViewModel)
             : base(parentViewModel)
         {
-            ExportFilter += "|DDS Source Image|*.dds|PNG Image|*.png|JPG Image|*.jpg|BMP Image|*.bmp|GIF Image|*.gif";
+            ExportFilter += "|DDS Source Image|*.dds|PNG Image|*.png|BMP Image|*.bmp";
             CurrentResourceView = new TextureResourceView();
             CurrentResourceView.DataContext = new TextureResourceViewModel();
         }
@@ -53,35 +53,22 @@ namespace SanBag.ViewModels.BagViewModels
         {
             if (string.Equals(fileExtension, ".dds", StringComparison.CurrentCultureIgnoreCase))
             {
-                var imageBytes = resource.DdsBytes;
+                var imageBytes = resource.CompressedTextureBytes;
                 outStream.Write(imageBytes, 0, imageBytes.Length);
             }
             else
             {
-                var codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
+                var codec = TextureResource.TextureType.PNG;
                 switch (fileExtension)
                 {
                     case ".png":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_PNG;
-                        break;
-                    case ".jpg":
-                    case ".jpeg":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
-                        break;
-                    case ".gif":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_GIF;
+                        codec = TextureResource.TextureType.PNG;
                         break;
                     case ".bmp":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_BMP;
-                        break;
-                    case ".ico":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_ICO;
-                        break;
-                    case ".wmp":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_WMP;
+                        codec = TextureResource.TextureType.BMP;
                         break;
                 }
-                var imageBytes = resource.ConvertTo(codec);
+                var imageBytes = resource.ConvertTo(TextureResource.TextureType.PNG);
                 outStream.Write(imageBytes, 0, imageBytes.Length);
             }
         }

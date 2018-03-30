@@ -43,7 +43,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
             _currentResource = TextureResource.Create(version);
             _currentResource.InitFromStream(resourceStream);
 
-            var imageBytes = LibDDS.GetImageBytesFromDds(_currentResource.DdsBytes, 256, 256);
+            var imageBytes = _currentResource.ConvertTo(TextureResource.TextureType.PNG);
             var newImage = new BitmapImage();
             newImage.BeginInit();
             newImage.StreamSource = new MemoryStream(imageBytes);
