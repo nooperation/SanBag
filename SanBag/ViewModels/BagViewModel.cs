@@ -39,7 +39,15 @@ namespace SanBag.ViewModels
         private List<FileRecord> _records = new List<FileRecord>();
         public List<FileRecord> Records
         {
-            get => _records.FindAll(CurrentView.Filter);
+            get
+            {
+                if (CurrentView?.Filter == null)
+                {
+                    return _records;
+                }
+
+                return _records.FindAll(CurrentView.Filter);
+            }
             set
             {
                 _records = value;
@@ -59,7 +67,16 @@ namespace SanBag.ViewModels
             }
         }
 
-        public List<ViewType> Views { get; set; } = new List<ViewType>();
+        private List<ViewType> _views = new List<ViewType>();
+        public List<ViewType> Views
+        {
+            get => _views;
+            set
+            {
+                _views = value;
+                OnPropertyChanged();
+            }
+        }
 
         private ViewType _currentView;
         public ViewType CurrentView
@@ -67,9 +84,12 @@ namespace SanBag.ViewModels
             get => _currentView;
             set
             {
-                _currentView = value;
-                OnPropertyChanged();
-                OnPropertyChanged(nameof(Records));
+                if (value != null)
+                {
+                    _currentView = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(Records));
+                }
             }
         }
 
@@ -91,11 +111,11 @@ namespace SanBag.ViewModels
 
         private void Init()
         {
-            Views = new List<ViewType>();
+            var newViews = new List<ViewType>();
             CommandOpenBag = new CommandOpenBag(this);
 
             var genericBagViewModel = new GenericBagViewModel(this);
-            Views.Add(new ViewType
+            newViews.Add(new ViewType
             {
                 View = new GenericBagView
                 {
@@ -108,7 +128,7 @@ namespace SanBag.ViewModels
             if (LibDDS.IsAvailable && OodleLz.IsAvailable)
             {
                 var textureResourceBagViewModel = new TextureResourceBagViewModel(this);
-                Views.Add(new ViewType
+                newViews.Add(new ViewType
                 {
                     View = new GenericBagView
                     {
@@ -120,7 +140,7 @@ namespace SanBag.ViewModels
             }
 
             var scriptCompiledBytecodeResourceView = new ScriptCompiledBytecodeResourceViewModel(this);
-            Views.Add(new ViewType
+            newViews.Add(new ViewType
             {
                 View = new GenericBagView
                 {
@@ -131,7 +151,7 @@ namespace SanBag.ViewModels
             });
 
             var scriptSourceTextResourceViewModel = new ScriptSourceTextResourceViewModel(this);
-            Views.Add(new ViewType
+            newViews.Add(new ViewType
             {
                 View = new GenericBagView
                 {
@@ -142,7 +162,7 @@ namespace SanBag.ViewModels
             });
 
             var luaScriptResourceViewModel = new LuaScriptResourceViewModel(this);
-            Views.Add(new ViewType
+            newViews.Add(new ViewType
             {
                 View = new GenericBagView
                 {
@@ -153,7 +173,7 @@ namespace SanBag.ViewModels
             });
 
             var manifestViewModel = new ManifestBagViewModel(this);
-            Views.Add(new ViewType
+            newViews.Add(new ViewType
             {
                 View = new GenericBagView
                 {
@@ -164,7 +184,7 @@ namespace SanBag.ViewModels
             });
 
             var soundViewModel = new SoundResourceBagViewModel(this);
-            Views.Add(new ViewType
+            newViews.Add(new ViewType
             {
                 View = new GenericBagView
                 {
@@ -175,7 +195,7 @@ namespace SanBag.ViewModels
             });
 
             var geometryViewModel = new GeometryResourceBagViewModel(this);
-            Views.Add(new ViewType
+            newViews.Add(new ViewType
             {
                 View = new GenericBagView
                 {
@@ -186,7 +206,7 @@ namespace SanBag.ViewModels
             });
 
             var rawImageViewModel = new RawImageBagViewModel(this);
-            Views.Add(new ViewType
+            newViews.Add(new ViewType
             {
                 View = new GenericBagView
                 {
@@ -196,6 +216,8 @@ namespace SanBag.ViewModels
                 Name = "Png"
             });
 
+            Records = new List<FileRecord>();
+            Views = newViews;
             CurrentView = Views[0];
         }
 
@@ -214,13 +236,13 @@ namespace SanBag.ViewModels
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Failed to open bag: {ex.Message}");
+                MessageBox.Show($"Failed to open bag: {ex.Message}");
             }
         }
 
         public void OpenBag(string path)
         {
-            Init();
+            Records = new List<FileRecord>();
             BagPath = path;
 
             using (var in_stream = File.OpenRead(path))
