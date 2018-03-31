@@ -47,11 +47,23 @@ namespace CommonUI.ViewModels
         public void OpenFile(string resourcePath)
         {
             var fileName = Path.GetFileName(resourcePath);
-            var fileInfo = LibSanBag.FileRecordInfo.Create(fileName);
-
-            using (var resourceStream = File.OpenRead(resourcePath))
+            var fileNameLower = fileName.ToLower();
+            if (fileNameLower.Contains(".bag") && fileNameLower.Contains("userpreferences"))
             {
-                OpenStream(resourceStream, fileInfo.Resource, fileInfo.Payload, fileInfo.VersionHash);
+                CurrentView = new UserPreferencesView();
+                CurrentViewModel = new UserPreferencesViewModel();
+
+                CurrentView.DataContext = CurrentViewModel;
+                CurrentViewModel.InitFromPath(resourcePath);
+            }
+            else
+            {
+                var fileInfo = LibSanBag.FileRecordInfo.Create(fileName);
+
+                using (var resourceStream = File.OpenRead(resourcePath))
+                {
+                    OpenStream(resourceStream, fileInfo.Resource, fileInfo.Payload, fileInfo.VersionHash);
+                }
             }
         }
 
@@ -96,6 +108,11 @@ namespace CommonUI.ViewModels
                 {
                     CurrentView = new RawTextResourceView();
                     CurrentViewModel = new RawTextResourceViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ScriptMetadataResource)
+                {
+                    CurrentView = new ScriptMetadataResourceView();
+                    CurrentViewModel = new ScriptMetadataResourceViewModel();
                 }
                 else
                 {
