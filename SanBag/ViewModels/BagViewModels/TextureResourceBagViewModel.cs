@@ -38,7 +38,7 @@ namespace SanBag.ViewModels.BagViewModels
         public TextureResourceBagViewModel(BagViewModel parentViewModel)
             : base(parentViewModel)
         {
-            ExportFilter += "|DDS Source Image|*.dds|PNG Image|*.png|BMP Image|*.bmp";
+            ExportFilter += "|DDS Source Image|*.dds|JPG Image|*.jpg|PNG Image|*.png|BMP Image|*.bmp";
             CurrentResourceView = new TextureResourceView();
             CurrentResourceView.DataContext = new TextureResourceViewModel();
         }
@@ -51,26 +51,7 @@ namespace SanBag.ViewModels.BagViewModels
 
         public static void Export(TextureResource resource, Stream outStream, string fileExtension)
         {
-            if (string.Equals(fileExtension, ".dds", StringComparison.CurrentCultureIgnoreCase))
-            {
-                var imageBytes = resource.CompressedTextureBytes;
-                outStream.Write(imageBytes, 0, imageBytes.Length);
-            }
-            else
-            {
-                var codec = TextureResource.TextureType.PNG;
-                switch (fileExtension)
-                {
-                    case ".png":
-                        codec = TextureResource.TextureType.PNG;
-                        break;
-                    case ".bmp":
-                        codec = TextureResource.TextureType.BMP;
-                        break;
-                }
-                var imageBytes = resource.ConvertTo(TextureResource.TextureType.PNG);
-                outStream.Write(imageBytes, 0, imageBytes.Length);
-            }
+            TextureResourceViewModel.Export(resource, outStream, fileExtension);
         }
 
         protected override void CustomFileExport(ExportParameters exportParameters)
