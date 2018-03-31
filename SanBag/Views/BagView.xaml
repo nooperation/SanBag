@@ -28,7 +28,7 @@
             <Label Grid.Column="1" Margin="5px">Filter:</Label>
             <TextBox Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding RecordNameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5px" />
             <Label Grid.Column="3" Margin="5px">View:</Label>
-            <ComboBox Grid.Column="4" ItemsSource="{Binding Views}" SelectedItem="{Binding CurrentView}" Margin="5px" VerticalContentAlignment="Center" />
+            <ComboBox Grid.Column="4" ItemsSource="{Binding Views}" SelectedItem="{Binding Path=CurrentView, Mode=TwoWay}" Margin="5px" VerticalContentAlignment="Center" />
         </Grid>
         <UserControl Grid.Row="1" Content="{Binding CurrentView.View}" Background="Transparent" />
     </Grid>
