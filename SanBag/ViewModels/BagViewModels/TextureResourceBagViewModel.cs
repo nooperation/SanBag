@@ -38,7 +38,7 @@ namespace SanBag.ViewModels.BagViewModels
         public TextureResourceBagViewModel(BagViewModel parentViewModel)
             : base(parentViewModel)
         {
-            ExportFilter += "|DDS Source Image|*.dds|PNG Image|*.png|JPG Image|*.jpg|BMP Image|*.bmp|GIF Image|*.gif";
+            ExportFilter += "|DDS Source Image|*.dds|JPG Image|*.jpg|PNG Image|*.png|BMP Image|*.bmp";
             CurrentResourceView = new TextureResourceView();
             CurrentResourceView.DataContext = new TextureResourceViewModel();
         }
@@ -51,39 +51,7 @@ namespace SanBag.ViewModels.BagViewModels
 
         public static void Export(TextureResource resource, Stream outStream, string fileExtension)
         {
-            if (string.Equals(fileExtension, ".dds", StringComparison.CurrentCultureIgnoreCase))
-            {
-                var imageBytes = resource.DdsBytes;
-                outStream.Write(imageBytes, 0, imageBytes.Length);
-            }
-            else
-            {
-                var codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
-                switch (fileExtension)
-                {
-                    case ".png":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_PNG;
-                        break;
-                    case ".jpg":
-                    case ".jpeg":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
-                        break;
-                    case ".gif":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_GIF;
-                        break;
-                    case ".bmp":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_BMP;
-                        break;
-                    case ".ico":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_ICO;
-                        break;
-                    case ".wmp":
-                        codec = LibDDS.ConversionOptions.CodecType.CODEC_WMP;
-                        break;
-                }
-                var imageBytes = resource.ConvertTo(codec);
-                outStream.Write(imageBytes, 0, imageBytes.Length);
-            }
+            TextureResourceViewModel.Export(resource, outStream, fileExtension);
         }
 
         protected override void CustomFileExport(ExportParameters exportParameters)

@@ -43,7 +43,17 @@ namespace CommonUI.ViewModels.ResourceViewModels
             _currentResource = TextureResource.Create(version);
             _currentResource.InitFromStream(resourceStream);
 
-            var imageBytes = LibDDS.GetImageBytesFromDds(_currentResource.DdsBytes, 256, 256);
+            byte[] ddsBytes;
+            if (_currentResource.SourceType == TextureResource.TextureType.CRN)
+            {
+                ddsBytes = _currentResource.ConvertTo(TextureResource.TextureType.DDS);
+            }
+            else
+            {
+                ddsBytes = _currentResource.CompressedTextureBytes;
+            }
+
+            var imageBytes = LibDDS.GetImageBytesFromDds(ddsBytes, 256, 256);
             var newImage = new BitmapImage();
             newImage.BeginInit();
             newImage.StreamSource = new MemoryStream(imageBytes);
@@ -52,16 +62,59 @@ namespace CommonUI.ViewModels.ResourceViewModels
             CurrentImage = newImage;
         }
 
+        public static void Export(TextureResource resource, Stream outStream, string fileExtension)
+        {
+            byte[] ddsBytes;
+            if (resource.SourceType == TextureResource.TextureType.CRN)
+            {
+                ddsBytes = resource.ConvertTo(TextureResource.TextureType.DDS);
+            }
+            else
+            {
+                ddsBytes = resource.CompressedTextureBytes;
+            }
+
+            LibDDS.ConversionOptions.CodecType codec;
+            switch (fileExtension.ToLower())
+            {
+                case ".png":
+                    codec = LibDDS.ConversionOptions.CodecType.CODEC_PNG;
+                    break;
+                case ".jpg":
+                    codec = LibDDS.ConversionOptions.CodecType.CODEC_JPEG;
+                    break;
+                case ".bmp":
+                    codec = LibDDS.ConversionOptions.CodecType.CODEC_BMP;
+                    break;
+                default:
+                case ".dds":
+                    codec = LibDDS.ConversionOptions.CodecType.CODEC_DDS;
+                    break;
+            }
+
+            byte[] imageBytes;
+            if (codec != LibDDS.ConversionOptions.CodecType.CODEC_DDS)
+            {
+                imageBytes = LibDDS.GetImageBytesFromDds(ddsBytes, 0, 0, codec);
+            }
+            else
+            {
+                imageBytes = ddsBytes;
+            }
+
+            outStream.Write(imageBytes, 0, imageBytes.Length);
+        }
+
         public void SaveAs()
         {
             var dialog = new SaveFileDialog();
             dialog.FileName = Path.GetFileName(Name) + ".dds";
-            dialog.Filter = "DDS Source Image|*.dds|PNG Image|*.png|JPG Image|*.jpg|BMP Image|*.bmp|GIF Image|*.gif";
+            dialog.Filter = "DDS Source Image|*.dds|PNG Image|*.png|JPG Image|*.jpg|BMP Image|*.bmp";
             if (dialog.ShowDialog() == true)
             {
                 using (var outFile = File.OpenWrite(dialog.FileName))
                 {
-                    // TODO: TextureResourceBagViewModel.Export(_currentResource, outFile, Path.GetExtension(dialog.FileName).ToLower());
+                    Export(_currentResource, outFile, Path.GetExtension(dialog.FileName).ToLower());
                 }
             }
         }
