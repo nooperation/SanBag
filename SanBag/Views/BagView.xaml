@@ -8,6 +8,9 @@
         mc:Ignorable="d"
         d:DesignHeight="350" d:DesignWidth="925">
     <Grid>
+        <Grid.Resources>
+            <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter" />
+        </Grid.Resources>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
@@ -25,10 +28,10 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Button Grid.Column="0" Command="{Binding CommandOpenBag}" Margin="5px">Open</Button>
-            <Label Grid.Column="1" Margin="5px">Filter:</Label>
-            <TextBox Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding RecordNameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5px" />
-            <Label Grid.Column="3" Margin="5px">View:</Label>
-            <ComboBox Grid.Column="4" ItemsSource="{Binding Views}" SelectedItem="{Binding Path=CurrentView, Mode=TwoWay}" Margin="5px" VerticalContentAlignment="Center" />
+            <Label Grid.Column="1" Margin="5px" Visibility="{Binding Path=IsFilterEnabled, Converter={StaticResource booleanToVisibilityConverter}}">Filter:</Label>
+            <TextBox Grid.Column="2" VerticalContentAlignment="Center" Text="{Binding RecordNameFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5px" Visibility="{Binding Path=IsFilterEnabled, Converter={StaticResource booleanToVisibilityConverter}}" />
+            <Label Grid.Column="3" Margin="5px" Visibility="{Binding Path=IsCurrentViewSelectionEnabled, Converter={StaticResource booleanToVisibilityConverter}}">View:</Label>
+            <ComboBox Grid.Column="4" ItemsSource="{Binding Views}" SelectedItem="{Binding Path=CurrentView, Mode=TwoWay}" Margin="5px" VerticalContentAlignment="Center" Visibility="{Binding Path=IsCurrentViewSelectionEnabled, Converter={StaticResource booleanToVisibilityConverter}}" />
         </Grid>
         <UserControl Grid.Row="1" Content="{Binding CurrentView.View}" Background="Transparent" />
     </Grid>

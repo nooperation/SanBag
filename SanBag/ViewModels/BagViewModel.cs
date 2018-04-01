@@ -15,6 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using CommonUI.ViewModels;
 using SanBag.Commands;
 using SanBag.ViewModels.BagViewModels;
 using SanBag.Views.BagViews;
@@ -90,6 +91,28 @@ namespace SanBag.ViewModels
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(Records));
                 }
+            }
+        }
+
+        private bool _isFilterEnabled;
+        public bool IsFilterEnabled
+        {
+            get => _isFilterEnabled;
+            set
+            {
+                _isFilterEnabled = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private bool _isCurrentCurrentViewSelectionEnabled;
+        public bool IsCurrentViewSelectionEnabled
+        {
+            get => _isCurrentCurrentViewSelectionEnabled;
+            set
+            {
+                _isCurrentCurrentViewSelectionEnabled = value;
+                OnPropertyChanged();
             }
         }
 
@@ -219,6 +242,9 @@ namespace SanBag.ViewModels
             Records = new List<FileRecord>();
             Views = newViews;
             CurrentView = Views[0];
+
+            IsFilterEnabled = true;
+            IsCurrentViewSelectionEnabled = true;
         }
 
         public void OnOpenFile()
@@ -245,9 +271,33 @@ namespace SanBag.ViewModels
             Records = new List<FileRecord>();
             BagPath = path;
 
-            using (var in_stream = File.OpenRead(path))
+            if (path.ToLower().Contains("userpreferences"))
             {
-                Records = Bag.Read(in_stream).ToList();
+                IsCurrentViewSelectionEnabled = false;
+                IsFilterEnabled = false;
+
+                CurrentView = new ViewType
+                {
+                    View = new ResourceView
+                    {
+                        DataContext = new ResourceViewModel(path)
+                    },
+                };
+            }
+            else
+            {
+                if (IsCurrentViewSelectionEnabled == false || IsFilterEnabled == false)
+                {
+                    CurrentView = Views[0];
+                }
+
+                IsCurrentViewSelectionEnabled = true;
+                IsFilterEnabled = true;
+
+                using (var in_stream = File.OpenRead(path))
+                {
+                    Records = Bag.Read(in_stream).ToList();
+                }
             }
         }
 
