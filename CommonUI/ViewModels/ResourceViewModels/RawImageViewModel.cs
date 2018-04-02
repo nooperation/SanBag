@@ -19,7 +19,9 @@ namespace CommonUI.ViewModels.ResourceViewModels
 {
     public class RawImageViewModel : BaseViewModel, ISavable
     {
+        [CanBeNull]
         private byte[] ImageBytes { get; set; }
+
         public CommandSaveAs CommandSaveAs { get; set; }
 
         private BitmapImage _currentImage;
@@ -53,6 +55,12 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
         public void SaveAs()
         {
+            if (ImageBytes == null)
+            {
+                MessageBox.Show("Attempting to export a null image resource", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var dialog = new SaveFileDialog();
             dialog.FileName = Path.GetFileName(Name);
             dialog.Filter = "PNG Image|*.png";
