@@ -75,12 +75,18 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
         public void SaveAs()
         {
+            if (DecompressedBytes == null)
+            {
+                MessageBox.Show("Attempting to export a null resource", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var dialog = new SaveFileDialog();
             dialog.FileName = Path.GetFileName(Name) + ".bin";
             if (dialog.ShowDialog() == true)
             {
-                File.WriteAllBytes(dialog.FileName, _decompressedBytes);
-                MessageBox.Show($"Successfully wrote {_decompressedBytes.Length} byte(s) to {dialog.FileName}");
+                File.WriteAllBytes(dialog.FileName, DecompressedBytes);
+                MessageBox.Show($"Successfully wrote {DecompressedBytes.Length} byte(s) to {dialog.FileName}");
             }
         }
     }

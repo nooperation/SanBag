@@ -76,6 +76,8 @@
     <Compile Include="Commands\CommandPauseSound.cs" />
     <Compile Include="Commands\CommandPlaySound.cs" />
     <Compile Include="Commands\CommandSaveAs.cs" />
+    <Compile Include="Converters\InverseNullableToVisibilityConverter.cs" />
+    <Compile Include="Converters\NullableToVisibilityConverter.cs" />
     <Compile Include="Converters\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Converters\InvertBoolConverter.cs" />
     <Compile Include="Converters\PercentageToStringConverter.cs" />
@@ -102,6 +104,9 @@
     <Compile Include="ViewModels\ResourceViewModels\TextureResourceViewModel.cs" />
     <Compile Include="Views\ExportView.xaml.cs">
       <DependentUpon>ExportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NoResourceSelectedView.xaml.cs">
+      <DependentUpon>NoResourceSelectedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\LoadingView.xaml.cs">
       <DependentUpon>LoadingView.xaml</DependentUpon>
@@ -142,6 +147,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Views\ExportView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NoResourceSelectedView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

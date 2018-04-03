@@ -105,7 +105,10 @@ namespace CommonUI.ViewModels.ResourceViewModels
             }
         }
 
+        [CanBeNull]
         private string CompressedSoundPath { get; set; }
+
+        [CanBeNull]
         private string Version { get; set; }
 
         public SoundResourceViewModel()
@@ -188,6 +191,12 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
         public void SaveAs()
         {
+            if (CompressedSoundPath == null || Version == null)
+            {
+                MessageBox.Show("Attempting to export a null sound resource", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var dialog = new SaveFileDialog();
             dialog.FileName = SoundName + ".wav";
             if (dialog.ShowDialog() == true)
