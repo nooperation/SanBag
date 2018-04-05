@@ -64,6 +64,15 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
         public static void Export(TextureResource resource, Stream outStream, string fileExtension)
         {
+            if (resource == null)
+            {
+                throw new ArgumentNullException(nameof(resource));
+            }
+            if (fileExtension == null)
+            {
+                throw new ArgumentNullException(nameof(fileExtension));
+            }
+
             byte[] ddsBytes;
             if (resource.SourceType == TextureResource.TextureType.CRN)
             {
@@ -107,6 +116,12 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
         public void SaveAs()
         {
+            if (_currentResource == null)
+            {
+                MessageBox.Show("Attempting to export a null texture resource", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
             var dialog = new SaveFileDialog();
             dialog.FileName = Path.GetFileName(Name) + ".dds";
             dialog.Filter = "DDS Source Image|*.dds|PNG Image|*.png|JPG Image|*.jpg|BMP Image|*.bmp";
