@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\LibSanBag.1.4.0\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.4.0\build\LibSanBag.props')" />
   <Import Project="..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props" Condition="Exists('..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props')" />
-  <Import Project="..\packages\LibSanBag.1.3.2\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.3.2\build\LibSanBag.props')" />
   <Import Project="..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props" Condition="Exists('..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props')" />
   <Import Project="..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
@@ -44,8 +44,8 @@
     <Reference Include="HelixToolkit.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
       <HintPath>..\packages\HelixToolkit.Wpf.1.0.0\lib\net45\HelixToolkit.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="LibSanBag, Version=1.3.2.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\LibSanBag.1.3.2\lib\net46\LibSanBag.dll</HintPath>
+    <Reference Include="LibSanBag, Version=1.4.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\LibSanBag.1.4.0\lib\net46\LibSanBag.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -216,7 +216,7 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props'))" />
     <Error Condition="!Exists('..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props'))" />
-    <Error Condition="!Exists('..\packages\LibSanBag.1.3.2\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.3.2\build\LibSanBag.props'))" />
     <Error Condition="!Exists('..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props'))" />
+    <Error Condition="!Exists('..\packages\LibSanBag.1.4.0\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.4.0\build\LibSanBag.props'))" />
   </Target>
 </Project>
