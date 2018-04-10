@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -162,14 +163,23 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     previousViewModel.Unload();
                 }
 
+                var loadingViewModel = new LoadingViewModel();
                 CurrentResourceView = new LoadingView();
+                CurrentResourceView.DataContext = loadingViewModel;
+
+                var progress = new Progress<ProgressEventArgs>(args => {
+                    loadingViewModel.BytesDownloaded = args.Downloaded;
+                    loadingViewModel.TotalBytes = args.Total;
+                    loadingViewModel.DownloadUrl = args.Resource;
+                });
 
                 var downloadManifestResult = await FileRecordInfo.DownloadResourceAsync(
                     SelectedRecord.HashString,
                     FileRecordInfo.GetResourceType(SelectedRecord.Name),
                     CurrentPayloadType,
                     FileRecordInfo.VariantType.NoVariants,
-                    new LibSanBag.Providers.HttpClientProvider()
+                    new LibSanBag.Providers.HttpClientProvider(),
+                    progress
                 );
 
                 using (var manifestStream = new MemoryStream(downloadManifestResult.Bytes))

@@ -12,8 +12,11 @@ using Newtonsoft.Json;
 using AtlasView.Commands;
 using AtlasView.Models;
 using AtlasView.Views;
+using CommonUI.ViewModels;
 using CommonUI.ViewModels.ResourceViewModels;
+using CommonUI.Views;
 using CommonUI.Views.ResourceViews;
+using LibSanBag.Providers;
 
 namespace AtlasView.ViewModels
 {
@@ -155,14 +158,23 @@ namespace AtlasView.ViewModels
 
                 var viewModel = new ManifestResourceViewModel();
 
+                var loadingViewModel = new LoadingViewModel();
                 CurrentAtlasView = new LoadingView();
+                CurrentAtlasView.DataContext = loadingViewModel;
+
+                var progress = new Progress<ProgressEventArgs>(args => {
+                    loadingViewModel.BytesDownloaded = args.Downloaded;
+                    loadingViewModel.TotalBytes = args.Total;
+                    loadingViewModel.DownloadUrl = args.Resource;
+                });
 
                 var downloadManifestResult = await FileRecordInfo.DownloadResourceAsync(
                     experienceViewModel.Experience.Attributes.SceneAssetId,
                     FileRecordInfo.ResourceType.WorldSource,
                     FileRecordInfo.PayloadType.Manifest,
                     FileRecordInfo.VariantType.NoVariants,
-                    new LibSanBag.Providers.HttpClientProvider()
+                    new LibSanBag.Providers.HttpClientProvider(),
+                    progress
                 );
 
                 using (var manifestStream = new MemoryStream(downloadManifestResult.Bytes))
