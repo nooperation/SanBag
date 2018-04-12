@@ -184,6 +184,17 @@ namespace SanBag.ViewModels
                 Name = "ScriptSourceTextResource"
             });
 
+            var scriptMetadataResourceViewModel = new ScriptMetadataResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = scriptMetadataResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && scriptMetadataResourceViewModel.IsValidRecord(record)),
+                Name = "ScriptMetadataResource"
+            });
+
             var luaScriptResourceViewModel = new LuaScriptResourceViewModel(this);
             newViews.Add(new ViewType
             {
