@@ -7,6 +7,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
-        <TextBox HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Loading...</TextBox>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <TextBox Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Loading...</TextBox>
+        <TextBox Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding DownloadUrl}" />
+        <ProgressBar Grid.Row="3" Value="{Binding BytesDownloaded}" Maximum="{Binding TotalBytes}" Height="16" />
+        <TextBlock Grid.Row="3" Text="{Binding ProgressText}" HorizontalAlignment="Center"/>
     </Grid>
 </UserControl>
