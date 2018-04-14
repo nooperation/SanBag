@@ -77,6 +77,7 @@
     <Compile Include="ViewModels\BagViewModels\ManifestBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\RawImageBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\ScriptMetadataResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\ScriptSourceTextResourceViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\SoundResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\TextureResourceBagViewModel.cs" />
