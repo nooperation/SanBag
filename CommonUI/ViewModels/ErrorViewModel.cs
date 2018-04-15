@@ -2,9 +2,9 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace AtlasView.ViewModels
+namespace CommonUI.ViewModels
 {
-    class ErrorViewModel : INotifyPropertyChanged
+    public class ErrorViewModel : INotifyPropertyChanged
     {
         private string _errorMessage;
         public string ErrorMessage
@@ -22,9 +22,9 @@ namespace AtlasView.ViewModels
             ErrorMessage = "Error";
         }
 
-        public ErrorViewModel(Exception ex)
+        public ErrorViewModel(string errorMessage, Exception ex)
         {
-            ErrorMessage = ex.Message;
+            ErrorMessage = errorMessage + ": " + ex.Message;
         }
 
         public ErrorViewModel(string errorMessage)

@@ -185,11 +185,11 @@ namespace AtlasView.ViewModels
                     viewModel.InitFromStream(manifestStream);
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 CurrentAtlasView = new ErrorView()
                 {
-                    DataContext = new ErrorViewModel(e)
+                    DataContext = new ErrorViewModel("Failed to select new item", ex)
                 };
             }
         }
@@ -247,11 +247,11 @@ namespace AtlasView.ViewModels
 
                 CurrentAtlasView = null;
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
                 CurrentAtlasView = new ErrorView()
                 {
-                    DataContext = new ErrorViewModel(e)
+                    DataContext = new ErrorViewModel("Failed to search", ex)
                 };
             }
         }
