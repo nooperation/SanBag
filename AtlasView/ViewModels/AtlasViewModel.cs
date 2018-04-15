@@ -239,7 +239,7 @@ namespace AtlasView.ViewModels
                 }
                 SearchResults = tempSearchResults;
 
-                TotalPages = results.Meta.TotalPages;
+                TotalPages = results.Meta.Pages;
                 LastQuery = query;
 
                 _currentPage = page;
