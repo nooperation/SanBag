@@ -195,9 +195,12 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     CurrentResourceView.DataContext = viewModel;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show($"Failed to select item: {e.Message}");
+                CurrentResourceView = new ErrorView
+                {
+                    DataContext = new ErrorViewModel("Failed to select item", ex)
+                };
             }
         }
 
