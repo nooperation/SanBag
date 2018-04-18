@@ -167,9 +167,13 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 CurrentResourceView = new LoadingView();
                 CurrentResourceView.DataContext = loadingViewModel;
 
-                var progress = new Progress<ProgressEventArgs>(args => {
-                    loadingViewModel.BytesDownloaded = args.Downloaded;
-                    loadingViewModel.TotalBytes = args.Total;
+                var progress = new Progress<ProgressEventArgs>(args =>
+                {
+                    loadingViewModel.BytesDownloaded = args.BytesDownloaded;
+                    loadingViewModel.CurrentResourceIndex = args.CurrentResourceIndex;
+                    loadingViewModel.TotalResources = args.TotalResources;
+                    loadingViewModel.Status = args.Status;
+                    loadingViewModel.TotalBytes = args.TotalBytes;
                     loadingViewModel.DownloadUrl = args.Resource;
                 });
 
