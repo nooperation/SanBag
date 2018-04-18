@@ -12,11 +12,15 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBox Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center">Loading...</TextBox>
-        <TextBox Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding DownloadUrl}" />
+        <TextBox Grid.Row="1" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding Status, Mode=OneWay}" Background="{Binding StatusColor}"  IsReadOnly="True"/>
+        <TextBox Grid.Row="2" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Text="{Binding DownloadUrl, Mode=OneWay}" IsReadOnly="True" />
         <ProgressBar Grid.Row="3" Value="{Binding BytesDownloaded}" Maximum="{Binding TotalBytes}" Height="16" />
-        <TextBlock Grid.Row="3" Text="{Binding ProgressText}" HorizontalAlignment="Center"/>
+        <TextBox Grid.Row="3" Text="{Binding ProgressTextMinor, Mode=OneWay}" HorizontalAlignment="Stretch" IsReadOnly="True" Background="Transparent"/>
+
+        <ProgressBar Grid.Row="4" Value="{Binding CurrentResourceIndex}" Maximum="{Binding TotalResources}" Height="16" />
+        <TextBox Grid.Row="4" Text="{Binding ProgressTextMajor, Mode=OneWay}" HorizontalAlignment="Stretch" IsReadOnly="True" Background="Transparent"/>
     </Grid>
 </UserControl>

@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Runtime.CompilerServices;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using LibSanBag;
@@ -163,8 +164,11 @@ namespace AtlasView.ViewModels
                 CurrentAtlasView.DataContext = loadingViewModel;
 
                 var progress = new Progress<ProgressEventArgs>(args => {
-                    loadingViewModel.BytesDownloaded = args.Downloaded;
-                    loadingViewModel.TotalBytes = args.Total;
+                    loadingViewModel.BytesDownloaded = args.BytesDownloaded;
+                    loadingViewModel.CurrentResourceIndex = args.CurrentResourceIndex;
+                    loadingViewModel.TotalResources = args.TotalResources;
+                    loadingViewModel.Status = args.Status;
+                    loadingViewModel.TotalBytes = args.TotalBytes;
                     loadingViewModel.DownloadUrl = args.Resource;
                 });
 
@@ -218,15 +222,22 @@ namespace AtlasView.ViewModels
             {
                 CurrentAtlasView = new LoadingView();
 
-                var perPage = 4;
-                var request = WebRequest.Create($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}&page={page}");
-                var response = await request.GetResponseAsync();
+                var loadingViewModel = new LoadingViewModel();
+                CurrentAtlasView.DataContext = loadingViewModel;
 
-                string responseJson;
-                using (var sr = new StreamReader(response.GetResponseStream()))
-                {
-                    responseJson = sr.ReadToEnd();
-                }
+                var progress = new Progress<ProgressEventArgs>(args => {
+                    loadingViewModel.BytesDownloaded = args.BytesDownloaded;
+                    loadingViewModel.CurrentResourceIndex = args.CurrentResourceIndex;
+                    loadingViewModel.TotalResources = args.TotalResources;
+                    loadingViewModel.Status = args.Status;
+                    loadingViewModel.TotalBytes = args.TotalBytes;
+                    loadingViewModel.DownloadUrl = args.Resource;
+                });
+
+                var perPage = 4;
+                var client = new HttpClientProvider();
+                var responseBytes = await client.GetByteArrayAsync($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}&page={page}", progress);
+                var responseJson = Encoding.ASCII.GetString(responseBytes);
 
                 var results = JsonConvert.DeserializeObject<AtlasResponse>(responseJson);
                 var tempSearchResults = new List<ExperienceView>();
