@@ -111,8 +111,8 @@ namespace CommonUI.ViewModels
                 }
                 else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ScriptMetadataResource)
                 {
-                    CurrentView = new ScriptMetadataResourceView();
-                    CurrentViewModel = new ScriptMetadataResourceViewModel();
+                    CurrentView = new ScriptResourceView();
+                    CurrentViewModel = new ScriptResourceViewModel();
                 }
                 else
                 {
