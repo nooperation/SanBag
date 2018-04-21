@@ -192,7 +192,8 @@ namespace CommonUI.ViewModels.ResourceViewModels
                         manifestStream,
                         FileRecordInfo.GetResourceType(SelectedRecord.Name),
                         CurrentPayloadType,
-                        downloadManifestResult.Version
+                        downloadManifestResult.Version,
+                        SelectedRecord.HashString
                     );
 
                     CurrentResourceView = new ResourceView();

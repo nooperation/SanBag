@@ -108,9 +108,6 @@ namespace CommonUI.ViewModels.ResourceViewModels
         [CanBeNull]
         private string CompressedSoundPath { get; set; }
 
-        [CanBeNull]
-        private string Version { get; set; }
-
         public SoundResourceViewModel()
         {
             CommandPlaySound = new CommandPlaySound(this);

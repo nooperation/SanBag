@@ -4,8 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using CommonUI.Views.ResourceViews;
 using LibSanBag.FileResources;
+using LibSanBag.Providers;
 
 namespace CommonUI.ViewModels.ResourceViewModels
 {
@@ -32,6 +34,50 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 _currentScriptMetadataResourceViewModel?.Unload();
                 _currentScriptMetadataResourceViewModel = value;
                 OnPropertyChanged();
+            }
+        }
+
+        private int _currentTabIndex;
+        public int CurrentTabIndex
+        {
+            get => _currentTabIndex;
+            set
+            {
+                _currentTabIndex = value;
+                if (_currentTabIndex == 1)
+                {
+                    try
+                    {
+                        DownloadSource();
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+                OnPropertyChanged();
+            }
+        }
+
+        private async void DownloadSource()
+        {
+            if (CurrentScriptMetadataResourceViewModel == null || string.IsNullOrWhiteSpace(Hash))
+            {
+                return;
+            }
+
+            var result = await LibSanBag.FileRecordInfo.DownloadResourceAsync(
+                Hash,
+                LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource,
+                LibSanBag.FileRecordInfo.PayloadType.Payload,
+                LibSanBag.FileRecordInfo.VariantType.NoVariants,
+                new HttpClientProvider(),
+                null);
+
+            var viewModel = new ScriptSourceTextViewModel();
+            using (MemoryStream ms = new MemoryStream(result.Bytes))
+            {
+                viewModel.InitFromStream(ms);
+                CurrentScriptSourceTextViewModel = viewModel;
             }
         }
 

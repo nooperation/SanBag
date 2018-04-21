@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:CommonUI.Views.ResourceViews"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <TabControl>
+    <TabControl SelectedIndex="{Binding CurrentTabIndex}">
         <TabItem Header="ScriptMetaData">
             <local:ScriptMetadataResourceView DataContext="{Binding Path=CurrentScriptMetadataResourceViewModel}" />
         </TabItem>
