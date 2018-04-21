@@ -15,15 +15,20 @@ namespace CommonUI.ViewModels.ResourceViewModels
     public abstract class BaseViewModel : INotifyPropertyChanged
     {
         public string Name { get; set; }
+        public string Version { get; set; }
+        public string Hash { get; set; }
 
         public void InitFromPath(string filePath)
         {
             Name = Path.GetFileName(filePath);
-            var version = FileRecordInfo.Create(Name)?.VersionHash ?? string.Empty;
+
+            var fileInfo = FileRecordInfo.Create(Name);
+            Version = fileInfo?.VersionHash ?? string.Empty;
+            Hash = fileInfo?.Hash ?? string.Empty;
 
             using (var fileStream = File.OpenRead(filePath))
             {
-                LoadFromStream(fileStream, version);
+                LoadFromStream(fileStream, Hash);
             }
         }
 
@@ -34,13 +39,19 @@ namespace CommonUI.ViewModels.ResourceViewModels
             {
                 fileRecord.Save(sourceStream, stream);
                 stream.Seek(0, SeekOrigin.Begin);
-                LoadFromStream(stream, fileRecord.Info?.VersionHash ?? string.Empty);
+                Version = fileRecord.Info?.VersionHash ?? string.Empty;
+                Hash = fileRecord.Info?.Hash ?? string.Empty;
+
+                LoadFromStream(stream, Version);
             }
         }
 
-        public void InitFromStream(Stream stream, string version="")
+        public void InitFromStream(Stream stream, string version="", string hash="")
         {
             Name = "Resource";
+            Version = version ?? string.Empty;
+            Hash = hash ?? string.Empty;
+
             LoadFromStream(stream, version);
         }
 
