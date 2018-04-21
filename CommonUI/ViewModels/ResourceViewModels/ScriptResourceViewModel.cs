@@ -60,25 +60,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
         private async void DownloadSource()
         {
-            if (CurrentScriptMetadataResourceViewModel == null || string.IsNullOrWhiteSpace(Hash))
-            {
-                return;
-            }
 
-            var result = await LibSanBag.FileRecordInfo.DownloadResourceAsync(
-                Hash,
-                LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource,
-                LibSanBag.FileRecordInfo.PayloadType.Payload,
-                LibSanBag.FileRecordInfo.VariantType.NoVariants,
-                new HttpClientProvider(),
-                null);
-
-            var viewModel = new ScriptSourceTextViewModel();
-            using (MemoryStream ms = new MemoryStream(result.Bytes))
-            {
-                viewModel.InitFromStream(ms, result.Version, Hash);
-                CurrentScriptSourceTextViewModel = viewModel;
-            }
         }
 
         protected override void LoadFromStream(Stream resourceStream, string version)
