@@ -76,7 +76,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
             var viewModel = new ScriptSourceTextViewModel();
             using (MemoryStream ms = new MemoryStream(result.Bytes))
             {
-                viewModel.InitFromStream(ms);
+                viewModel.InitFromStream(ms, result.Version, Hash);
                 CurrentScriptSourceTextViewModel = viewModel;
             }
         }
