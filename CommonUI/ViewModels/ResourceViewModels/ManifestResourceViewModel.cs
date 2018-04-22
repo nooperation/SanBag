@@ -167,9 +167,13 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 CurrentResourceView = new LoadingView();
                 CurrentResourceView.DataContext = loadingViewModel;
 
-                var progress = new Progress<ProgressEventArgs>(args => {
-                    loadingViewModel.BytesDownloaded = args.Downloaded;
-                    loadingViewModel.TotalBytes = args.Total;
+                var progress = new Progress<ProgressEventArgs>(args =>
+                {
+                    loadingViewModel.BytesDownloaded = args.BytesDownloaded;
+                    loadingViewModel.CurrentResourceIndex = args.CurrentResourceIndex;
+                    loadingViewModel.TotalResources = args.TotalResources;
+                    loadingViewModel.Status = args.Status;
+                    loadingViewModel.TotalBytes = args.TotalBytes;
                     loadingViewModel.DownloadUrl = args.Resource;
                 });
 
@@ -188,16 +192,20 @@ namespace CommonUI.ViewModels.ResourceViewModels
                         manifestStream,
                         FileRecordInfo.GetResourceType(SelectedRecord.Name),
                         CurrentPayloadType,
-                        downloadManifestResult.Version
+                        downloadManifestResult.Version,
+                        SelectedRecord.HashString
                     );
 
                     CurrentResourceView = new ResourceView();
                     CurrentResourceView.DataContext = viewModel;
                 }
             }
-            catch (Exception e)
+            catch (Exception ex)
             {
-                MessageBox.Show($"Failed to select item: {e.Message}");
+                CurrentResourceView = new ErrorView
+                {
+                    DataContext = new ErrorViewModel("Failed to select item", ex)
+                };
             }
         }
 

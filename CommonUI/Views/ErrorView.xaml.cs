@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace AtlasView.Views
+namespace CommonUI.Views
 {
     /// <summary>
     /// Interaction logic for ErrorView.xaml

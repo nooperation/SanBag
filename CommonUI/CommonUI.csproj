@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\LibSanBag.1.4.4\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.4.4\build\LibSanBag.props')" />
+  <Import Project="..\packages\LibSanBag.1.5.0\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.5.0\build\LibSanBag.props')" />
   <Import Project="..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props" Condition="Exists('..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props')" />
   <Import Project="..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props" Condition="Exists('..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props')" />
   <Import Project="..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" />
@@ -44,8 +44,8 @@
     <Reference Include="HelixToolkit.Wpf, Version=1.0.0.0, Culture=neutral, PublicKeyToken=52aa3500039caf0d, processorArchitecture=MSIL">
       <HintPath>..\packages\HelixToolkit.Wpf.1.0.0\lib\net45\HelixToolkit.Wpf.dll</HintPath>
     </Reference>
-    <Reference Include="LibSanBag, Version=1.4.4.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\LibSanBag.1.4.4\lib\net46\LibSanBag.dll</HintPath>
+    <Reference Include="LibSanBag, Version=1.5.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\LibSanBag.1.5.0\lib\net46\LibSanBag.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -88,6 +88,7 @@
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceUtils\Utils.cs" />
+    <Compile Include="ViewModels\ErrorViewModel.cs" />
     <Compile Include="ViewModels\ExportViewModel.cs" />
     <Compile Include="ViewModels\LoadingViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModel.cs" />
@@ -97,12 +98,16 @@
     <Compile Include="ViewModels\ResourceViewModels\ManifestResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawImageViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\ScriptResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\UserPreferencesViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ScriptMetadataResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawTextResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ScriptSourceTextViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\SoundResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\TextureResourceViewModel.cs" />
+    <Compile Include="Views\ErrorView.xaml.cs">
+      <DependentUpon>ErrorView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ExportView.xaml.cs">
       <DependentUpon>ExportView.xaml</DependentUpon>
     </Compile>
@@ -127,6 +132,9 @@
     <Compile Include="Views\ResourceViews\RawResourceView.xaml.cs">
       <DependentUpon>RawResourceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ResourceViews\ScriptResourceView.xaml.cs">
+      <DependentUpon>ScriptResourceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ResourceViews\UserPreferencesView.xaml.cs">
       <DependentUpon>UserPreferencesView.xaml</DependentUpon>
     </Compile>
@@ -147,6 +155,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\ErrorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ExportView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -178,6 +190,10 @@
     <Page Include="Views\ResourceViews\RawResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\ScriptResourceView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ResourceViews\UserPreferencesView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -218,6 +234,6 @@
     <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.0\build\SanTools.LibFSB.props'))" />
     <Error Condition="!Exists('..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props'))" />
     <Error Condition="!Exists('..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props'))" />
-    <Error Condition="!Exists('..\packages\LibSanBag.1.4.4\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.4.4\build\LibSanBag.props'))" />
+    <Error Condition="!Exists('..\packages\LibSanBag.1.5.0\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.5.0\build\LibSanBag.props'))" />
   </Target>
 </Project>

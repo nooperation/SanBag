@@ -39,9 +39,9 @@ namespace CommonUI.ViewModels
             OpenFile(fileToOpen);
         }
 
-        public ResourceViewModel(Stream resourceStream, LibSanBag.FileRecordInfo.ResourceType resourceType, LibSanBag.FileRecordInfo.PayloadType payloadType, string version)
+        public ResourceViewModel(Stream resourceStream, LibSanBag.FileRecordInfo.ResourceType resourceType, LibSanBag.FileRecordInfo.PayloadType payloadType, string version, string hash)
         {
-            OpenStream(resourceStream, resourceType, payloadType, version);
+            OpenStream(resourceStream, resourceType, payloadType, version, hash);
         }
 
         public void OpenFile(string resourcePath)
@@ -62,12 +62,12 @@ namespace CommonUI.ViewModels
 
                 using (var resourceStream = File.OpenRead(resourcePath))
                 {
-                    OpenStream(resourceStream, fileInfo.Resource, fileInfo.Payload, fileInfo.VersionHash);
+                    OpenStream(resourceStream, fileInfo.Resource, fileInfo.Payload, fileInfo.VersionHash, fileInfo.Hash);
                 }
             }
         }
 
-        public void OpenStream(Stream resourceStream, LibSanBag.FileRecordInfo.ResourceType resourceType, LibSanBag.FileRecordInfo.PayloadType payloadType, string version)
+        public void OpenStream(Stream resourceStream, LibSanBag.FileRecordInfo.ResourceType resourceType, LibSanBag.FileRecordInfo.PayloadType payloadType, string version, string hash)
         {
             var isRawView = false;
 
@@ -111,8 +111,8 @@ namespace CommonUI.ViewModels
                 }
                 else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ScriptMetadataResource)
                 {
-                    CurrentView = new ScriptMetadataResourceView();
-                    CurrentViewModel = new ScriptMetadataResourceViewModel();
+                    CurrentView = new ScriptResourceView();
+                    CurrentViewModel = new ScriptResourceViewModel();
                 }
                 else
                 {
@@ -144,7 +144,7 @@ namespace CommonUI.ViewModels
             try
             {
                 CurrentView.DataContext = CurrentViewModel;
-                CurrentViewModel.InitFromStream(resourceStream, version);
+                CurrentViewModel.InitFromStream(resourceStream, version, hash);
                 return;
             }
             catch (Exception ex)
