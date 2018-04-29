@@ -173,7 +173,7 @@ namespace AtlasView.ViewModels
                 });
 
                 var downloadManifestResult = await FileRecordInfo.DownloadResourceAsync(
-                    experienceViewModel.Experience.Attributes.SceneAssetId,
+                    experienceViewModel.Experience.SceneAssetId,
                     FileRecordInfo.ResourceType.WorldSource,
                     FileRecordInfo.PayloadType.Manifest,
                     FileRecordInfo.VariantType.NoVariants,
