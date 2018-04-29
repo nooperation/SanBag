@@ -44,9 +44,9 @@ namespace AtlasView.ViewModels
         public ExperienceViewModel(Datum experienceData)
         {
             Experience = experienceData;
-            ThumbnailUrl = Experience.Attributes.Images.Grid.Url;
-            ExperienceAuthor = Experience.Attributes.PersonaName;
-            ExperienceName = Experience.Attributes.Name;
+            ThumbnailUrl = Experience.Image.Sizes[0].Url;
+            ExperienceAuthor = Experience.PersonaName;
+            ExperienceName = Experience.Name;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
