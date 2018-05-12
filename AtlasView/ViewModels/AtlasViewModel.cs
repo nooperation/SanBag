@@ -236,7 +236,7 @@ namespace AtlasView.ViewModels
 
                 var perPage = 4;
                 var client = new HttpClientProvider();
-                var responseBytes = await client.GetByteArrayAsync($"https://atlas.sansar.com/api/experiences?perPage={perPage}&q={query}&page={page}", progress);
+                var responseBytes = await client.GetByteArrayAsync($"https://atlas.sansar.com/proxies/web/atlas-api/v3/experiences?perPage={perPage}&q={query}&page={page}", progress);
                 var responseJson = Encoding.ASCII.GetString(responseBytes);
 
                 var results = JsonConvert.DeserializeObject<AtlasResponse>(responseJson);
