@@ -99,6 +99,7 @@
     <Compile Include="ViewModels\ResourceViewModels\RawImageViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ScriptResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\LuaScriptResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\UserPreferencesViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ScriptMetadataResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawTextResourceViewModel.cs" />

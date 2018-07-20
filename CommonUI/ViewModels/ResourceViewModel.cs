@@ -93,11 +93,15 @@ namespace CommonUI.ViewModels
                     CurrentView = new SoundResourceView();
                     CurrentViewModel = new SoundResourceViewModel();
                 }
-                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource ||
-                         resourceType == LibSanBag.FileRecordInfo.ResourceType.LuaScriptResource)
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource)
                 {
                     CurrentView = new ScriptSourceTextView();
                     CurrentViewModel = new ScriptSourceTextViewModel();
+                }
+                else if(resourceType == LibSanBag.FileRecordInfo.ResourceType.LuaScriptResource)
+                {
+                    CurrentView = new ScriptSourceTextView();
+                    CurrentViewModel = new LuaScriptResourceViewModel();
                 }
                 else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.GeometryResourceResource)
                 {
