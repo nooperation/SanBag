@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="..\packages\LibSanBag.1.5.8\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.5.8\build\LibSanBag.props')" />
+  <Import Project="..\packages\LibSanBag.1.5.10\build\LibSanBag.props" Condition="Exists('..\packages\LibSanBag.1.5.10\build\LibSanBag.props')" />
   <Import Project="..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props" Condition="Exists('..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props')" />
   <Import Project="..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props" Condition="Exists('..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props')" />
   <Import Project="..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props" Condition="Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" />
@@ -42,8 +42,8 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="LibSanBag, Version=1.5.8.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\LibSanBag.1.5.8\lib\net46\LibSanBag.dll</HintPath>
+    <Reference Include="LibSanBag, Version=1.5.10.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\LibSanBag.1.5.10\lib\net46\LibSanBag.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -159,6 +159,6 @@
     <Error Condition="!Exists('..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibFSB.1.0.2\build\SanTools.LibFSB.props'))" />
     <Error Condition="!Exists('..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibUserPreferences.1.0.6\build\SanTools.LibUserPreferences.props'))" />
     <Error Condition="!Exists('..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\SanTools.LibCRN.1.0.7\build\SanTools.LibCRN.props'))" />
-    <Error Condition="!Exists('..\packages\LibSanBag.1.5.8\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.5.8\build\LibSanBag.props'))" />
+    <Error Condition="!Exists('..\packages\LibSanBag.1.5.10\build\LibSanBag.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\LibSanBag.1.5.10\build\LibSanBag.props'))" />
   </Target>
 </Project>
