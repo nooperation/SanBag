@@ -46,21 +46,10 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 _currentTabIndex = value;
                 if (_currentTabIndex == 1)
                 {
-                    try
-                    {
-                        DownloadSource();
-                    }
-                    catch (Exception)
-                    {
-                    }
+                    // DownloadSource();
                 }
                 OnPropertyChanged();
             }
-        }
-
-        private async void DownloadSource()
-        {
-
         }
 
         protected override void LoadFromStream(Stream resourceStream, string version)
