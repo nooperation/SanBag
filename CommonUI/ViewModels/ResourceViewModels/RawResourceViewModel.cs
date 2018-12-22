@@ -60,7 +60,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
         {
             try
             {
-                DecompressedBytes = OodleLz.DecompressResource(resourceStream);
+                DecompressedBytes = Unpacker.DecompressResource(resourceStream);
             }
             catch (Exception)
             {
