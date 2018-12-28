@@ -43,23 +43,28 @@ namespace CommonUI.ViewModels.ResourceViewModels
             _currentResource = TextureResource.Create(version);
             _currentResource.InitFromStream(resourceStream);
 
-            byte[] ddsBytes;
             if (_currentResource.SourceType == TextureResource.TextureType.CRN)
             {
-                ddsBytes = _currentResource.ConvertTo(TextureResource.TextureType.DDS);
+                var imageBytes = _currentResource.ConvertTo(TextureResource.TextureType.JPG);
+                var newImage = new BitmapImage();
+                newImage.BeginInit();
+                newImage.StreamSource = new MemoryStream(imageBytes);
+                newImage.EndInit();
+
+                CurrentImage = newImage;
             }
             else
             {
-                ddsBytes = _currentResource.CompressedTextureBytes;
+                var ddsBytes = _currentResource.CompressedTextureBytes;
+
+                var imageBytes = LibDDS.GetImageBytesFromDds(ddsBytes, 256, 256);
+                var newImage = new BitmapImage();
+                newImage.BeginInit();
+                newImage.StreamSource = new MemoryStream(imageBytes);
+                newImage.EndInit();
+
+                CurrentImage = newImage;
             }
-
-            var imageBytes = LibDDS.GetImageBytesFromDds(ddsBytes, 256, 256);
-            var newImage = new BitmapImage();
-            newImage.BeginInit();
-            newImage.StreamSource = new MemoryStream(imageBytes);
-            newImage.EndInit();
-
-            CurrentImage = newImage;
         }
 
         public static void Export(TextureResource resource, Stream outStream, string fileExtension)

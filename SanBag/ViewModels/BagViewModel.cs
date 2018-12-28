@@ -148,7 +148,7 @@ namespace SanBag.ViewModels
                 Name = "Default"
             });
 
-            if (LibDDS.IsAvailable && OodleLz.IsAvailable)
+            if (LibDDS.IsAvailable && Unpacker.IsAvailable)
             {
                 var textureResourceBagViewModel = new TextureResourceBagViewModel(this);
                 newViews.Add(new ViewType
@@ -282,7 +282,7 @@ namespace SanBag.ViewModels
             Records = new List<FileRecord>();
             BagPath = path;
 
-            if (path.ToLower().Contains("userpreferences"))
+            if (path.IndexOf("userpreferences", StringComparison.OrdinalIgnoreCase) >= 0)
             {
                 IsCurrentViewSelectionEnabled = false;
                 IsFilterEnabled = false;
