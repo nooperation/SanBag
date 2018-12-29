@@ -54,19 +54,9 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
         protected override void LoadFromStream(Stream resourceStream, string version)
         {
-            var resourceType = LibSanBag.AssetVersions.GetResourceTypeFromVersion(version);
-            if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ScriptMetadataResource)
-            {
-                var viewModel = new ScriptMetadataResourceViewModel();
-                viewModel.InitFromStream(resourceStream, version);
-                CurrentScriptMetadataResourceViewModel = viewModel;
-            }
-            else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ScriptSourceTextResource)
-            {
-                var viewModel = new ScriptSourceTextViewModel();
-                viewModel.InitFromStream(resourceStream, version);
-                CurrentScriptSourceTextViewModel = viewModel;
-            }
+            var viewModel = new ScriptMetadataResourceViewModel();
+            viewModel.InitFromStream(resourceStream, LibSanBag.FileRecordInfo.ResourceType.ScriptMetadataResource, version);
+            CurrentScriptMetadataResourceViewModel = viewModel;
         }
     }
 }
