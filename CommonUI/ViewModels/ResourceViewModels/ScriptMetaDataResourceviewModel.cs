@@ -20,6 +20,20 @@ namespace CommonUI.ViewModels.ResourceViewModels
             }
         }
 
+        private ScriptMetadataResource.ScriptMetadata _currentScript = new ScriptMetadataResource.ScriptMetadata();
+        public ScriptMetadataResource.ScriptMetadata CurrentScript
+        {
+            get
+            {
+                return _currentScript;
+            }
+            set
+            {
+                _currentScript = value;
+                OnPropertyChanged();
+            }
+        }
+
         protected override void LoadFromStream(Stream resourceStream, string version)
         {
             var tempResource = ScriptMetadataResource.Create(version);
