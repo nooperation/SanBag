@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Text;
+using CommonUI.Annotations;
 using LibSanBag.FileResources;
 
 namespace CommonUI.ViewModels.ResourceViewModels
@@ -51,7 +52,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
         {
             var sb = new StringBuilder();
             sb.AppendLine($"{CurrentScript.ClassName} ({CurrentScript.DisplayName})");
-            if (CurrentScript.Tooltip.Length > 0)
+            if (CurrentScript.Tooltip?.Length > 0)
             {
                 sb.AppendLine($"{CurrentScript.Tooltip}");
             }
