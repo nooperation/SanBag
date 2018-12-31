@@ -135,9 +135,6 @@
     <Compile Include="Views\ResourceViews\RawResourceView.xaml.cs">
       <DependentUpon>RawResourceView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ResourceViews\ScriptMetadataControl.xaml.cs">
-      <DependentUpon>ScriptMetadataControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ResourceViews\ScriptResourceView.xaml.cs">
       <DependentUpon>ScriptResourceView.xaml</DependentUpon>
     </Compile>
@@ -196,10 +193,6 @@
     <Page Include="Views\ResourceViews\RawResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ResourceViews\ScriptMetadataControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ResourceViews\ScriptResourceView.xaml">
       <SubType>Designer</SubType>
