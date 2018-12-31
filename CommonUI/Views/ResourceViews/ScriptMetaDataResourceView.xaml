@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:resourceViews="clr-namespace:CommonUI.Views.ResourceViews"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid>
@@ -37,11 +36,13 @@
                 <ColumnDefinition Width="5px" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <ListView Grid.Column="0" ItemsSource="{Binding Path=Resource.Scripts}" SelectedItem="{Binding Path=CurrentScript, Mode=TwoWay}" Name="ScriptList">
-            </ListView>
-            <GridSplitter Grid.Column="1" HorizontalAlignment="Stretch" Width="5px" />
-            <resourceViews:ScriptMetadataControl Grid.Column="2" Script="{Binding ElementName=ScriptList, Path=SelectedItem}" HorizontalContentAlignment="Stretch">
-            </resourceViews:ScriptMetadataControl>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <ListView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding Path=Resource.Scripts}" SelectedItem="{Binding Path=CurrentScript, Mode=TwoWay}" Name="ScriptList" />
+            <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" Width="5px" />
+            <TextBox Grid.Column="2" Grid.Row="0" Text="{Binding CurrentScriptString}" FontFamily="Courier New" IsReadOnly="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
         </Grid>
     </Grid>
 </UserControl>
