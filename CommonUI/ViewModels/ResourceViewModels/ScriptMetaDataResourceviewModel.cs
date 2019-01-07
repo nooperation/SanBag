@@ -1,12 +1,37 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
-using CommonUI.Annotations;
+using System.Windows;
+using System.Windows.Controls;
+using CommonUI.Commands;
+using CommonUI.Views;
+using CommonUI.Views.ResourceViews;
+using LibSanBag;
 using LibSanBag.FileResources;
+using LibSanBag.Providers;
+using Microsoft.Win32;
 
 namespace CommonUI.ViewModels.ResourceViewModels
 {
-    public class ScriptMetadataResourceViewModel : BaseViewModel
+    public class ScriptMetadataResourceViewModel : BaseViewModel, ISavable
     {
+        public CommandSaveAs CommandSaveAs { get; set; }
+
+        private UserControl _currentResourceView;
+        public UserControl CurrentResourceView
+        {
+            get => _currentResourceView;
+            set
+            {
+                if (value == _currentResourceView)
+                {
+                    return;
+                }
+                _currentResourceView = value;
+                OnPropertyChanged();
+            }
+        }
+
         private ScriptMetadataResource _resource;
         public ScriptMetadataResource Resource
         {
@@ -25,10 +50,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
         private ScriptMetadataResource.ScriptMetadata _currentScript = new ScriptMetadataResource.ScriptMetadata();
         public ScriptMetadataResource.ScriptMetadata CurrentScript
         {
-            get
-            {
-                return _currentScript;
-            }
+            get => _currentScript;
             set
             {
                 _currentScript = value;
@@ -37,15 +59,9 @@ namespace CommonUI.ViewModels.ResourceViewModels
             }
         }
 
-        private string _currentScriptString;
-        public string CurrentScriptString
+        public ScriptMetadataResourceViewModel()
         {
-            get => _currentScriptString;
-            set
-            {
-                _currentScriptString = value;
-                OnPropertyChanged();
-            }
+            CommandSaveAs = new CommandSaveAs(this);
         }
 
         private void DumpScriptMetadata()
@@ -77,7 +93,15 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 }
             }
 
-            CurrentScriptString = sb.ToString();
+            var viewModel = new RawTextResourceViewModel
+            {
+                CurrentText = sb.ToString()
+            };
+
+            CurrentResourceView = new RawTextResourceView
+            {
+                DataContext = viewModel
+            };
         }
 
         protected override void LoadFromStream(Stream resourceStream, string version)
@@ -86,6 +110,61 @@ namespace CommonUI.ViewModels.ResourceViewModels
             tempResource.InitFromStream(resourceStream);
 
             Resource = tempResource;
+        }
+
+        public async void SaveAs()
+        {
+            if (Resource == null)
+            {
+                MessageBox.Show("Attempting to export a null resource", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                var previousView = CurrentResourceView;
+
+                // TODO: Show download dialog?
+                var loadingViewModel = new LoadingViewModel();
+                var progress = new Progress<ProgressEventArgs>(args => {
+                    loadingViewModel.BytesDownloaded = args.BytesDownloaded;
+                    loadingViewModel.CurrentResourceIndex = args.CurrentResourceIndex;
+                    loadingViewModel.TotalResources = args.TotalResources;
+                    loadingViewModel.Status = args.Status;
+                    loadingViewModel.TotalBytes = args.TotalBytes;
+                    loadingViewModel.DownloadUrl = args.Resource;
+                });
+
+                CurrentResourceView = new LoadingView();
+                CurrentResourceView.DataContext = loadingViewModel;
+
+                var downloadResult = await FileRecordInfo.DownloadResourceAsync(
+                    Hash,
+                    FileRecordInfo.ResourceType.ScriptCompiledBytecodeResource,
+                    FileRecordInfo.PayloadType.Payload,
+                    FileRecordInfo.VariantType.NoVariants,
+                    new LibSanBag.Providers.HttpClientProvider(),
+                    progress
+                );
+
+                var dialog = new SaveFileDialog();
+                dialog.FileName = downloadResult.Name;
+                dialog.Filter = "DLL|*.dll";
+                if (dialog.ShowDialog() == true)
+                {
+                    using (var outFile = File.OpenWrite(dialog.FileName))
+                    {
+                        outFile.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
+                        MessageBox.Show($"Successfully saved {downloadResult.Bytes.Length} bytes.");
+                    }
+                }
+
+                CurrentResourceView = previousView;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to download resource: {ex.Message}");
+            }
         }
     }
 }
