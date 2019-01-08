@@ -1,11 +1,16 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using CommonUI.Commands;
 using CommonUI.Views;
 using CommonUI.Views.ResourceViews;
+using ICSharpCode.Decompiler;
+using ICSharpCode.Decompiler.CSharp;
+using ICSharpCode.Decompiler.Metadata;
+using ICSharpCode.Decompiler.TypeSystem;
 using LibSanBag;
 using LibSanBag.FileResources;
 using LibSanBag.Providers;
@@ -13,9 +18,10 @@ using Microsoft.Win32;
 
 namespace CommonUI.ViewModels.ResourceViewModels
 {
-    public class ScriptMetadataResourceViewModel : BaseViewModel, ISavable
+    public class ScriptMetadataResourceViewModel : BaseViewModel, ISavable, IDisassemblable
     {
         public CommandSaveAs CommandSaveAs { get; set; }
+        public CommandDisassembleDll CommandDisassembleDll { get; set; }
 
         private UserControl _currentResourceView;
         public UserControl CurrentResourceView
@@ -62,6 +68,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
         public ScriptMetadataResourceViewModel()
         {
             CommandSaveAs = new CommandSaveAs(this);
+            CommandDisassembleDll = new CommandDisassembleDll(this);
         }
 
         private void DumpScriptMetadata()
@@ -112,21 +119,15 @@ namespace CommonUI.ViewModels.ResourceViewModels
             Resource = tempResource;
         }
 
-        public async void SaveAs()
+        private async Task<ScriptCompiledBytecodeResource> DownloadCompiledBytecodeResource()
         {
-            if (Resource == null)
-            {
-                MessageBox.Show("Attempting to export a null resource", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+            var previousView = CurrentResourceView;
 
             try
             {
-                var previousView = CurrentResourceView;
-
-                // TODO: Show download dialog?
                 var loadingViewModel = new LoadingViewModel();
-                var progress = new Progress<ProgressEventArgs>(args => {
+                var progress = new Progress<ProgressEventArgs>(args =>
+                {
                     loadingViewModel.BytesDownloaded = args.BytesDownloaded;
                     loadingViewModel.CurrentResourceIndex = args.CurrentResourceIndex;
                     loadingViewModel.TotalResources = args.TotalResources;
@@ -147,19 +148,87 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     progress
                 );
 
+                var  resource = ScriptCompiledBytecodeResource.Create(downloadResult.Version);
+                resource.InitFromRawCompressed(downloadResult.Bytes);
+
+                return resource;
+            }
+            finally
+            {
+                CurrentResourceView = previousView;
+            }
+        }
+
+        // TODO: async void out of nowhere is so incredibly wrong. Make an async ICommandAsync interface and do it correctly...
+        public async void SaveAs()
+        {
+            if (Resource == null)
+            {
+                MessageBox.Show("Attempting to export a null resource", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                var downloadedAssembly = await DownloadCompiledBytecodeResource();
+
                 var dialog = new SaveFileDialog();
-                dialog.FileName = downloadResult.Name;
+                dialog.FileName = Resource.DefaultScript;
                 dialog.Filter = "DLL|*.dll";
                 if (dialog.ShowDialog() == true)
                 {
                     using (var outFile = File.OpenWrite(dialog.FileName))
                     {
-                        outFile.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
-                        MessageBox.Show($"Successfully saved {downloadResult.Bytes.Length} bytes.");
+                        outFile.Write(downloadedAssembly.AssemblyBytes, 0, downloadedAssembly.AssemblyBytes.Length);
+                        MessageBox.Show($"Successfully saved {downloadedAssembly.AssemblyBytes.Length} bytes.");
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to download resource: {ex.Message}");
+            }
+        }
 
-                CurrentResourceView = previousView;
+        // TODO: async void out of nowhere is so incredibly wrong. Make an async ICommandAsync interface and do it correctly...
+        public async void Disassemble()
+        {
+            if (Resource == null)
+            {
+                MessageBox.Show("Attempting to export a null resource", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                var downloadedAssembly = await DownloadCompiledBytecodeResource();
+                var assemblyStream = new MemoryStream(downloadedAssembly.AssemblyBytes);
+
+                var settings = new DecompilerSettings() {
+                    ThrowOnAssemblyResolveErrors = false
+                };
+                var peFile = new PEFile(
+                    CurrentScript.ClassName + ".dll",
+                    assemblyStream
+                );
+
+                var resolver = new UniversalAssemblyResolver(
+                    CurrentScript.ClassName + ".dll",
+                    settings.ThrowOnAssemblyResolveErrors,
+                    peFile.Reader.DetectTargetFrameworkId()
+                );
+                var decompiler = new CSharpDecompiler(peFile, resolver, settings);
+
+                var viewModel = new RawTextResourceViewModel
+                {
+                    CurrentText = decompiler.DecompileTypeAsString(
+                        new FullTypeName(CurrentScript.ClassName)
+                    )
+                };
+                CurrentResourceView = new RawTextResourceView
+                {
+                    DataContext = viewModel
+                };
             }
             catch (Exception ex)
             {
