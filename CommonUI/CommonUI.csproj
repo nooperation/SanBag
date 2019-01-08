@@ -113,6 +113,7 @@
     <Compile Include="ViewModels\ResourceViewModels\IDecompilable.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ISavable.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ManifestResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\MyAssemblyResolver.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawImageViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\LuaScriptResourceViewModel.cs" />

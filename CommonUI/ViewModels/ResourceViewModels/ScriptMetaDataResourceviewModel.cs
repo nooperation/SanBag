@@ -212,11 +212,16 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     assemblyStream
                 );
 
-                var resolver = new UniversalAssemblyResolver(
+                var resolver = new MyAssemblyResolver(
                     CurrentScript.ClassName + ".dll",
                     settings.ThrowOnAssemblyResolveErrors,
                     peFile.Reader.DetectTargetFrameworkId()
                 );
+
+                var gameDirectory = LibSanBag.ResourceUtils.Utils.GetSansarDirectory(new RegistryProvider());
+                var additionalAssembliesDirectory = Path.Combine(gameDirectory, "Client", "ScriptApi", "Assemblies");
+                resolver.AdditionalPathsToSearch.Add(additionalAssembliesDirectory);
+
                 var decompiler = new CSharpDecompiler(peFile, resolver, settings);
 
                 var viewModel = new RawTextResourceViewModel
