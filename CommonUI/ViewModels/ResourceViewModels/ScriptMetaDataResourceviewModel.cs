@@ -1,12 +1,43 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Text;
-using CommonUI.Annotations;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using CommonUI.Commands;
+using CommonUI.Views;
+using CommonUI.Views.ResourceViews;
+using ICSharpCode.Decompiler;
+using ICSharpCode.Decompiler.CSharp;
+using ICSharpCode.Decompiler.Metadata;
+using ICSharpCode.Decompiler.TypeSystem;
+using LibSanBag;
 using LibSanBag.FileResources;
+using LibSanBag.Providers;
+using Microsoft.Win32;
 
 namespace CommonUI.ViewModels.ResourceViewModels
 {
-    public class ScriptMetadataResourceViewModel : BaseViewModel
+    public class ScriptMetadataResourceViewModel : BaseViewModel, ISavable, IDisassemblable
     {
+        public CommandSaveAs CommandSaveAs { get; set; }
+        public CommandDisassembleDll CommandDisassembleDll { get; set; }
+
+        private UserControl _currentResourceView;
+        public UserControl CurrentResourceView
+        {
+            get => _currentResourceView;
+            set
+            {
+                if (value == _currentResourceView)
+                {
+                    return;
+                }
+                _currentResourceView = value;
+                OnPropertyChanged();
+            }
+        }
+
         private ScriptMetadataResource _resource;
         public ScriptMetadataResource Resource
         {
@@ -25,10 +56,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
         private ScriptMetadataResource.ScriptMetadata _currentScript = new ScriptMetadataResource.ScriptMetadata();
         public ScriptMetadataResource.ScriptMetadata CurrentScript
         {
-            get
-            {
-                return _currentScript;
-            }
+            get => _currentScript;
             set
             {
                 _currentScript = value;
@@ -37,15 +65,10 @@ namespace CommonUI.ViewModels.ResourceViewModels
             }
         }
 
-        private string _currentScriptString;
-        public string CurrentScriptString
+        public ScriptMetadataResourceViewModel()
         {
-            get => _currentScriptString;
-            set
-            {
-                _currentScriptString = value;
-                OnPropertyChanged();
-            }
+            CommandSaveAs = new CommandSaveAs(this);
+            CommandDisassembleDll = new CommandDisassembleDll(this);
         }
 
         private void DumpScriptMetadata()
@@ -77,7 +100,15 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 }
             }
 
-            CurrentScriptString = sb.ToString();
+            var viewModel = new RawTextResourceViewModel
+            {
+                CurrentText = sb.ToString()
+            };
+
+            CurrentResourceView = new RawTextResourceView
+            {
+                DataContext = viewModel
+            };
         }
 
         protected override void LoadFromStream(Stream resourceStream, string version)
@@ -86,6 +117,128 @@ namespace CommonUI.ViewModels.ResourceViewModels
             tempResource.InitFromStream(resourceStream);
 
             Resource = tempResource;
+        }
+
+        private async Task<ScriptCompiledBytecodeResource> DownloadCompiledBytecodeResource()
+        {
+            var previousView = CurrentResourceView;
+
+            try
+            {
+                var loadingViewModel = new LoadingViewModel();
+                var progress = new Progress<ProgressEventArgs>(args =>
+                {
+                    loadingViewModel.BytesDownloaded = args.BytesDownloaded;
+                    loadingViewModel.CurrentResourceIndex = args.CurrentResourceIndex;
+                    loadingViewModel.TotalResources = args.TotalResources;
+                    loadingViewModel.Status = args.Status;
+                    loadingViewModel.TotalBytes = args.TotalBytes;
+                    loadingViewModel.DownloadUrl = args.Resource;
+                });
+
+                CurrentResourceView = new LoadingView();
+                CurrentResourceView.DataContext = loadingViewModel;
+
+                var downloadResult = await FileRecordInfo.DownloadResourceAsync(
+                    Hash,
+                    FileRecordInfo.ResourceType.ScriptCompiledBytecodeResource,
+                    FileRecordInfo.PayloadType.Payload,
+                    FileRecordInfo.VariantType.NoVariants,
+                    new LibSanBag.Providers.HttpClientProvider(),
+                    progress
+                );
+
+                var  resource = ScriptCompiledBytecodeResource.Create(downloadResult.Version);
+                resource.InitFromRawCompressed(downloadResult.Bytes);
+
+                return resource;
+            }
+            finally
+            {
+                CurrentResourceView = previousView;
+            }
+        }
+
+        // TODO: async void out of nowhere is so incredibly wrong. Make an async ICommandAsync interface and do it correctly...
+        public async void SaveAs()
+        {
+            if (Resource == null)
+            {
+                MessageBox.Show("Attempting to export a null resource", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                var downloadedAssembly = await DownloadCompiledBytecodeResource();
+
+                var dialog = new SaveFileDialog();
+                dialog.FileName = Resource.DefaultScript;
+                dialog.Filter = "DLL|*.dll";
+                if (dialog.ShowDialog() == true)
+                {
+                    using (var outFile = File.OpenWrite(dialog.FileName))
+                    {
+                        outFile.Write(downloadedAssembly.AssemblyBytes, 0, downloadedAssembly.AssemblyBytes.Length);
+                        MessageBox.Show($"Successfully saved {downloadedAssembly.AssemblyBytes.Length} bytes.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to download resource: {ex.Message}");
+            }
+        }
+
+        // TODO: async void out of nowhere is so incredibly wrong. Make an async ICommandAsync interface and do it correctly...
+        public async void Disassemble()
+        {
+            if (Resource == null)
+            {
+                MessageBox.Show("Attempting to export a null resource", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                var downloadedAssembly = await DownloadCompiledBytecodeResource();
+                var assemblyStream = new MemoryStream(downloadedAssembly.AssemblyBytes);
+
+                var settings = new DecompilerSettings() {
+                    ThrowOnAssemblyResolveErrors = false
+                };
+                var peFile = new PEFile(
+                    CurrentScript.ClassName + ".dll",
+                    assemblyStream
+                );
+
+                var resolver = new MyAssemblyResolver(
+                    CurrentScript.ClassName + ".dll",
+                    settings.ThrowOnAssemblyResolveErrors,
+                    peFile.Reader.DetectTargetFrameworkId()
+                );
+
+                var gameDirectory = LibSanBag.ResourceUtils.Utils.GetSansarDirectory(new RegistryProvider());
+                var additionalAssembliesDirectory = Path.Combine(gameDirectory, "Client", "ScriptApi", "Assemblies");
+                resolver.AdditionalPathsToSearch.Add(additionalAssembliesDirectory);
+
+                var decompiler = new CSharpDecompiler(peFile, resolver, settings);
+
+                var viewModel = new RawTextResourceViewModel
+                {
+                    CurrentText = decompiler.DecompileTypeAsString(
+                        new FullTypeName(CurrentScript.ClassName)
+                    )
+                };
+                CurrentResourceView = new RawTextResourceView
+                {
+                    DataContext = viewModel
+                };
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Failed to download resource: {ex.Message}");
+            }
         }
     }
 }
