@@ -224,12 +224,25 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
                 var decompiler = new CSharpDecompiler(peFile, resolver, settings);
 
-                var viewModel = new RawTextResourceViewModel
+                RawTextResourceViewModel viewModel;
+                    
+                if(CurrentScript.ClassName != null)
                 {
-                    CurrentText = decompiler.DecompileTypeAsString(
-                        new FullTypeName(CurrentScript.ClassName)
-                    )
-                };
+                    viewModel = new RawTextResourceViewModel
+                    {
+                        CurrentText = decompiler.DecompileTypeAsString(
+                            new FullTypeName(CurrentScript.ClassName)
+                        )
+                    };
+                }
+                else
+                {
+                    viewModel = new RawTextResourceViewModel
+                    {
+                        CurrentText = decompiler.DecompileWholeModuleAsString()
+                    };
+                }
+                    
                 CurrentResourceView = new RawTextResourceView
                 {
                     DataContext = viewModel
