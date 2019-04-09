@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -224,24 +225,31 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
                 var decompiler = new CSharpDecompiler(peFile, resolver, settings);
 
-                RawTextResourceViewModel viewModel;
-                    
+                string source;
                 if(CurrentScript.ClassName != null)
                 {
-                    viewModel = new RawTextResourceViewModel
-                    {
-                        CurrentText = decompiler.DecompileTypeAsString(
-                            new FullTypeName(CurrentScript.ClassName)
-                        )
-                    };
+                    source = decompiler.DecompileTypeAsString(
+                        new FullTypeName(CurrentScript.ClassName)
+                    );
                 }
                 else
                 {
-                    viewModel = new RawTextResourceViewModel
-                    {
-                        CurrentText = decompiler.DecompileWholeModuleAsString()
-                    };
+                    source = decompiler.DecompileWholeModuleAsString();
                 }
+
+                source = Regex.Replace(
+                    source,
+                    "long [a-zA-Z0-9]+ = Sansar.Microthreading.Microthread.GetCurrentThreadTicks\\(\\);\\s*",
+                    "");
+                source = Regex.Replace(
+                    source,
+                    "[a-zA-Z0-9]+ = Sansar.Microthreading.Microthread.YieldIfQuantaExceeded\\([a-zA-Z0-9]+\\);\\s*",
+                    "");
+
+                var viewModel = new RawTextResourceViewModel
+                {
+                    CurrentText = source
+                };
                     
                 CurrentResourceView = new RawTextResourceView
                 {
