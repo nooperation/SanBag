@@ -1,0 +1,3 @@
+[submodule "LibSanBag"]
+	path = LibSanBag
+	url = https://github.com/nooperation/LibSanBag.git

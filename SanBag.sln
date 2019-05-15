@@ -1,13 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27130.2036
+VisualStudioVersion = 15.0.28307.645
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SanBag", "SanBag\SanBag.csproj", "{006717C7-AA8D-4F47-94A6-6F71C526E7DD}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AtlasView", "AtlasView\AtlasView.csproj", "{DFA93511-1119-446B-AE88-116B9167C09C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommonUI", "CommonUI\CommonUI.csproj", "{C799B853-615E-4215-A17A-4E2F9687A163}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSanBag", "LibSanBag\LibSanBag\LibSanBag.csproj", "{14A58A49-5247-442F-B0F2-C3A5D7A88D76}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LibSanBag.Tests", "LibSanBag\LibSanBag.Tests\LibSanBag.Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +31,14 @@ Global
 		{C799B853-615E-4215-A17A-4E2F9687A163}.Debug|x64.Build.0 = Debug|x64
 		{C799B853-615E-4215-A17A-4E2F9687A163}.Release|x64.ActiveCfg = Release|x64
 		{C799B853-615E-4215-A17A-4E2F9687A163}.Release|x64.Build.0 = Release|x64
+		{14A58A49-5247-442F-B0F2-C3A5D7A88D76}.Debug|x64.ActiveCfg = Debug|x64
+		{14A58A49-5247-442F-B0F2-C3A5D7A88D76}.Debug|x64.Build.0 = Debug|x64
+		{14A58A49-5247-442F-B0F2-C3A5D7A88D76}.Release|x64.ActiveCfg = Release|x64
+		{14A58A49-5247-442F-B0F2-C3A5D7A88D76}.Release|x64.Build.0 = Release|x64
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|x64.ActiveCfg = Debug|x64
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Debug|x64.Build.0 = Debug|x64
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|x64.ActiveCfg = Release|x64
+		{8EDF4429-251A-416D-BB68-93F227191BCF}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
