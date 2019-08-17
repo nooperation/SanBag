@@ -239,11 +239,11 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
                 source = Regex.Replace(
                     source,
-                    "long [a-zA-Z0-9]+ = Sansar.Microthreading.Microthread.GetCurrentThreadTicks\\(\\);\\s*",
+                    "long [a-zA-Z0-9]+ = (Sansar\\.)?(Microthreading\\.)?Microthread\\.GetCurrentThreadTicks\\(\\);\\s*",
                     "");
                 source = Regex.Replace(
                     source,
-                    "[a-zA-Z0-9]+ = Sansar.Microthreading.Microthread.YieldIfQuantaExceeded\\([a-zA-Z0-9]+\\);\\s*",
+                    "[a-zA-Z0-9]+ = (Sansar\\.)?(Microthreading\\.)?Microthread\\.YieldIfQuantaExceeded\\([a-zA-Z0-9]+\\);\\s*",
                     "");
 
                 var viewModel = new RawTextResourceViewModel
