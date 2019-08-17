@@ -195,7 +195,7 @@ namespace SanBag.ViewModels
                 Name = "ScriptMetadataResource"
             });
 
-            var luaScriptResourceViewModel = new LuaScriptResourceViewModel(this);
+            var luaScriptResourceViewModel = new LuaScriptResourceBagViewModel(this);
             newViews.Add(new ViewType
             {
                 View = new GenericBagView

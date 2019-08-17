@@ -66,7 +66,7 @@
     <Compile Include="ViewModels\BagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\GeometryResourceBagViewModel.cs" />
-    <Compile Include="ViewModels\BagViewModels\LuaScriptViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\LuaScriptResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\ManifestBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\RawImageBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\ScriptCompiledBytecodeResourceViewModel.cs" />
