@@ -130,10 +130,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack">
-      <Version>1.11.4</Version>
+      <Version>1.11.16</Version>
     </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.1</Version>
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="SanTools.LibCRN">
       <Version>1.0.8</Version>
@@ -142,7 +142,7 @@
       <Version>1.0.2</Version>
     </PackageReference>
     <PackageReference Include="SanTools.LibUserPreferences">
-      <Version>1.0.6</Version>
+      <Version>1.0.11</Version>
     </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

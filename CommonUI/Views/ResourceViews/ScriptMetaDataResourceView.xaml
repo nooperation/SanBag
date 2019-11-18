@@ -11,6 +11,8 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -21,16 +23,20 @@
         <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Resource.DefaultScript}" IsReadOnly="True" VerticalContentAlignment="Center" />
         <Label Grid.Row="1" Grid.Column="0">AssemblyTooltip</Label>
         <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Resource.AssemblyTooltip}" IsReadOnly="True" VerticalContentAlignment="Center" />
-        <Label Grid.Row="2" Grid.Column="0">Warnings</Label>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Resource.Warnings}" IsReadOnly="True" MaxHeight="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
-        <Label Grid.Row="3" Grid.Column="0">Strings</Label>
-        <DataGrid Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Path=Resource.Strings, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
+        <Label Grid.Row="2" Grid.Column="0">Build Warnings</Label>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Resource.BuildWarnings}" IsReadOnly="True" MaxHeight="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+        <Label Grid.Row="3" Grid.Column="0">Other Warnings</Label>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=Resource.OtherWarnings}" IsReadOnly="True" MaxHeight="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+        <Label Grid.Row="4" Grid.Column="0">Restricted API</Label>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=Resource.UsesRestrictedAPI}" IsReadOnly="True" MaxHeight="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+        <Label Grid.Row="5" Grid.Column="0">Strings</Label>
+        <DataGrid Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Path=Resource.Strings, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Key}" ClipboardContentBinding="{x:Null}" Header="Key" Width="auto" />
                 <DataGridTextColumn Binding="{Binding Value}" ClipboardContentBinding="{x:Null}" Header="Value" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2">
+        <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="auto" MinWidth="100px" />
                 <ColumnDefinition Width="5px" />
