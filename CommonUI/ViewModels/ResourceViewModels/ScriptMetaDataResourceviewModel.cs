@@ -91,10 +91,10 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     {
                         foreach (var attribute in property.Attributes)
                         {
-                            var padding = new string(' ', 8 + attribute.Key.Length + 3);
-                            var attributeValue = attribute.Value.Replace("\n", "\n" + padding);
+                            var padding = new string(' ', 8 + attribute.Name.Length + 3);
+                            var attributeValue = attribute.Value.ToString().Replace("\n", "\n" + padding);
 
-                            sb.AppendLine($"        {attribute.Key} = {attributeValue}");
+                            sb.AppendLine($"        {attribute.Name} = {attributeValue}");
                         }
                     }
                     sb.AppendLine();
