@@ -250,6 +250,39 @@ namespace SanBag.ViewModels
                 Name = "Png"
             });
 
+            var rawClusterDefinitionViewModel = new ClusterDefinitionResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawClusterDefinitionViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawClusterDefinitionViewModel.IsValidRecord(record)),
+                Name = "ClusterDefinition"
+            });
+
+            var rawWorldDefinitionViewModel = new WorldDefinitionBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawWorldDefinitionViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawWorldDefinitionViewModel.IsValidRecord(record)),
+                Name = "WorldDefinition"
+            });
+
+            var rawWorldChunkDefinitionViewModel = new WorldChunkDefinitionBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawWorldChunkDefinitionViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawWorldChunkDefinitionViewModel.IsValidRecord(record)),
+                Name = "WorldChunkDefinition"
+            });
+
             Records = new List<FileRecord>();
             Views = newViews;
             CurrentView = Views[0];

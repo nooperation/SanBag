@@ -53,7 +53,7 @@ namespace SanBag.ViewModels.BagViewModels
             scriptCompiledBytecode.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
 
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
-            File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
+            File.WriteAllText(outputPath, scriptCompiledBytecode.Resource.SourceText ?? string.Join("\r\n", scriptCompiledBytecode.Resource.SourceTexts));
 
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }

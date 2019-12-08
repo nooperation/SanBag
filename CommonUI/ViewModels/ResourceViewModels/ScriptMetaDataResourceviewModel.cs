@@ -16,6 +16,7 @@ using LibSanBag;
 using LibSanBag.FileResources;
 using LibSanBag.Providers;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 
 namespace CommonUI.ViewModels.ResourceViewModels
 {
@@ -74,6 +75,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
         private void DumpScriptMetadata()
         {
+            /*
             var sb = new StringBuilder();
             sb.AppendLine($"{CurrentScript.ClassName} ({CurrentScript.DisplayName})");
             if (CurrentScript.Tooltip?.Length > 0)
@@ -100,10 +102,15 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     sb.AppendLine();
                 }
             }
+            */
+
+            var json = JsonConvert.SerializeObject(CurrentScript, Formatting.Indented, new JsonSerializerSettings() { 
+                 NullValueHandling = NullValueHandling.Ignore,
+            });
 
             var viewModel = new RawTextResourceViewModel
             {
-                CurrentText = sb.ToString()
+                CurrentText = json
             };
 
             CurrentResourceView = new RawTextResourceView
@@ -174,7 +181,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 var downloadedAssembly = await DownloadCompiledBytecodeResource();
 
                 var dialog = new SaveFileDialog();
-                dialog.FileName = Resource.DefaultScript;
+                dialog.FileName = Resource.Resource.DefaultScript;
                 dialog.Filter = "DLL|*.dll";
                 if (dialog.ShowDialog() == true)
                 {
@@ -209,12 +216,12 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     ThrowOnAssemblyResolveErrors = false
                 };
                 var peFile = new PEFile(
-                    CurrentScript.ClassName + ".dll",
+                    CurrentScript.DefaultScript + ".dll",
                     assemblyStream
                 );
 
                 var resolver = new MyAssemblyResolver(
-                    CurrentScript.ClassName + ".dll",
+                    CurrentScript.DefaultScript + ".dll",
                     settings.ThrowOnAssemblyResolveErrors,
                     peFile.Reader.DetectTargetFrameworkId()
                 );
@@ -226,10 +233,10 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 var decompiler = new CSharpDecompiler(peFile, resolver, settings);
 
                 string source;
-                if(CurrentScript.ClassName != null)
+                if(CurrentScript.DefaultScript != null)
                 {
                     source = decompiler.DecompileTypeAsString(
-                        new FullTypeName(CurrentScript.ClassName)
+                        new FullTypeName(CurrentScript.DefaultScript)
                     );
                 }
                 else

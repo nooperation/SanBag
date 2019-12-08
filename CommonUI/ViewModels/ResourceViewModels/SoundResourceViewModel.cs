@@ -153,7 +153,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 var soundResource = SoundResource.Create(version);
                 soundResource.InitFromStream(compressedStream);
 
-                var soundBytes = soundResource.SoundBytes;
+                var soundBytes = soundResource.Resource.Data;
                 try
                 {
                     File.Delete(audioPath);
@@ -165,7 +165,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     return;
                 }
 
-                SoundName = soundResource.Name;
+                SoundName = soundResource.Resource.Name;
             }
 
             Player.Open(new Uri(audioPath));
@@ -205,7 +205,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
                         var soundResource = SoundResource.Create(Version);
                         soundResource.InitFromStream(compressedStream);
 
-                        var soundBytes = soundResource.SoundBytes;
+                        var soundBytes = soundResource.Resource.Data;
                         LibFSB.SaveAs(soundBytes, dialog.FileName);
 
                         MessageBox.Show($"Successfully wrote {soundBytes.Length} byte(s) to {dialog.FileName}");

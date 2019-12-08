@@ -64,8 +64,11 @@
     <Compile Include="Commands\CommandCopyAsUrl.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\BagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\WorldDefinitionBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\WorldChunkDefinitionBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\GenericBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\GeometryResourceBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\ClusterDefinitionResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\LuaScriptResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\ManifestBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\RawImageBagViewModel.cs" />

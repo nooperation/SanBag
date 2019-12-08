@@ -118,6 +118,11 @@ namespace CommonUI.ViewModels
                     CurrentView = new ScriptMetadataResourceView();
                     CurrentViewModel = new ScriptMetadataResourceViewModel();
                 }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.ClusterDefinition)
+                {
+                    CurrentView = new ClusterDefinitionResourceView();
+                    CurrentViewModel = new ClusterDefinitionResourceViewModel();
+                }
                 else
                 {
                     isRawView = true;
