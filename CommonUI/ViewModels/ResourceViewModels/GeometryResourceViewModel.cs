@@ -64,7 +64,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 {
                     for (int i = 0; i < rawIndexData.Length; i += 2)
                     {
-                        var index = reader.ReadInt16();
+                        var index = reader.ReadUInt16();
                         indices.Add(index);
                     }
                 }
