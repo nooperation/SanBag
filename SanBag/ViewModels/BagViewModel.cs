@@ -293,6 +293,36 @@ namespace SanBag.ViewModels
                 Filter = (record => RecordPassesNameFilter(record) && rawWorldChunkDefinitionViewModel.IsValidRecord(record)),
                 Name = "WorldChunkDefinition"
             });
+            var rawAudioGraphResourceViewModel = new AudioGraphResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawAudioGraphResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawAudioGraphResourceViewModel.IsValidRecord(record)),
+                Name = "AudioGraphResource"
+            });
+            var rawAudioMaterialResourceViewModel = new AudioMaterialResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawAudioMaterialResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawAudioMaterialResourceViewModel.IsValidRecord(record)),
+                Name = "AudioMaterialResource"
+            });
+            var rawClusterDefinitionResourceViewModel = new ClusterDefinitionResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawClusterDefinitionResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawClusterDefinitionResourceViewModel.IsValidRecord(record)),
+                Name = "ClusterDefinitionResource"
+            });
 
             Records = new List<FileRecord>();
             Views = newViews;

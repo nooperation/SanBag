@@ -64,6 +64,8 @@
     <Compile Include="Commands\CommandCopyAsUrl.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\BagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\AudioGraphResourceBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\AudioMaterialResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\MaterialResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\PickResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\TextureSourceBagViewModel.cs" />

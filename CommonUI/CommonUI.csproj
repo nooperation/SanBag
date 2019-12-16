@@ -74,6 +74,8 @@
     <Compile Include="ViewModels\LoadingViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\AudioMaterialResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\AudioGraphResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\MaterialResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\WorldSourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\PickResourceViewModel.cs" />
@@ -119,6 +121,12 @@
     </Compile>
     <Compile Include="Views\ResourceViews\PickResourceView.xaml.cs">
       <DependentUpon>PickResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\AudioGraphResourceView.xaml.cs">
+      <DependentUpon>AudioGraphResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\AudioMaterialResourceView.xaml.cs">
+      <DependentUpon>AudioMaterialResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\WorldSourceView.xaml.cs">
       <DependentUpon>WorldSourceView.xaml</DependentUpon>
@@ -199,6 +207,14 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ResourceViews\PickResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\AudioGraphResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\AudioMaterialResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

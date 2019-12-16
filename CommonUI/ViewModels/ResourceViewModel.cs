@@ -148,6 +148,16 @@ namespace CommonUI.ViewModels
                     CurrentView = new TextureSourceView();
                     CurrentViewModel = new TextureSourceViewModel();
                 }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.AudioGraphResource)
+                {
+                    CurrentView = new AudioGraphResourceView();
+                    CurrentViewModel = new AudioGraphResourceViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.AudioMaterialResource)
+                {
+                    CurrentView = new AudioMaterialResourceView();
+                    CurrentViewModel = new AudioMaterialResourceViewModel();
+                }
                 else
                 {
                     isRawView = true;
