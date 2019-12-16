@@ -48,7 +48,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
         private List<int> GetIndices(GeometryResource resource)
         {
-            var rawIndexData = resource.Resource.GeometryData.IndexData; ;
+            var rawIndexData = resource.Resource.GeometryData.IndexData;
             var indices = new List<int>();
             using (BinaryReader reader = new BinaryReader(new MemoryStream(rawIndexData)))
             {

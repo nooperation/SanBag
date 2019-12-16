@@ -64,6 +64,11 @@
     <Compile Include="Commands\CommandCopyAsUrl.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="ViewModels\BagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\MaterialResourceBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\PickResourceBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\TextureSourceBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\WorldSourceBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\BlueprintResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\WorldDefinitionBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\WorldChunkDefinitionBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\GenericBagViewModel.cs" />

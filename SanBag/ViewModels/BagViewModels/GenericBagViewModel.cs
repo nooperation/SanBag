@@ -96,6 +96,22 @@ namespace SanBag.ViewModels.BagViewModels
                 {
                     DataContext = new RawTextResourceViewModel()
                 },
+                [FileRecordInfo.ResourceType.MaterialResource] = new MaterialResourceView()
+                {
+                    DataContext = new MaterialResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.PickResource] = new PickResourceView()
+                {
+                    DataContext = new PickResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.TextureSource] = new TextureSourceView()
+                {
+                    DataContext = new TextureSourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.WorldSource] = new WorldSourceView()
+                {
+                    DataContext = new WorldSourceViewModel()
+                },
             };
 
             var rawView = new RawResourceView();

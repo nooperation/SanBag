@@ -74,6 +74,11 @@
     <Compile Include="ViewModels\LoadingViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\MaterialResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\WorldSourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\PickResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\TextureSourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\BlueprintResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\WorldChunkDefinitionViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\WorldDefinitionViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\GeometryResourceViewModel.cs" />
@@ -105,6 +110,21 @@
     </Compile>
     <Compile Include="Views\ResourceView.xaml.cs">
       <DependentUpon>ResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\TextureSourceView.xaml.cs">
+      <DependentUpon>TextureSourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\MaterialResourceView.xaml.cs">
+      <DependentUpon>MaterialResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\PickResourceView.xaml.cs">
+      <DependentUpon>PickResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\WorldSourceView.xaml.cs">
+      <DependentUpon>WorldSourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\BlueprintResourceView.xaml.cs">
+      <DependentUpon>BlueprintResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\WorldChunkDefinitionView.xaml.cs">
       <DependentUpon>WorldChunkDefinitionView.xaml</DependentUpon>
@@ -167,6 +187,26 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\TextureSourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\MaterialResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\PickResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\WorldSourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\BlueprintResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -9,7 +9,7 @@ using Newtonsoft.Json;
 
 namespace CommonUI.ViewModels.ResourceViewModels
 {
-    public class ClusterDefinitionResourceViewModel : BaseViewModel
+    public class MaterialResourceViewModel : BaseViewModel
     {
         private string _filename;
         public string Filename
@@ -43,7 +43,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
         protected override void LoadFromStream(Stream resourceStream, string version)
         {
-            var resource = ClusterDefinitionResource.Create(version);
+            var resource = MaterialResource.Create(version);
             resource.InitFromStream(resourceStream);
 
             Filename = "N/A";

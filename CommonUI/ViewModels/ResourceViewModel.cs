@@ -123,6 +123,31 @@ namespace CommonUI.ViewModels
                     CurrentView = new ClusterDefinitionResourceView();
                     CurrentViewModel = new ClusterDefinitionResourceViewModel();
                 }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.BlueprintResource)
+                {
+                    CurrentView = new BlueprintResourceView();
+                    CurrentViewModel = new BlueprintResourceViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.PickResource)
+                {
+                    CurrentView = new PickResourceView();
+                    CurrentViewModel = new PickResourceViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.MaterialResource)
+                {
+                    CurrentView = new MaterialResourceView();
+                    CurrentViewModel = new MaterialResourceViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.WorldSource)
+                {
+                    CurrentView = new WorldSourceView();
+                    CurrentViewModel = new WorldSourceViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.TextureSource)
+                {
+                    CurrentView = new TextureSourceView();
+                    CurrentViewModel = new TextureSourceViewModel();
+                }
                 else
                 {
                     isRawView = true;

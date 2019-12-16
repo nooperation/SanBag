@@ -55,8 +55,8 @@ namespace CommonUI.ViewModels.ResourceViewModels
             }
         }
 
-        private ScriptMetadataResource.ScriptMetadata _currentScript = new ScriptMetadataResource.ScriptMetadata();
-        public ScriptMetadataResource.ScriptMetadata CurrentScript
+        private ScriptMetadataResource.ScriptClass _currentScript = new ScriptMetadataResource.ScriptClass();
+        public ScriptMetadataResource.ScriptClass CurrentScript
         {
             get => _currentScript;
             set
@@ -103,10 +103,14 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 }
             }
             */
-
-            var json = JsonConvert.SerializeObject(CurrentScript, Formatting.Indented, new JsonSerializerSettings() { 
-                 NullValueHandling = NullValueHandling.Ignore,
-            });
+            var json = string.Empty;
+            if (CurrentScript != null)
+            {
+                json = JsonConvert.SerializeObject(CurrentScript, Formatting.Indented, new JsonSerializerSettings()
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                });
+            }
 
             var viewModel = new RawTextResourceViewModel
             {
@@ -216,12 +220,12 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     ThrowOnAssemblyResolveErrors = false
                 };
                 var peFile = new PEFile(
-                    CurrentScript.DefaultScript + ".dll",
+                    CurrentScript.Name + ".dll",
                     assemblyStream
                 );
 
                 var resolver = new MyAssemblyResolver(
-                    CurrentScript.DefaultScript + ".dll",
+                    CurrentScript.Name + ".dll",
                     settings.ThrowOnAssemblyResolveErrors,
                     peFile.Reader.DetectTargetFrameworkId()
                 );
@@ -233,10 +237,10 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 var decompiler = new CSharpDecompiler(peFile, resolver, settings);
 
                 string source;
-                if(CurrentScript.DefaultScript != null)
+                if(CurrentScript.Name != null)
                 {
                     source = decompiler.DecompileTypeAsString(
-                        new FullTypeName(CurrentScript.DefaultScript)
+                        new FullTypeName(CurrentScript.Name)
                     );
                 }
                 else

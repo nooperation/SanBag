@@ -261,6 +261,17 @@ namespace SanBag.ViewModels
                 Name = "ClusterDefinition"
             });
 
+            var rawBlueprintViewModel = new BlueprintResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawBlueprintViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawBlueprintViewModel.IsValidRecord(record)),
+                Name = "Blueprint"
+            });
+
             var rawWorldDefinitionViewModel = new WorldDefinitionBagViewModel(this);
             newViews.Add(new ViewType
             {
