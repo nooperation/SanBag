@@ -158,6 +158,21 @@ namespace CommonUI.ViewModels
                     CurrentView = new AudioMaterialResourceView();
                     CurrentViewModel = new AudioMaterialResourceViewModel();
                 }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.PickableModelResource)
+                {
+                    CurrentView = new PickableModelResourceView();
+                    CurrentViewModel = new PickableModelResourceViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.BankResource)
+                {
+                    CurrentView = new BankResourceView();
+                    CurrentViewModel = new BankResourceViewModel();
+                }
+                else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.WorldChunkSource)
+                {
+                    CurrentView = new WorldChunkSourceView();
+                    CurrentViewModel = new WorldChunkSourceViewModel();
+                }
                 else
                 {
                     isRawView = true;

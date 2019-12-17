@@ -77,6 +77,9 @@
     <Compile Include="ViewModels\ResourceViewModels\AudioMaterialResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\AudioGraphResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\MaterialResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\PickableModelResourceView.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\BankResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\WorldChunkSourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\WorldSourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\PickResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\TextureSourceViewModel.cs" />
@@ -113,6 +116,12 @@
     <Compile Include="Views\ResourceView.xaml.cs">
       <DependentUpon>ResourceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ResourceViews\PickableModelResourceView.xaml.cs">
+      <DependentUpon>PickableModelResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\BankResourceView.xaml.cs">
+      <DependentUpon>BankResourceView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ResourceViews\TextureSourceView.xaml.cs">
       <DependentUpon>TextureSourceView.xaml</DependentUpon>
     </Compile>
@@ -127,6 +136,9 @@
     </Compile>
     <Compile Include="Views\ResourceViews\AudioMaterialResourceView.xaml.cs">
       <DependentUpon>AudioMaterialResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\WorldChunkSourceView.xaml.cs">
+      <DependentUpon>WorldChunkSourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\WorldSourceView.xaml.cs">
       <DependentUpon>WorldSourceView.xaml</DependentUpon>
@@ -198,6 +210,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ResourceViews\PickableModelResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\BankResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ResourceViews\TextureSourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -215,6 +235,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ResourceViews\AudioMaterialResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\WorldChunkSourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

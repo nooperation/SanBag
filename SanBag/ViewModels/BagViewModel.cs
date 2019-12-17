@@ -323,6 +323,36 @@ namespace SanBag.ViewModels
                 Filter = (record => RecordPassesNameFilter(record) && rawClusterDefinitionResourceViewModel.IsValidRecord(record)),
                 Name = "ClusterDefinitionResource"
             });
+            var rawWorldChunkSourceViewModel = new WorldChunkSourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawWorldChunkSourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawWorldChunkSourceViewModel.IsValidRecord(record)),
+                Name = "WorldChunkSource"
+            });
+            var rawPickableModelResourceViewModel = new PickableModelResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawPickableModelResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawPickableModelResourceViewModel.IsValidRecord(record)),
+                Name = "PickableModelResource"
+            });
+            var rawBankResourceViewModel = new BankResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawBankResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawBankResourceViewModel.IsValidRecord(record)),
+                Name = "BankResource"
+            });
 
             Records = new List<FileRecord>();
             Views = newViews;

@@ -67,8 +67,11 @@
     <Compile Include="ViewModels\BagViewModels\AudioGraphResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\AudioMaterialResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\MaterialResourceBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\PickableModelResourceBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\BankResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\PickResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\TextureSourceBagViewModel.cs" />
+    <Compile Include="ViewModels\BagViewModels\WorldChunkSourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\WorldSourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\BlueprintResourceBagViewModel.cs" />
     <Compile Include="ViewModels\BagViewModels\WorldDefinitionBagViewModel.cs" />
