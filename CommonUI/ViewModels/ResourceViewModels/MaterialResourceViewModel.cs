@@ -5,48 +5,49 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LibSanBag.FileResources;
+using Newtonsoft.Json;
 
 namespace CommonUI.ViewModels.ResourceViewModels
 {
-    public class ScriptSourceTextViewModel : BaseViewModel
+    public class MaterialResourceViewModel : BaseViewModel
     {
-        private string _fileName;
-        public string FileName
+        private string _filename;
+        public string Filename
         {
-            get => _fileName;
+            get => _filename;
             set
             {
-                if (value == _fileName)
+                if (value == _filename)
                 {
                     return;
                 }
-                _fileName = value;
+                _filename = value;
                 OnPropertyChanged();
             }
         }
 
-        private string _sourceCode;
-        public string SourceCode
+        private string _text;
+        public string Text
         {
-            get => _sourceCode;
+            get => _text;
             set
             {
-                if (value == _sourceCode)
+                if (value == _text)
                 {
                     return;
                 }
-                _sourceCode = value;
+                _text = value;
                 OnPropertyChanged();
             }
         }
 
         protected override void LoadFromStream(Stream resourceStream, string version)
         {
-            var resource = ScriptSourceTextResource.Create(version);
+            var resource = MaterialResource.Create(version);
             resource.InitFromStream(resourceStream);
 
-            FileName = resource.Resource.SourceFileName;
-            SourceCode = resource.Resource.SourceText ?? string.Join("\r\n", resource.Resource.SourceTexts);
+            Filename = "N/A";
+            Text = JsonConvert.SerializeObject(resource, Formatting.Indented);
         }
     }
 }

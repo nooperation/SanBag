@@ -16,39 +16,42 @@ using System.Text;
 using System.Threading.Tasks;
 using CommonUI.Views.ResourceViews;
 using CommonUI.ViewModels.ResourceViewModels;
+using Newtonsoft.Json;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class LuaScriptResourceBagViewModel : GenericBagViewModel
+    public class PickableModelResourceBagViewModel : GenericBagViewModel
     {
-        public LuaScriptResourceBagViewModel(BagViewModel parentViewModel)
+        public PickableModelResourceBagViewModel(BagViewModel parentViewModel)
                 : base(parentViewModel)
         {
-            ExportFilter += "|Lua File|*.lua";
-            CurrentResourceView = new ScriptSourceTextView();
-            CurrentResourceView.DataContext = new LuaScriptResourceViewModel();
+            ExportFilter += "|JSON File|*.json";
+            CurrentResourceView = new PickableModelResourceView();
+            CurrentResourceView.DataContext = new PickableModelResourceViewModel();
         }
 
         public override bool IsValidRecord(FileRecord record)
         {
-            return record.Info?.Resource == FileRecordInfo.ResourceType.LuaScriptResource &&
+            return record.Info?.Resource == FileRecordInfo.ResourceType.PickableModelResource &&
                    record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
         }
 
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
-            var scriptCompiledBytecode = LuaScriptResource.Create(exportParameters.FileRecord.Info?.VersionHash ?? string.Empty);
-            scriptCompiledBytecode.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
+            var PickableModel = PickableModelResource.Create();
+            PickableModel.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
 
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
-            File.WriteAllText(outputPath, scriptCompiledBytecode.Resource.Source);
+
+            var text = JsonConvert.SerializeObject(PickableModel, Formatting.Indented);
+            File.WriteAllText(outputPath, text);
 
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
 
         protected override void OnSelectedRecordChanged()
         {
-            var view = CurrentResourceView.DataContext as LuaScriptResourceViewModel;
+            var view = CurrentResourceView.DataContext as PickableModelResourceViewModel;
             if (view == null)
             {
                 return;

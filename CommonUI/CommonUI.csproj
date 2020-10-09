@@ -74,6 +74,18 @@
     <Compile Include="ViewModels\LoadingViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\AudioMaterialResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\AudioGraphResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\MaterialResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\PickableModelResourceView.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\BankResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\WorldChunkSourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\WorldSourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\PickResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\TextureSourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\BlueprintResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\WorldChunkDefinitionViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\WorldDefinitionViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\GeometryResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\IDecompilable.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ISavable.cs" />
@@ -82,6 +94,7 @@
     <Compile Include="ViewModels\ResourceViewModels\RawImageViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\LuaScriptResourceViewModel.cs" />
+    <Compile Include="ViewModels\ResourceViewModels\ClusterDefinitionResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\UserPreferencesViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\ScriptMetadataResourceViewModel.cs" />
     <Compile Include="ViewModels\ResourceViewModels\RawTextResourceViewModel.cs" />
@@ -103,6 +116,42 @@
     <Compile Include="Views\ResourceView.xaml.cs">
       <DependentUpon>ResourceView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ResourceViews\PickableModelResourceView.xaml.cs">
+      <DependentUpon>PickableModelResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\BankResourceView.xaml.cs">
+      <DependentUpon>BankResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\TextureSourceView.xaml.cs">
+      <DependentUpon>TextureSourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\MaterialResourceView.xaml.cs">
+      <DependentUpon>MaterialResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\PickResourceView.xaml.cs">
+      <DependentUpon>PickResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\AudioGraphResourceView.xaml.cs">
+      <DependentUpon>AudioGraphResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\AudioMaterialResourceView.xaml.cs">
+      <DependentUpon>AudioMaterialResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\WorldChunkSourceView.xaml.cs">
+      <DependentUpon>WorldChunkSourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\WorldSourceView.xaml.cs">
+      <DependentUpon>WorldSourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\BlueprintResourceView.xaml.cs">
+      <DependentUpon>BlueprintResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\WorldChunkDefinitionView.xaml.cs">
+      <DependentUpon>WorldChunkDefinitionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\WorldDefinitionView.xaml.cs">
+      <DependentUpon>WorldDefinitionView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ResourceViews\GeometryResourceView.xaml.cs">
       <DependentUpon>GeometryResourceView.xaml</DependentUpon>
     </Compile>
@@ -117,6 +166,9 @@
     </Compile>
     <Compile Include="Views\ResourceViews\ScriptResourceView.xaml.cs">
       <DependentUpon>ScriptResourceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResourceViews\ClusterDefinitionResourceView.xaml.cs">
+      <DependentUpon>ClusterDefinitionResourceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ResourceViews\UserPreferencesView.xaml.cs">
       <DependentUpon>UserPreferencesView.xaml</DependentUpon>
@@ -158,6 +210,54 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ResourceViews\PickableModelResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\BankResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\TextureSourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\MaterialResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\PickResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\AudioGraphResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\AudioMaterialResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\WorldChunkSourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\WorldSourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\BlueprintResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\WorldChunkDefinitionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ResourceViews\WorldDefinitionView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\ResourceViews\GeometryResourceView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -177,6 +277,10 @@
     <Page Include="Views\ResourceViews\ScriptResourceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ResourceViews\ClusterDefinitionResourceView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ResourceViews\UserPreferencesView.xaml">
       <Generator>MSBuild:Compile</Generator>

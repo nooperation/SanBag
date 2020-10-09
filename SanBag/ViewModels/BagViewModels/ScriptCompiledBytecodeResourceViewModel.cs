@@ -37,7 +37,7 @@ namespace SanBag.ViewModels.BagViewModels
             var scriptCompiledBytecode = ScriptCompiledBytecodeResource.Create(exportParameters.FileRecord.Info?.VersionHash ?? string.Empty);
             scriptCompiledBytecode.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
-            File.WriteAllBytes(outputPath, scriptCompiledBytecode.AssemblyBytes);
+            File.WriteAllBytes(outputPath, scriptCompiledBytecode.Resource.AssemblyBytes);
 
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }

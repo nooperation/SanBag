@@ -20,17 +20,17 @@
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <Label Grid.Row="0" Grid.Column="0">DefaultScript</Label>
-        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Resource.DefaultScript}" IsReadOnly="True" VerticalContentAlignment="Center" />
-        <Label Grid.Row="1" Grid.Column="0">AssemblyTooltip</Label>
-        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Resource.AssemblyTooltip}" IsReadOnly="True" VerticalContentAlignment="Center" />
-        <Label Grid.Row="2" Grid.Column="0">Build Warnings</Label>
-        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Resource.BuildWarnings}" IsReadOnly="True" MaxHeight="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
-        <Label Grid.Row="3" Grid.Column="0">Other Warnings</Label>
-        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=Resource.OtherWarnings}" IsReadOnly="True" MaxHeight="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
-        <Label Grid.Row="4" Grid.Column="0">Restricted API</Label>
-        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=Resource.UsesRestrictedAPI}" IsReadOnly="True" MaxHeight="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
-        <Label Grid.Row="5" Grid.Column="0">Strings</Label>
-        <DataGrid Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Path=Resource.Strings, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding Path=Resource.Resource.DefaultScript}" IsReadOnly="True" VerticalContentAlignment="Center" />
+        <Label Grid.Row="1" Grid.Column="0">Tooltip</Label>
+        <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding Path=Resource.Resource.Tooltip}" IsReadOnly="True" VerticalContentAlignment="Center" />
+        <Label Grid.Row="2" Grid.Column="0">Info</Label>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding Path=Resource.Resource.Info}" IsReadOnly="True" MaxHeight="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+        <Label Grid.Row="3" Grid.Column="0">Errors</Label>
+        <TextBox Grid.Row="3" Grid.Column="1" Text="{Binding Path=Resource.Resource.Errors}" IsReadOnly="True" MaxHeight="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+        <Label Grid.Row="4" Grid.Column="0">Flags</Label>
+        <TextBox Grid.Row="4" Grid.Column="1" Text="{Binding Path=Resource.Resource.Flags}" IsReadOnly="True" MaxHeight="96" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" />
+        <Label Grid.Row="5" Grid.Column="0">Properties</Label>
+        <DataGrid Grid.Row="5" Grid.Column="1" ItemsSource="{Binding Path=Resource.Resource.Properties, Mode=OneWay}"  IsReadOnly="True" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Key}" ClipboardContentBinding="{x:Null}" Header="Key" Width="auto" />
                 <DataGridTextColumn Binding="{Binding Value}" ClipboardContentBinding="{x:Null}" Header="Value" Width="*"/>
@@ -46,7 +46,7 @@
                 <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <ListView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding Path=Resource.Scripts}" SelectedItem="{Binding Path=CurrentScript, Mode=TwoWay}" Name="ScriptList" />
+            <ListView Grid.Column="0" Grid.Row="0" Grid.RowSpan="2" ItemsSource="{Binding Path=Resource.Resource.ScriptClasses}" SelectedItem="{Binding Path=CurrentScript, Mode=TwoWay}" Name="ScriptList" />
             <GridSplitter Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Stretch" Width="5px" />
             <UserControl Grid.Column="2" Grid.Row="0" Content="{Binding CurrentResourceView}" />
             <StackPanel Grid.Column="2" Grid.Row="1" Orientation="Horizontal">

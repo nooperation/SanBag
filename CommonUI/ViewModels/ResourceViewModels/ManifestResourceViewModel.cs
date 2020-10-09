@@ -17,6 +17,7 @@ using CommonUI.Models;
 using CommonUI.Views;
 using CommonUI.Views.ResourceViews;
 using ExportView = CommonUI.Views.ExportView;
+using Newtonsoft.Json;
 
 namespace CommonUI.ViewModels.ResourceViewModels
 {
@@ -177,11 +178,18 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     loadingViewModel.DownloadUrl = args.Resource;
                 });
 
+                var variantType = FileRecordInfo.VariantType.NoVariants;
+                var resourceType = FileRecordInfo.GetResourceType(SelectedRecord.Name);
+                if(resourceType == FileRecordInfo.ResourceType.WorldDefinition || resourceType == FileRecordInfo.ResourceType.ClusterDefinition)
+                {
+                    variantType = FileRecordInfo.VariantType.PcClient;
+                }
+
                 var downloadManifestResult = await FileRecordInfo.DownloadResourceAsync(
                     SelectedRecord.HashString,
-                    FileRecordInfo.GetResourceType(SelectedRecord.Name),
+                    resourceType,
                     CurrentPayloadType,
-                    FileRecordInfo.VariantType.NoVariants,
+                    variantType,
                     new LibSanBag.Providers.HttpClientProvider(),
                     progress
                 );
@@ -288,6 +296,12 @@ namespace CommonUI.ViewModels.ResourceViewModels
             var assetType = FileRecordInfo.GetResourceType(exportParameters.FileRecord.Name);
             var errorMessages = new StringBuilder();
 
+            var variantType = FileRecordInfo.VariantType.NoVariants;
+            if (assetType == FileRecordInfo.ResourceType.ClusterDefinition)
+            {
+                variantType = FileRecordInfo.VariantType.PcClient;
+            }
+
             var versions = AssetVersions.GetResourceVersions(assetType);
             foreach (var assetVersion in versions)
             {
@@ -299,7 +313,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
                             exportParameters.FileRecord.Info?.Hash.ToLower() ?? string.Empty,
                             assetType,
                             payloadType,
-                            FileRecordInfo.VariantType.NoVariants,
+                            variantType,
                             assetVersion,
                             new HttpClientProvider()
                         );
@@ -351,6 +365,46 @@ namespace CommonUI.ViewModels.ResourceViewModels
                         outStream.Write(downloadResult.Bytes, 0, downloadResult.Bytes.Length);
                     }
 
+                    try
+                    {
+                        if (assetType == FileRecordInfo.ResourceType.ClusterDefinition)
+                        {
+                            var resource = new ClusterDefinitionResource();
+                            resource.InitFromRawCompressed(downloadResult.Bytes);
+                            var json = JsonConvert.SerializeObject(resource, Formatting.Indented);
+
+                            File.WriteAllText(outputPath + ".json", json);
+                        }
+                        else if (assetType == FileRecordInfo.ResourceType.BlueprintResource)
+                        {
+                            var resource = new BlueprintResource();
+                            resource.InitFromRawCompressed(downloadResult.Bytes);
+                            var json = JsonConvert.SerializeObject(resource, Formatting.Indented);
+
+                            File.WriteAllText(outputPath + ".json", json);
+                        }
+                        else if (assetType == FileRecordInfo.ResourceType.WorldSource)
+                        {
+                            var resource = new WorldSource();
+                            resource.InitFromRawCompressed(downloadResult.Bytes);
+                            var json = JsonConvert.SerializeObject(resource, Formatting.Indented);
+
+                            File.WriteAllText(outputPath + ".json", json);
+                        }
+                        else if (assetType == FileRecordInfo.ResourceType.ScriptMetadataResource)
+                        {
+                            var resource = new ScriptMetadataResource();
+                            resource.InitFromRawCompressed(downloadResult.Bytes);
+                            var json = JsonConvert.SerializeObject(resource, Formatting.Indented);
+
+                            File.WriteAllText(outputPath + ".json", json);
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        // eh...
+                    }
+
                     for (int i = 1; i < payloadTypes.Count; i++)
                     {
                         try
@@ -395,7 +449,6 @@ namespace CommonUI.ViewModels.ResourceViewModels
         {
             var payloadTypes = new List<FileRecordInfo.PayloadType> {
                 FileRecordInfo.PayloadType.Payload,
-                FileRecordInfo.PayloadType.Manifest,
             };
 
             if (IsExportingAllVersions)
