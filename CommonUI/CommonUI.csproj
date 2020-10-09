@@ -64,6 +64,7 @@
     <Compile Include="Converters\PercentageToStringConverter.cs" />
     <Compile Include="Converters\SizeToStringConverter.cs" />
     <Compile Include="Converters\TimestampNsConverter.cs" />
+    <Compile Include="DependencyChecker.cs" />
     <Compile Include="Models\ExportParams.cs" />
     <Compile Include="Models\ViewType.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -340,6 +341,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\7zip\7zip.csproj">
+      <Project>{778aaa2e-d892-4b64-8135-d0f4baed1e5d}</Project>
+      <Name>7zip</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LibSanBag\LibSanBag\LibSanBag.csproj">
       <Project>{14a58a49-5247-442f-b0f2-c3a5d7a88d76}</Project>
       <Name>LibSanBag</Name>
