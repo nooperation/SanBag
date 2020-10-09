@@ -16,6 +16,7 @@ using LibSanBag;
 using LibSanBag.FileResources;
 using LibSanBag.Providers;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 
 namespace CommonUI.ViewModels.ResourceViewModels
 {
@@ -54,8 +55,8 @@ namespace CommonUI.ViewModels.ResourceViewModels
             }
         }
 
-        private ScriptMetadataResource.ScriptMetadata _currentScript = new ScriptMetadataResource.ScriptMetadata();
-        public ScriptMetadataResource.ScriptMetadata CurrentScript
+        private ScriptMetadataResource.ScriptClass _currentScript = new ScriptMetadataResource.ScriptClass();
+        public ScriptMetadataResource.ScriptClass CurrentScript
         {
             get => _currentScript;
             set
@@ -74,6 +75,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
         private void DumpScriptMetadata()
         {
+            /*
             var sb = new StringBuilder();
             sb.AppendLine($"{CurrentScript.ClassName} ({CurrentScript.DisplayName})");
             if (CurrentScript.Tooltip?.Length > 0)
@@ -91,19 +93,28 @@ namespace CommonUI.ViewModels.ResourceViewModels
                     {
                         foreach (var attribute in property.Attributes)
                         {
-                            var padding = new string(' ', 8 + attribute.Key.Length + 3);
-                            var attributeValue = attribute.Value.Replace("\n", "\n" + padding);
+                            var padding = new string(' ', 8 + attribute.Name.Length + 3);
+                            var attributeValue = attribute.Value.ToString().Replace("\n", "\n" + padding);
 
-                            sb.AppendLine($"        {attribute.Key} = {attributeValue}");
+                            sb.AppendLine($"        {attribute.Name} = {attributeValue}");
                         }
                     }
                     sb.AppendLine();
                 }
             }
+            */
+            var json = string.Empty;
+            if (CurrentScript != null)
+            {
+                json = JsonConvert.SerializeObject(CurrentScript, Formatting.Indented, new JsonSerializerSettings()
+                {
+                    NullValueHandling = NullValueHandling.Ignore,
+                });
+            }
 
             var viewModel = new RawTextResourceViewModel
             {
-                CurrentText = sb.ToString()
+                CurrentText = json
             };
 
             CurrentResourceView = new RawTextResourceView
@@ -174,14 +185,14 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 var downloadedAssembly = await DownloadCompiledBytecodeResource();
 
                 var dialog = new SaveFileDialog();
-                dialog.FileName = Resource.DefaultScript;
+                dialog.FileName = Resource.Resource.DefaultScript;
                 dialog.Filter = "DLL|*.dll";
                 if (dialog.ShowDialog() == true)
                 {
                     using (var outFile = File.OpenWrite(dialog.FileName))
                     {
-                        outFile.Write(downloadedAssembly.AssemblyBytes, 0, downloadedAssembly.AssemblyBytes.Length);
-                        MessageBox.Show($"Successfully saved {downloadedAssembly.AssemblyBytes.Length} bytes.");
+                        outFile.Write(downloadedAssembly.Resource.AssemblyBytes, 0, downloadedAssembly.Resource.AssemblyBytes.Length);
+                        MessageBox.Show($"Successfully saved {downloadedAssembly.Resource.AssemblyBytes.Length} bytes.");
                     }
                 }
             }
@@ -203,18 +214,18 @@ namespace CommonUI.ViewModels.ResourceViewModels
             try
             {
                 var downloadedAssembly = await DownloadCompiledBytecodeResource();
-                var assemblyStream = new MemoryStream(downloadedAssembly.AssemblyBytes);
+                var assemblyStream = new MemoryStream(downloadedAssembly.Resource.AssemblyBytes);
 
                 var settings = new DecompilerSettings() {
                     ThrowOnAssemblyResolveErrors = false
                 };
                 var peFile = new PEFile(
-                    CurrentScript.ClassName + ".dll",
+                    CurrentScript.Name + ".dll",
                     assemblyStream
                 );
 
                 var resolver = new MyAssemblyResolver(
-                    CurrentScript.ClassName + ".dll",
+                    CurrentScript.Name + ".dll",
                     settings.ThrowOnAssemblyResolveErrors,
                     peFile.Reader.DetectTargetFrameworkId()
                 );
@@ -226,10 +237,10 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 var decompiler = new CSharpDecompiler(peFile, resolver, settings);
 
                 string source;
-                if(CurrentScript.ClassName != null)
+                if(CurrentScript.Name != null)
                 {
                     source = decompiler.DecompileTypeAsString(
-                        new FullTypeName(CurrentScript.ClassName)
+                        new FullTypeName(CurrentScript.Name)
                     );
                 }
                 else
@@ -239,11 +250,11 @@ namespace CommonUI.ViewModels.ResourceViewModels
 
                 source = Regex.Replace(
                     source,
-                    "long [a-zA-Z0-9]+ = Sansar.Microthreading.Microthread.GetCurrentThreadTicks\\(\\);\\s*",
+                    "long [a-zA-Z0-9]+ = (Sansar\\.)?(Microthreading\\.)?Microthread\\.GetCurrentThreadTicks\\(\\);\\s*",
                     "");
                 source = Regex.Replace(
                     source,
-                    "[a-zA-Z0-9]+ = Sansar.Microthreading.Microthread.YieldIfQuantaExceeded\\([a-zA-Z0-9]+\\);\\s*",
+                    "[a-zA-Z0-9]+ = (Sansar\\.)?(Microthreading\\.)?Microthread\\.YieldIfQuantaExceeded\\([a-zA-Z0-9]+\\);\\s*",
                     "");
 
                 var viewModel = new RawTextResourceViewModel

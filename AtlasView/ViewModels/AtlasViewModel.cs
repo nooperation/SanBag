@@ -18,6 +18,10 @@ using CommonUI.ViewModels.ResourceViewModels;
 using CommonUI.Views;
 using CommonUI.Views.ResourceViews;
 using LibSanBag.Providers;
+using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
+using System.Threading.Tasks;
+using HtmlAgilityPack;
 
 namespace AtlasView.ViewModels
 {
@@ -216,47 +220,127 @@ namespace AtlasView.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        public async void Search(string query, int page=1)
+        private async Task SearchByQuery(string query, int page=1)
+        {
+            CurrentAtlasView = new LoadingView();
+
+            var loadingViewModel = new LoadingViewModel();
+            CurrentAtlasView.DataContext = loadingViewModel;
+
+            var progress = new Progress<ProgressEventArgs>(args => {
+                loadingViewModel.BytesDownloaded = args.BytesDownloaded;
+                loadingViewModel.CurrentResourceIndex = args.CurrentResourceIndex;
+                loadingViewModel.TotalResources = args.TotalResources;
+                loadingViewModel.Status = args.Status;
+                loadingViewModel.TotalBytes = args.TotalBytes;
+                loadingViewModel.DownloadUrl = args.Resource;
+            });
+
+            var perPage = 4;
+            var client = new HttpClientProvider();
+            var responseBytes = await client.GetByteArrayAsync($"https://atlas.sansar.com/proxies/web/atlas-api/v3/experiences?perPage={perPage}&q={query}&page={page}", progress);
+            var responseJson = Encoding.ASCII.GetString(responseBytes);
+
+            var results = JsonConvert.DeserializeObject<AtlasResponse>(responseJson);
+            var tempSearchResults = new List<ExperienceView>();
+            foreach (var experienceData in results.Data)
+            {
+                tempSearchResults.Add(new ExperienceView
+                {
+                    DataContext = new ExperienceViewModel(experienceData)
+                });
+            }
+            SearchResults = tempSearchResults;
+
+            TotalPages = results.Meta.Pages;
+            LastQuery = query;
+
+            _currentPage = page;
+            OnPropertyChanged(nameof(CurrentPage));
+
+            CurrentAtlasView = null;
+        }
+
+        private static async Task<string> DownloadExperienceJsonByUri(string experienceUri, Progress<ProgressEventArgs> progress)
+        {
+            var match = Regex.Match(experienceUri, @".*/experience/([^/]+/.*)");
+            if (!match.Success)
+            {
+                throw new Exception("Invalid experience URI. Expected to be in the form of sansar://sansar.com/experience/username/experiencename");
+            }
+
+            var webUrl = $"https://atlas.sansar.com/experiences/{match.Groups[1].Value}";
+
+            var client = new HttpClientProvider();
+            var responseBytes = await client.GetByteArrayAsync(webUrl, progress);
+            var responseText = Encoding.ASCII.GetString(responseBytes);
+
+            var htmlDocument = new HtmlDocument();
+            htmlDocument.LoadHtml(responseText);
+            var scriptNodes = htmlDocument.DocumentNode.Descendants("script");
+
+            foreach (var item in scriptNodes)
+            {
+                if (item.InnerText.StartsWith("window.__STATE__="))
+                {
+                    var scriptSource = item.InnerText.Substring("window.__STATE__=".Length);
+                    scriptSource = Regex.Replace(scriptSource, @"new Date\(([^\)]+)\)", "$1");
+
+                    var obj = JObject.Parse(scriptSource);
+                    return obj.SelectToken("experience.data").ToString();
+                }
+            }
+
+            throw new Exception("Failed to parse response.");
+        }
+
+        private async Task SearchByUri(string experienceUri)
+        {
+            CurrentAtlasView = new LoadingView();
+
+            var loadingViewModel = new LoadingViewModel();
+            CurrentAtlasView.DataContext = loadingViewModel;
+
+            var progress = new Progress<ProgressEventArgs>(args => {
+                loadingViewModel.BytesDownloaded = args.BytesDownloaded;
+                loadingViewModel.CurrentResourceIndex = args.CurrentResourceIndex;
+                loadingViewModel.TotalResources = args.TotalResources;
+                loadingViewModel.Status = args.Status;
+                loadingViewModel.TotalBytes = args.TotalBytes;
+                loadingViewModel.DownloadUrl = args.Resource;
+            });
+
+            var responseJson = await AtlasViewModel.DownloadExperienceJsonByUri(experienceUri, progress);
+            var datum = JsonConvert.DeserializeObject<Datum>(responseJson);
+            var tempSearchResults = new List<ExperienceView>();
+            tempSearchResults.Add(new ExperienceView
+            {
+                DataContext = new ExperienceViewModel(datum)
+            });
+
+            SearchResults = tempSearchResults;
+
+            TotalPages = 1;
+            LastQuery = experienceUri;
+
+            _currentPage = 1;
+            OnPropertyChanged(nameof(CurrentPage));
+
+            CurrentAtlasView = null;
+        }
+
+        public async Task Search(string query, int page=1)
         {
             try
             {
-                CurrentAtlasView = new LoadingView();
-
-                var loadingViewModel = new LoadingViewModel();
-                CurrentAtlasView.DataContext = loadingViewModel;
-
-                var progress = new Progress<ProgressEventArgs>(args => {
-                    loadingViewModel.BytesDownloaded = args.BytesDownloaded;
-                    loadingViewModel.CurrentResourceIndex = args.CurrentResourceIndex;
-                    loadingViewModel.TotalResources = args.TotalResources;
-                    loadingViewModel.Status = args.Status;
-                    loadingViewModel.TotalBytes = args.TotalBytes;
-                    loadingViewModel.DownloadUrl = args.Resource;
-                });
-
-                var perPage = 4;
-                var client = new HttpClientProvider();
-                var responseBytes = await client.GetByteArrayAsync($"https://atlas.sansar.com/proxies/web/atlas-api/v3/experiences?perPage={perPage}&q={query}&page={page}", progress);
-                var responseJson = Encoding.ASCII.GetString(responseBytes);
-
-                var results = JsonConvert.DeserializeObject<AtlasResponse>(responseJson);
-                var tempSearchResults = new List<ExperienceView>();
-                foreach (var experienceData in results.Data)
+                if (query.ToLower().Contains("/experience/"))
                 {
-                    tempSearchResults.Add(new ExperienceView
-                    {
-                        DataContext = new ExperienceViewModel(experienceData)
-                    });
+                    await SearchByUri(query);
                 }
-                SearchResults = tempSearchResults;
-
-                TotalPages = results.Meta.Pages;
-                LastQuery = query;
-
-                _currentPage = page;
-                OnPropertyChanged(nameof(CurrentPage));
-
-                CurrentAtlasView = null;
+                else
+                {
+                    await SearchByQuery(query, page);
+                }
             }
             catch (Exception ex)
             {

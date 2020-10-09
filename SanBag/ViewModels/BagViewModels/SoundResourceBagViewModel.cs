@@ -37,7 +37,7 @@ namespace SanBag.ViewModels.BagViewModels
             var soundResource = SoundResource.Create(exportParameters.FileRecord.Info?.VersionHash ?? string.Empty);
             soundResource.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
 
-            LibFSB.SaveAs(soundResource.SoundBytes, outputPath);
+            LibFSB.SaveAs(soundResource.Resource.Data.Data, outputPath);
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
         }
 

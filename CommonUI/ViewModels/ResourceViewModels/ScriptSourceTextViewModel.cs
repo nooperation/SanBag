@@ -45,8 +45,8 @@ namespace CommonUI.ViewModels.ResourceViewModels
             var resource = ScriptSourceTextResource.Create(version);
             resource.InitFromStream(resourceStream);
 
-            FileName = resource.Filename;
-            SourceCode = resource.Source;
+            FileName = resource.Resource.SourceFileName;
+            SourceCode = resource.Resource.SourceText ?? string.Join("\r\n", resource.Resource.SourceTexts);
         }
     }
 }

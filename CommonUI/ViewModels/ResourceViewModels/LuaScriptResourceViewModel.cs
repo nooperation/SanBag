@@ -45,8 +45,8 @@ namespace CommonUI.ViewModels.ResourceViewModels
             var resource = LuaScriptResource.Create(version);
             resource.InitFromStream(resourceStream);
 
-            FileName = resource.Filename;
-            SourceCode = resource.Source;
+            FileName = resource.Resource.Filename;
+            SourceCode = resource.Resource.Source;
         }
     }
 }

@@ -14,26 +14,19 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using CommonUI.Views.ResourceViews;
+using CommonUI.ViewModels.ResourceViewModels;
 
 namespace SanBag.ViewModels.BagViewModels
 {
-    public class LuaScriptResourceViewModel : GenericBagViewModel
+    public class LuaScriptResourceBagViewModel : GenericBagViewModel
     {
-        private string _previewCode = "";
-        public string PreviewCode
-        {
-            get => _previewCode;
-            set
-            {
-                _previewCode = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public LuaScriptResourceViewModel(BagViewModel parentViewModel)
+        public LuaScriptResourceBagViewModel(BagViewModel parentViewModel)
                 : base(parentViewModel)
         {
             ExportFilter += "|Lua File|*.lua";
+            CurrentResourceView = new ScriptSourceTextView();
+            CurrentResourceView.DataContext = new LuaScriptResourceViewModel();
         }
 
         public override bool IsValidRecord(FileRecord record)
@@ -42,32 +35,29 @@ namespace SanBag.ViewModels.BagViewModels
                    record.Info?.Payload == FileRecordInfo.PayloadType.Payload;
         }
 
-        protected override void OnSelectedRecordChanged()
-        {
-            try
-            {
-                using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
-                {
-                    var scriptSourceText = LuaScriptResource.Create(SelectedRecord.Info?.VersionHash ?? string.Empty);
-                    scriptSourceText.InitFromRecord(bagStream, SelectedRecord);
-                    PreviewCode = scriptSourceText.Source;
-                }
-            }
-            catch (Exception)
-            {
-                PreviewCode = "";
-            }
-        }
-
         protected override void CustomFileExport(ExportParameters exportParameters)
         {
             var scriptCompiledBytecode = LuaScriptResource.Create(exportParameters.FileRecord.Info?.VersionHash ?? string.Empty);
             scriptCompiledBytecode.InitFromRecord(exportParameters.BagStream, exportParameters.FileRecord);
 
             var outputPath = Path.GetFullPath(Path.Combine(exportParameters.OutputDirectory, exportParameters.FileRecord.Name + exportParameters.FileExtension));
-            File.WriteAllText(outputPath, scriptCompiledBytecode.Source);
+            File.WriteAllText(outputPath, scriptCompiledBytecode.Resource.Source);
 
             exportParameters.OnProgressReport?.Invoke(exportParameters.FileRecord, 0);
+        }
+
+        protected override void OnSelectedRecordChanged()
+        {
+            var view = CurrentResourceView.DataContext as LuaScriptResourceViewModel;
+            if (view == null)
+            {
+                return;
+            }
+
+            using (var bagStream = File.OpenRead(ParentViewModel.BagPath))
+            {
+                view.InitFromRecord(bagStream, SelectedRecord);
+            }
         }
     }
 }

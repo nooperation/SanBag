@@ -195,7 +195,7 @@ namespace SanBag.ViewModels
                 Name = "ScriptMetadataResource"
             });
 
-            var luaScriptResourceViewModel = new LuaScriptResourceViewModel(this);
+            var luaScriptResourceViewModel = new LuaScriptResourceBagViewModel(this);
             newViews.Add(new ViewType
             {
                 View = new GenericBagView
@@ -248,6 +248,99 @@ namespace SanBag.ViewModels
                 },
                 Filter = (record => RecordPassesNameFilter(record) && rawImageViewModel.IsValidRecord(record)),
                 Name = "Png"
+            });
+
+            var rawBlueprintViewModel = new BlueprintResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawBlueprintViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawBlueprintViewModel.IsValidRecord(record)),
+                Name = "Blueprint"
+            });
+
+            var rawWorldDefinitionViewModel = new WorldDefinitionBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawWorldDefinitionViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawWorldDefinitionViewModel.IsValidRecord(record)),
+                Name = "WorldDefinition"
+            });
+
+            var rawWorldChunkDefinitionViewModel = new WorldChunkDefinitionBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawWorldChunkDefinitionViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawWorldChunkDefinitionViewModel.IsValidRecord(record)),
+                Name = "WorldChunkDefinition"
+            });
+            var rawAudioGraphResourceViewModel = new AudioGraphResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawAudioGraphResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawAudioGraphResourceViewModel.IsValidRecord(record)),
+                Name = "AudioGraphResource"
+            });
+            var rawAudioMaterialResourceViewModel = new AudioMaterialResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawAudioMaterialResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawAudioMaterialResourceViewModel.IsValidRecord(record)),
+                Name = "AudioMaterialResource"
+            });
+            var rawClusterDefinitionResourceViewModel = new ClusterDefinitionResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawClusterDefinitionResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawClusterDefinitionResourceViewModel.IsValidRecord(record)),
+                Name = "ClusterDefinitionResource"
+            });
+            var rawWorldChunkSourceViewModel = new WorldChunkSourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawWorldChunkSourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawWorldChunkSourceViewModel.IsValidRecord(record)),
+                Name = "WorldChunkSource"
+            });
+            var rawPickableModelResourceViewModel = new PickableModelResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawPickableModelResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawPickableModelResourceViewModel.IsValidRecord(record)),
+                Name = "PickableModelResource"
+            });
+            var rawBankResourceViewModel = new BankResourceBagViewModel(this);
+            newViews.Add(new ViewType
+            {
+                View = new GenericBagView
+                {
+                    DataContext = rawBankResourceViewModel
+                },
+                Filter = (record => RecordPassesNameFilter(record) && rawBankResourceViewModel.IsValidRecord(record)),
+                Name = "BankResource"
             });
 
             Records = new List<FileRecord>();
