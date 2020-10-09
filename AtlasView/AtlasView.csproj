@@ -119,6 +119,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\7zip\7zip.csproj">
+      <Project>{778aaa2e-d892-4b64-8135-d0f4baed1e5d}</Project>
+      <Name>7zip</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CommonUI\CommonUI.csproj">
       <Project>{c799b853-615e-4215-a17a-4e2f9687a163}</Project>
       <Name>CommonUI</Name>

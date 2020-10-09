@@ -1,5 +1,11 @@
-﻿using System;
+﻿using CommonUI;
+using LibSanBag.Providers;
+using System;
 using System.ComponentModel;
+using System.IO;
+using System.IO.Compression;
+using System.Net;
+using System.Net.Http;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
@@ -19,19 +25,11 @@ namespace AtlasView.ViewModels
             }
         }
 
+
         public MainWindowViewModel()
         {
             Environment.CurrentDirectory = AppDomain.CurrentDomain.BaseDirectory;
-
-            if(!LibSanBag.ResourceUtils.Unpacker.IsAvailable)
-            {
-                MessageBox.Show(
-                    "This program requires additional dependencies to run. Please obtain one of the following DLLs and place it in the directory containing " + System.AppDomain.CurrentDomain.FriendlyName + ":\n" +
-                    "  oo2core_6_win64.dll\n" +
-                    "  oo2core_7_win64.dll",
-                    "Error", MessageBoxButton.OK, MessageBoxImage.Error
-                );
-            }
+            DependencyChecker.CheckDependencies();
 
             try
             {
