@@ -11,17 +11,48 @@ namespace CommonUI.ViewModels.ResourceViewModels
 {
     public class ClusterDefinitionResourceViewModel : BaseViewModel
     {
-        private string _filename;
-        public string Filename
+        private string _geometryId;
+        public string GeometryId
         {
-            get => _filename;
+            get => _geometryId;
             set
             {
-                if (value == _filename)
+                if (value == _geometryId)
                 {
                     return;
                 }
-                _filename = value;
+                _geometryId = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private string _shapeId;
+        public string ShapeId
+        {
+            get => _shapeId;
+            set
+            {
+                if (value == _shapeId)
+                {
+                    return;
+                }
+                _shapeId = value;
+                OnPropertyChanged();
+            }
+        }
+
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                if (value == _name)
+                {
+                    return;
+                }
+                _name = value;
                 OnPropertyChanged();
             }
         }
@@ -46,7 +77,24 @@ namespace CommonUI.ViewModels.ResourceViewModels
             var resource = ClusterDefinitionResource.Create(version);
             resource.InitFromStream(resourceStream);
 
-            Filename = "N/A";
+            GeometryId = "";
+            ShapeId = "";
+
+            if(resource.Resource.ObjectsDefs.Count > 0)
+            {
+                var objectDef = resource.Resource.ObjectsDefs[0];
+
+                if (objectDef.EntityInfos.Count > 0)
+                {
+                    var entityInfo = objectDef.EntityInfos[0];
+
+                    ShapeId = entityInfo.RigidBodyDef?.Shape ?? "";
+                    GeometryId = entityInfo.StaticMeshComponentDef?.MeshComponent_V3?.ModelDefinition?.GeometryUuid ?? "";
+                }
+
+                Name = objectDef.Name ?? "";
+            }
+
             Text = JsonConvert.SerializeObject(resource, Formatting.Indented);
         }
     }

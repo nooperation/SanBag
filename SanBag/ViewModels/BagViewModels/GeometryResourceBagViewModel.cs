@@ -66,7 +66,7 @@ namespace SanBag.ViewModels.BagViewModels
                 var outputName = Path.GetFileName(sourceGeometryEntry.HashString + sourceGeometryEntry.Name + ".fbx");
                 File.WriteAllBytes(
                     Path.Combine(exportParameters.OutputDirectory, outputName),
-                    geometryCanonical.Content
+                    geometryCanonical.Resource.Bytes
                 );
             }
         }

@@ -250,17 +250,6 @@ namespace SanBag.ViewModels
                 Name = "Png"
             });
 
-            var rawClusterDefinitionViewModel = new ClusterDefinitionResourceBagViewModel(this);
-            newViews.Add(new ViewType
-            {
-                View = new GenericBagView
-                {
-                    DataContext = rawClusterDefinitionViewModel
-                },
-                Filter = (record => RecordPassesNameFilter(record) && rawClusterDefinitionViewModel.IsValidRecord(record)),
-                Name = "ClusterDefinition"
-            });
-
             var rawBlueprintViewModel = new BlueprintResourceBagViewModel(this);
             newViews.Add(new ViewType
             {

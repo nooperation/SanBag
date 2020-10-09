@@ -143,6 +143,11 @@ namespace CommonUI.ViewModels
                     CurrentView = new WorldSourceView();
                     CurrentViewModel = new WorldSourceViewModel();
                 }
+                else if(resourceType == LibSanBag.FileRecordInfo.ResourceType.WorldDefinition)
+                {
+                    CurrentView = new WorldDefinitionView();
+                    CurrentViewModel = new WorldDefinitionViewModel();
+                }
                 else if (resourceType == LibSanBag.FileRecordInfo.ResourceType.TextureSource)
                 {
                     CurrentView = new TextureSourceView();

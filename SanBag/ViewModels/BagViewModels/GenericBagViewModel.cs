@@ -72,43 +72,99 @@ namespace SanBag.ViewModels.BagViewModels
 
             ControlMap = new Dictionary<FileRecordInfo.ResourceType, UserControl>()
             {
+                [FileRecordInfo.ResourceType.AudioGraphResource] = new AudioGraphResourceView
+                {
+                    DataContext = new AudioGraphResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.AudioMaterialResource] = new AudioMaterialResourceView
+                {
+                    DataContext = new AudioMaterialResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.BankResource] = new BankResourceView
+                {
+                    DataContext = new BankResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.BlueprintResource] = new BlueprintResourceView
+                {
+                    DataContext = new BlueprintResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.ClusterDefinition] = new ClusterDefinitionResourceView
+                {
+                    DataContext = new ClusterDefinitionResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.GeometryResourceResource] = new GeometryResourceView
+                {
+                    DataContext = new GeometryResourceViewModel()
+                },
+                //[FileRecordInfo.ResourceType.Mani] = new ManifestResourceView
+                //{
+                //    DataContext = new ManifestResourceViewModel()
+                //},
+                [FileRecordInfo.ResourceType.MaterialResource] = new MaterialResourceView
+                {
+                    DataContext = new MaterialResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.PickableModelResource] = new PickableModelResourceView
+                {
+                    DataContext = new PickableModelResourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.PickResource] = new PickResourceView
+                {
+                    DataContext = new PickResourceViewModel()
+                },
+                //[FileRecordInfo.ResourceType.RawImage] = new RawImageView
+                //{
+                //    DataContext = new RawImageViewModel()
+                //},
+                //[FileRecordInfo.ResourceType.RawResource] = new RawResourceView
+                //{
+                //    DataContext = new RawResourceViewModel()
+                //},
+                //[FileRecordInfo.ResourceType.RawTextResource] = new RawTextResourceView
+                //{
+                //    DataContext = new RawTextResourceViewModel()
+                //},
+                [FileRecordInfo.ResourceType.ScriptMetadataResource] = new ScriptMetadataResourceView
+                {
+                    DataContext = new ScriptMetadataResourceViewModel()
+                },
+                //[FileRecordInfo.ResourceType.ScriptResource] = new ScriptResourceView
+               // {
+                //    DataContext = new ScriptViewModel()
+               // },
+                [FileRecordInfo.ResourceType.ScriptSourceTextResource] = new ScriptSourceTextView
+                {
+                    DataContext = new ScriptSourceTextViewModel()
+                },
+                [FileRecordInfo.ResourceType.SoundResource] = new SoundResourceView
+                {
+                    DataContext = new SoundResourceViewModel()
+                },
                 [FileRecordInfo.ResourceType.TextureResource] = new TextureResourceView
                 {
                     DataContext = new TextureResourceViewModel()
                 },
-                [FileRecordInfo.ResourceType.ScriptSourceTextResource] = new ScriptSourceTextView()
-                {
-                    DataContext = new ScriptSourceTextViewModel()
-                },
-                [FileRecordInfo.ResourceType.LuaScriptResource] = new ScriptSourceTextView()
-                {
-                    DataContext = new ScriptSourceTextViewModel()
-                },
-                [FileRecordInfo.ResourceType.GeometryResourceResource] = new GeometryResourceView()
-                {
-                    DataContext = new GeometryResourceViewModel()
-                },
-                [FileRecordInfo.ResourceType.SoundResource] = new SoundResourceView()
-                {
-                    DataContext = new SoundResourceViewModel()
-                },
-                [FileRecordInfo.ResourceType.LicenseResource] = new RawTextResourceView()
-                {
-                    DataContext = new RawTextResourceViewModel()
-                },
-                [FileRecordInfo.ResourceType.MaterialResource] = new MaterialResourceView()
-                {
-                    DataContext = new MaterialResourceViewModel()
-                },
-                [FileRecordInfo.ResourceType.PickResource] = new PickResourceView()
-                {
-                    DataContext = new PickResourceViewModel()
-                },
-                [FileRecordInfo.ResourceType.TextureSource] = new TextureSourceView()
+                [FileRecordInfo.ResourceType.TextureSource] = new TextureSourceView
                 {
                     DataContext = new TextureSourceViewModel()
                 },
-                [FileRecordInfo.ResourceType.WorldSource] = new WorldSourceView()
+                //[FileRecordInfo.ResourceType.UserPreferences] = new UserPreferencesView
+                //{
+                //    DataContext = new UserPreferencesViewModel()
+                //},
+                [FileRecordInfo.ResourceType.WorldChunkDefinition] = new WorldChunkDefinitionView
+                {
+                    DataContext = new WorldChunkDefinitionViewModel()
+                },
+                [FileRecordInfo.ResourceType.WorldChunkSource] = new WorldChunkSourceView
+                {
+                    DataContext = new WorldChunkSourceViewModel()
+                },
+                [FileRecordInfo.ResourceType.WorldDefinition] = new WorldDefinitionView
+                {
+                    DataContext = new WorldDefinitionViewModel()
+                },
+                [FileRecordInfo.ResourceType.WorldSource] = new WorldSourceView
                 {
                     DataContext = new WorldSourceViewModel()
                 },

@@ -191,8 +191,8 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 {
                     using (var outFile = File.OpenWrite(dialog.FileName))
                     {
-                        outFile.Write(downloadedAssembly.AssemblyBytes, 0, downloadedAssembly.AssemblyBytes.Length);
-                        MessageBox.Show($"Successfully saved {downloadedAssembly.AssemblyBytes.Length} bytes.");
+                        outFile.Write(downloadedAssembly.Resource.AssemblyBytes, 0, downloadedAssembly.Resource.AssemblyBytes.Length);
+                        MessageBox.Show($"Successfully saved {downloadedAssembly.Resource.AssemblyBytes.Length} bytes.");
                     }
                 }
             }
@@ -214,7 +214,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
             try
             {
                 var downloadedAssembly = await DownloadCompiledBytecodeResource();
-                var assemblyStream = new MemoryStream(downloadedAssembly.AssemblyBytes);
+                var assemblyStream = new MemoryStream(downloadedAssembly.Resource.AssemblyBytes);
 
                 var settings = new DecompilerSettings() {
                     ThrowOnAssemblyResolveErrors = false
