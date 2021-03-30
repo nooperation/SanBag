@@ -54,7 +54,7 @@ namespace CommonUI
         {
             if (!LibSanBag.ResourceUtils.Unpacker.IsAvailable)
             {
-                var dependencyUri = @"http://content.warframe.com/Tools/Oodle/x64/final/oo2core_7_win64.dll.B486C6F46A3D802966D04911A619B2ED.lzma";
+                var dependencyUri = @"https://github.com/nooperation/SanBag/releases/download/SanBag-v1.0.324/dependencies.lzma";
                 var outputName = "oo2core_7_win64.dll";
 
                 var result = MessageBox.Show($"This program requires additional dependencies to run. Attempt to download the following resource?\n  {outputName}",
