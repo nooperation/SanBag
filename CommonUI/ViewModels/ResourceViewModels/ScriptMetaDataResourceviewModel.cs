@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Reflection.PortableExecutable;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -221,7 +222,7 @@ namespace CommonUI.ViewModels.ResourceViewModels
                 };
                 var peFile = new PEFile(
                     CurrentScript.Name + ".dll",
-                    assemblyStream
+                    reader: new PEReader(assemblyStream)
                 );
 
                 var resolver = new MyAssemblyResolver(
