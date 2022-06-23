@@ -12,15 +12,15 @@
     <Content Include="x64\LibDDS.dll" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="HelixToolkit.Core.Wpf" Version="2.20.0" />
+    <PackageReference Include="HelixToolkit.Core.Wpf" Version="2.21.1" />
     <PackageReference Include="ICSharpCode.Decompiler">
-      <Version>7.1.0.6543</Version>
+      <Version>7.2.1.6856</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
     <PackageReference Include="WPFHexaEditor">
       <Version>2.1.7</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.261602">
+    <PackageReference Include="Microsoft.DotNet.UpgradeAssistant.Extensions.Default.Analyzers" Version="0.3.330701">
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Windows.Compatibility" Version="6.0.0" />
